@@ -15,9 +15,14 @@ services:
       restart: always
       depends_on:
         - actions
+      ports:
+        - "5005:5005"
 
     actions:
       container_name: RasaxDocker_actions
       build: ./
       command: ["start", "--actions", "actions", "--auto-reload"]
       restart: always
+      ports:
+        - "5055:5055"
+
