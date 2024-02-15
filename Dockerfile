@@ -14,7 +14,7 @@
 #
 #CMD ["run", "--enable-api", "--port", "8080"]
 
-FROM rasa/rasa-sdk
+FROM rasa/rasa-sdk:3.6.2
 
 WORKDIR /app
 

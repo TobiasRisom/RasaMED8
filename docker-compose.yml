@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+    RasaxDocker:
+      container_name: RasaxDocker
+      image: rasa/rasa:3.6.15-full
+      volumes:
+        - ./:/app
+      command:
+        - run
+        - --cors
+        - "*"
+        - --enable-api
+        - --debug
+      restart: always
+      depends_on:
+        - actions
+
+    actions:
+      container_name: RasaxDocker_actions
+      build: ./
+      command: ["start", "--actions", "actions", "--auto-reload"]
+      restart: always
