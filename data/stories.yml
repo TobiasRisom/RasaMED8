@@ -34,3 +34,33 @@ stories:
     - intent: information
     - action: utter_info
     - action: ActionHelloWorld
+
+- story: interactive_story_1
+  steps:
+  - intent: intent_create_plot
+  - action: create_plot_form
+  - active_loop: create_plot_form
+  - slot_was_set:
+    - requested_slot: plot_type
+  - intent: intent_create_plot
+    entities:
+    - plot_type: bar
+  - slot_was_set:
+    - plot_type: bar
+  - action: create_plot_form
+  - slot_was_set:
+    - plot_type: bar
+  - slot_was_set:
+    - requested_slot: selected_value
+  - intent: intent_create_plot
+    entities:
+    - selected_value: age
+  - slot_was_set:
+    - selected_value: age
+  - action: create_plot_form
+  - slot_was_set:
+    - selected_value: age
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit_create_plot_form

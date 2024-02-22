@@ -9,6 +9,32 @@ intents:
   - mood_unhappy
   - bot_challenge
   - information
+  - inform
+  - init
+  - intent_create_plot
+  - request_create_plot_form
+entities:
+  - selected_value
+  - plot_type
+slots:
+  plot_type:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: plot_type
+  selected_value:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: selected_value
+
+forms:
+  create_plot_form:
+    required_slots:
+    - plot_type
+    - selected_value
 
 responses:
   utter_greet:
@@ -33,8 +59,25 @@ responses:
   utter_info:
   - text: "fuckin works m8"
 
+  utter_ask_plot_type:
+    - text: "What type of plot do you want to create ?"
+
+  utter_ask_selected_value:
+    - text: "What value you want to see ?"
+
+  utter_submit_create_plot_form:
+    - text: "Great! I will create the plot with the specified details. Is there anything else I can help you with?"
+
 actions:
 - ActionHelloWorld
+- utter_submit_create_plot_form
+- validate_create_plot_form
+- action_init
+- utter_greet
+- utter_did_that_help
+- utter_happy
+- utter_goodbye
+- utter_iamabot
 
 session_config:
   session_expiration_time: 60

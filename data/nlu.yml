@@ -94,3 +94,154 @@ nlu:
   examples: |
     - info
     - information
+
+- intent: intent_create_plot
+  examples: |
+    - I want to create a plot
+    - I want a plot
+    - Create a plot
+    - Give me a plot
+    - I want to create a [bar](plot_type) chart depends on [site_country](x) for [age](selected_value) filter by male(filter_by_gender).
+    - Show me a [line](plot_type) plot of [nihss_score](selected_value).
+    - Generate a [bar](plot_type) chart based on [door_to_needle](selected_value).
+    - Can you create a [line](plot_type) plot for [door_to_groin](selected_value)?
+    - I need a [bar](plot_type) graph representing [onset_to_door](selected_value).
+    - Plot a [line](plot_type) chart for [discharge_nihss_score](selected_value).
+    - Create a [bar](plot_type) graph showing [glucose](selected_value).
+    - Show me a [line](plot_type) chart of [cholesterol](selected_value).
+    - I want to see a [bar](plot_type) plot for [sys_blood_pressure](selected_value).
+    - Generate a [line](plot_type) graph for [prestroke_mrs](selected_value).
+    - Plot a [bar](plot_type) chart for [discharge_mrs](selected_value) filter by [gender](filter_by_gender).
+    - Show me a [line](plot_type) plot of [three_m_mrs](selected_value) for [subject_id](x).
+    - Plot a [bar](plot_type) chart for [QI](selected_value).
+    - Give me a [line](plot_type) graph for [Value](selected_value) filter by [discharge_quarter](x).
+    - I want to create a [bar](plot_type) chart based on [imaging_done](x) filter by [dysphagia_screening_done](selected_value).
+    - Create a [line](plot_type) plot for [occup_physiotherapy_received](x) filter by [prenotification](selected_value).
+    - [bar](plot_type)
+    - [age](selected_value)
+    - Plot a [line](plot_type) graph for [site_id](x).
+    - Show me a [bar](plot_type) chart for [YQ](x).
+    - Generate a [line](plot_type) plot for [Value](x) filter by [gender](filter_by_gender).
+    - Create a [bar](plot_type) chart for [discharge_year](x) filter by [discharge_quarter](x).
+    - I want to see a [line](plot_type) plot for [three_m_mrs](selected_value) based on [subject_id](x).
+    - Plot a [bar](plot_type) graph for [occup_physiotherapy_received](x) filter by [prenotification](selected_value).
+
+- lookup: x
+  examples: |
+    - site_country
+    - site_name
+    - site_id
+    - discharge_year
+    - discharge_quarter
+    - YQ
+    - subject_id
+    - QI
+    - Value
+    - discharge_mrs
+    - prenotification
+    - imaging_done
+    - three_m_mrs
+    - gender
+    - occup_physiotherapy_received
+    - dysphagia_screening
+- synonym: site_country
+  examples: |
+    - Hospital country
+    - Geography
+    - Place
+
+- synonym: site_name
+  examples: |
+    - Hospital name
+    - Name of the site
+    - Medical center
+
+- synonym: site_id
+  examples: |
+    - ID of the site
+    - Facility ID
+    - Location ID
+
+- synonym: discharge_year
+  examples: |
+    - Year of discharge
+    - Discharge time
+    - Date of discharge
+
+- synonym: discharge_quarter
+  examples: |
+    - Discharge quarter
+    - Quarter of discharge
+    - Quarter year
+
+- synonym: YQ
+  examples: |
+    - Year and quarter
+    - Year quarter
+    - YQ value
+
+- synonym: subject_id
+  examples: |
+    - ID of subject
+    - Patient ID
+    - Identification number
+
+- synonym: QI
+  examples: |
+    - Quality indicator
+    - QI value
+    - Indicator value
+
+- synonym: Value
+  examples: |
+    - Numeric value
+    - Measurement value
+    - Value of interest
+
+- synonym: discharge_mrs
+  examples: |
+    - Discharge MRS
+    - MRS score at discharge
+    - Outcome score
+
+- synonym: prenotification
+  examples: |
+    - Prenotification received
+    - Notification in advance
+    - Advance notice
+
+- synonym: imaging_done
+  examples: |
+    - Imaging performed
+    - Image taken
+    - Imaging procedure
+
+- synonym: three_m_mrs
+  examples: |
+    - Three-month MRS
+    - MRS score at three months
+    - Three-month outcome score
+
+- synonym: gender
+  examples: |
+    - Male/female
+    - Gender
+    - Sex
+
+- synonym: occup_physiotherapy_received
+  examples: |
+    - Occupancy physiotherapy received
+    - Therapy during occupancy
+    - Physiotherapy during stay
+
+- synonym: dysphagia_screening_done
+  examples: |
+    - Dysphagia screening done
+    - Screening for difficulty in swallowing
+    - Swallowing assessment completed
+
+- lookup: plot_type
+  examples: |
+    - line
+    - bar
+
