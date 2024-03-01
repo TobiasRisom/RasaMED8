@@ -4,8 +4,8 @@ import datetime
 import seaborn
 import pickle
 import numpy as np
-from utils import globals
-from sklearn import linear_model, ensemble, model_selection, pipeline, preprocessing
+from actions.utils import globals
+from sklearn import linear_model, ensemble
 
 
 class PlotHandler:

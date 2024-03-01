@@ -1,5 +1,5 @@
 import pandas
-from utils import plot_handler, globals
+from actions.utils import plot_handler, globals
 
 
 class DataHandler:

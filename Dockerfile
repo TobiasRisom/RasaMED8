@@ -6,7 +6,12 @@ WORKDIR /app
 
 USER root
 
+COPY ./actions/requirements.txt ./
+
+RUN pip install -r requirements.txt
+
 COPY ./actions /app/actions
+
 
 #RUN /opt/venv/bin/python -m pip install --upgrade pip
 

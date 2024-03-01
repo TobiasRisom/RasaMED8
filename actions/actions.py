@@ -7,8 +7,7 @@
 
 # This is a simple example for a custom action which utters "Hello World!"
 
-from typing import Any, Text, Dict, List
-from utils import plot_handler
+from actions.utils import plot_handler
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
