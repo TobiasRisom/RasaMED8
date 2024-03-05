@@ -60,10 +60,10 @@ responses:
   - text: "fuckin works m8"
 
   utter_ask_plot_type:
-    - text: "What type of plot do you want to create ?"
+    - text: "What type of plot do you want to create?"
 
   utter_ask_selected_value:
-    - text: "What value you want to see ?"
+    - text: "What value you want to see?"
 
   utter_submit_create_plot_form:
     - text: "Great! I will create the plot with the specified details. Is there anything else I can help you with?"

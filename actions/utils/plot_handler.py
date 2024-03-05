@@ -6,6 +6,7 @@ import pickle
 import numpy as np
 from actions.utils import globals
 from sklearn import linear_model, ensemble
+import json
 
 
 class PlotHandler:
@@ -13,9 +14,23 @@ class PlotHandler:
         self._date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         self._plot_name = None
         self._save = save_plot
+        self.json_file_path = "utils/plot_args.json"
+
+    def change_plot_type (self, plot_type):
+        with open(self.json_file_path, 'r') as json_file:
+            config = json.load(json_file)
+
+        config['visualization']['plot_type'] = plot_type
+
+        with open(self.json_file_path, 'w') as json_file:
+            json.dump(config, json_file, indent=2)
+            print(json.dumps(config, indent=2))
 
     def plot_timeline(self, x, y, x_label: str = None, y_label: str = None):
         self._plot_name = "timeline"
+
+        self.change_plot_type(self._plot_name)
+
         plot, ax = plt.subplots()
         if x_label is not None:
             ax.set_xlabel(x_label)
@@ -33,6 +48,9 @@ class PlotHandler:
 
     def plot_distribution(self, x, x_label: str = None, y_label: str = None):
         self._plot_name = "distribution"
+
+        self.change_plot_type(self._plot_name)
+
         if x_label is not None:
             plt.xlabel(x_label)
         if y_label is not None:
@@ -47,6 +65,9 @@ class PlotHandler:
 
     def plot_correlation(self, x, y, x_label: str = None, y_label: str = None):
         self._plot_name = "correlation"
+
+        self.change_plot_type(self._plot_name)
+
         plot, ax = plt.subplots()
         if x_label is not None:
             ax.set_xlabel(x_label)
@@ -65,6 +86,9 @@ class PlotHandler:
 
     def plot_comparison(self, values_list: list, labels_list: list, x_label: str = None, y_label: str = None):
         self._plot_name = "comparison"
+
+        self.change_plot_type(self._plot_name)
+
         plot, ax = plt.subplots()
         if x_label is not None:
             ax.set_xlabel(x_label)
@@ -80,6 +104,9 @@ class PlotHandler:
 
     def plot_regression(self, x, y, regression_type: str = "linear", x_label: str = None, y_label: str = None, polynomial_degree: int = 2):
         self._plot_name = "regression"
+
+        self.change_plot_type(self._plot_name)
+
         if regression_type == "linear":
             model = linear_model.LinearRegression()
         elif regression_type == "logistic":

@@ -1,0 +1,21 @@
+
+{
+  "visualization": {
+    "type": "",
+    "title": "",
+    "data": {
+      "x": "",
+      "y": "",
+      "color": ""
+    },
+    "options": {
+      "width": 0,
+      "height": 0,
+      "axes": {
+        "xAxisLabel": "",
+        "yAxisLabel": ""
+      },
+      "legend": true
+    }
+  }
+}

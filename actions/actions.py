@@ -41,6 +41,8 @@ class ValidateCreatePlotForm(FormValidationAction):
         plot_type = tracker.get_slot("plot_type")
         selected_value = tracker.get_slot("selected_value")
 
+        dispatcher.utter_message(text=plot_type)
+
         if plot_type:
             if plot_type.lower() not in ALLOWED_PLOT_TYPES:
                 dispatcher.utter_message(text=f"Sorry, I can only create {'/'.join(ALLOWED_PLOT_TYPES)} plots.")
