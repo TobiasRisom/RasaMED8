@@ -70,6 +70,7 @@ responses:
 
 actions:
 - ActionHelloWorld
+- action_create_plot
 - utter_submit_create_plot_form
 - validate_create_plot_form
 - action_init

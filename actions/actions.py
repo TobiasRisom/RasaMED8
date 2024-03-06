@@ -3,7 +3,7 @@
 #
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
-
+from rasa.core.actions.forms import FormAction
 
 # This is a simple example for a custom action which utters "Hello World!"
 
@@ -15,9 +15,25 @@ from rasa_sdk.types import DomainDict
 
 # SOCKET = sockets.Socket()
 PLOT_HANDLER = plot_handler.PlotHandler()
-ALLOWED_PLOT_TYPES = []
-ALLOWED_SELECTED_VALUES = []
+ALLOWED_PLOT_TYPES = ["line", "bar", "pie", "barh"]
+ALLOWED_SELECTED_VALUES = ["DNT", "DTN", "age"]
 
+
+class ActionCreatePlot(Action):
+
+    def name(self) -> Text:
+        return "action_create_plot"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        plot_type = tracker.get_slot("plot_type")
+
+        dispatcher.utter_message(text=f"OK! I will create a {plot_type} plot.")
+
+        PLOT_HANDLER.change_plot_type(plot_type)
+
+        return []
 
 
 class ActionHelloWorld(Action):
@@ -28,18 +44,18 @@ class ActionHelloWorld(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        dispatcher.utter_message(text="Here is your info")
+        dispatcher.utter_message(text="Here is your INFO")
 
         return []
+
 
 class ValidateCreatePlotForm(FormValidationAction):
     def name(self) -> Text:
         return "validate_create_plot_form"
 
-    def validate(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[Text, Any]:
+    def validate_plot_type(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[
+        Text, Any]:
         plot_type = tracker.get_slot("plot_type")
-        selected_value = tracker.get_slot("selected_value")
 
         dispatcher.utter_message(text=plot_type)
 
@@ -48,14 +64,18 @@ class ValidateCreatePlotForm(FormValidationAction):
                 dispatcher.utter_message(text=f"Sorry, I can only create {'/'.join(ALLOWED_PLOT_TYPES)} plots.")
                 return {"plot_type": None}
             dispatcher.utter_message(text=f"OK! I will create a {plot_type} plot.")
+            return {"plot_type": plot_type}
 
+    def validate_selected_value(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[
+        Text, Any]:
+        selected_value = tracker.get_slot("selected_value")
         if selected_value:
             if selected_value.lower() not in ALLOWED_SELECTED_VALUES:
                 dispatcher.utter_message(text=f"Sorry, I can only show {'/'.join(ALLOWED_SELECTED_VALUES)} values.")
                 return {"selected_value": None}
             dispatcher.utter_message(text=f"OK! I will use {selected_value} as the selected value.")
+            return {"selected_value": selected_value}
 
-        return {"plot_type": plot_type, "selected_value": selected_value}
-
+        # return {"plot_type": plot_type, "selected_value": selected_value}
 
 

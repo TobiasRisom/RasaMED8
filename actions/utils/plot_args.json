@@ -1,4 +1,3 @@
-
 {
   "visualization": {
     "type": "",
@@ -16,6 +15,7 @@
         "yAxisLabel": ""
       },
       "legend": true
-    }
+    },
+    "plot_type": "line"
   }
 }
