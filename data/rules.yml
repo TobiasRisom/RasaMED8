@@ -2,12 +2,18 @@ version: "3.1"
 
 rules:
 
-- rule: Say goodbye anytime the user says goodbye
+- rule: activate form loop
   steps:
-  - intent: goodbye
-  - action: utter_goodbye
+  - intent: intent_create_plot
+  - action: create_plot_form
+  - active_loop: create_plot_form
 
-- rule: Say 'I am a bot' anytime the user challenges
+- rule: submit form
+  condition:
+    - active_loop: create_plot_form
   steps:
-  - intent: bot_challenge
-  - action: utter_iamabot
+  - action: create_plot_form
+  - active_loop: null
+  - slot_was_set:
+      - requested_slot: null
+  - action: action_create_plot

@@ -14,7 +14,7 @@ class PlotHandler:
         self._date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
         self._plot_name = None
         self._save = save_plot
-        self.json_file_path = "utils/plot_args.json"
+        self.json_file_path = "actions/utils/plot_args.json"
 
     def change_plot_type (self, plot_type):
         with open(self.json_file_path, 'r') as json_file:
