@@ -70,9 +70,9 @@ responses:
 
 actions:
 - ActionHelloWorld
-- action_create_plot
+- action_change_plottype
+- action_change_selectedvalue
 - utter_submit_create_plot_form
-- validate_create_plot_form
 - action_init
 - utter_greet
 - utter_did_that_help

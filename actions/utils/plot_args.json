@@ -1,7 +1,8 @@
 {
   "visualization": {
-    "type": "",
+    "type": "line",
     "title": "",
+    "variable": "age",
     "data": {
       "x": "",
       "y": "",

@@ -7,6 +7,7 @@ import numpy as np
 from actions.utils import globals
 from sklearn import linear_model, ensemble
 import json
+import requests
 
 
 class PlotHandler:
@@ -15,16 +16,25 @@ class PlotHandler:
         self._plot_name = None
         self._save = save_plot
         self.json_file_path = "actions/utils/plot_args.json"
+        self.website_url = "http://localhost:3000/rasa-webhook"
 
-    def change_plot_type (self, plot_type):
+    def change_arg(self, arg, value):
         with open(self.json_file_path, 'r') as json_file:
             config = json.load(json_file)
 
-        config['visualization']['plot_type'] = plot_type
+        config['visualization'][arg] = value
 
         with open(self.json_file_path, 'w') as json_file:
             json.dump(config, json_file, indent=2)
             print(json.dumps(config, indent=2))
+
+    def send_args(self):
+        with open(self.json_file_path, 'r') as file:
+            json_data = json.load(file)
+
+        response = requests.post(self.website_url, json=json_data)
+        return response
+
 
     def plot_timeline(self, x, y, x_label: str = None, y_label: str = None):
         self._plot_name = "timeline"

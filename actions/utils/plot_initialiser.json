@@ -2,6 +2,7 @@
   "visualization": {
     "type": "line",
     "title": "Timeline of Door-to-needle Time",
+    "variable": "",
     "data": {
       "x": "Time",
       "y": "DNT"

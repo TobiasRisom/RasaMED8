@@ -19,19 +19,47 @@ ALLOWED_PLOT_TYPES = ["line", "bar", "pie", "barh"]
 ALLOWED_SELECTED_VALUES = ["DNT", "DTN", "age"]
 
 
-class ActionCreatePlot(Action):
+class ActionChangePlottype(Action):
 
     def name(self) -> Text:
-        return "action_create_plot"
+        return "action_change_plottype"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         plot_type = tracker.get_slot("plot_type")
 
-        dispatcher.utter_message(text=f"OK! I will create a {plot_type} plot.")
+        if plot_type:
+            if plot_type.lower() not in ALLOWED_PLOT_TYPES:
+                dispatcher.utter_message(text=f"Sorry, I can only create {'/'.join(ALLOWED_PLOT_TYPES)} plots.")
+                return {"plot_type": None}
+            dispatcher.utter_message(text=f"OK! I will create a {plot_type} plot.")
 
-        PLOT_HANDLER.change_plot_type(plot_type)
+        PLOT_HANDLER.change_arg("type", plot_type)
+
+        return []
+
+
+class ActionChangeSelectedvalue(Action):
+
+    def name(self) -> Text:
+        return "action_change_selectedvalue"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        selected_value = tracker.get_slot("selected_value")
+
+        if selected_value:
+            if selected_value.lower() not in ALLOWED_SELECTED_VALUES:
+                dispatcher.utter_message(text=f"Sorry, I can only create {'/'.join(ALLOWED_SELECTED_VALUES)} plots.")
+                return {"selected_value": None}
+            dispatcher.utter_message(text=f"OK! I will create a {selected_value} plot.")
+
+        PLOT_HANDLER.change_arg("variable", selected_value)
+
+        response = PLOT_HANDLER.send_args()
+        dispatcher.utter_message(text=f"{response}")
 
         return []
 
@@ -47,35 +75,4 @@ class ActionHelloWorld(Action):
         dispatcher.utter_message(text="Here is your INFO")
 
         return []
-
-
-class ValidateCreatePlotForm(FormValidationAction):
-    def name(self) -> Text:
-        return "validate_create_plot_form"
-
-    def validate_plot_type(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[
-        Text, Any]:
-        plot_type = tracker.get_slot("plot_type")
-
-        dispatcher.utter_message(text=plot_type)
-
-        if plot_type:
-            if plot_type.lower() not in ALLOWED_PLOT_TYPES:
-                dispatcher.utter_message(text=f"Sorry, I can only create {'/'.join(ALLOWED_PLOT_TYPES)} plots.")
-                return {"plot_type": None}
-            dispatcher.utter_message(text=f"OK! I will create a {plot_type} plot.")
-            return {"plot_type": plot_type}
-
-    def validate_selected_value(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: DomainDict) -> Dict[
-        Text, Any]:
-        selected_value = tracker.get_slot("selected_value")
-        if selected_value:
-            if selected_value.lower() not in ALLOWED_SELECTED_VALUES:
-                dispatcher.utter_message(text=f"Sorry, I can only show {'/'.join(ALLOWED_SELECTED_VALUES)} values.")
-                return {"selected_value": None}
-            dispatcher.utter_message(text=f"OK! I will use {selected_value} as the selected value.")
-            return {"selected_value": selected_value}
-
-        # return {"plot_type": plot_type, "selected_value": selected_value}
-
 
