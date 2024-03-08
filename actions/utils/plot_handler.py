@@ -16,7 +16,7 @@ class PlotHandler:
         self._plot_name = None
         self._save = save_plot
         self.json_file_path = "actions/utils/plot_args.json"
-        self.website_url = "http://dashboards.create.aau.dk:3000/rasa-webhook"
+        self.website_url = "https://dashboards.create.aau.dk/rasa-webhook"
 
     def change_arg(self, arg, value):
         with open(self.json_file_path, 'r') as json_file:
