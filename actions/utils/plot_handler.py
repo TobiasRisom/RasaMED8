@@ -1,3 +1,5 @@
+import base64
+
 import matplotlib.figure
 import matplotlib.pyplot as plt
 import datetime
@@ -8,7 +10,8 @@ from actions.utils import globals
 from sklearn import linear_model, ensemble
 import json
 import requests
-
+import pandas as pd
+import gzip
 
 class PlotHandler:
     def __init__(self, save_plot=False):
@@ -16,7 +19,8 @@ class PlotHandler:
         self._plot_name = None
         self._save = save_plot
         self.json_file_path = "actions/utils/plot_args.json"
-        self.website_url = "https://dashboards.create.aau.dk/rasa-webhook"
+        self.website_url = "http://localhost:3000/rasa-webhook"  #"https://dashboards.create.aau.dk/rasa-webhook"
+        self.data = pd.read_csv("actions/utils/data.csv")
 
     def change_arg(self, arg, value):
         with open(self.json_file_path, 'r') as json_file:
@@ -32,9 +36,35 @@ class PlotHandler:
         with open(self.json_file_path, 'r') as file:
             json_data = json.load(file)
 
-        response = requests.post(self.website_url, json=json_data)
+        compressed_content = gzip.compress(json.dumps(json_data).encode("utf-8"))
+        compressed_content_decoded = base64.b64encode(compressed_content).decode("utf-8")
+
+        payload = {"file_type": "args", "file_content": compressed_content_decoded}
+
+        response = requests.post(self.website_url, json=payload)
         return response
 
+    def edit_data(self):
+        with open(self.json_file_path, 'r') as json_file:
+            config = json.load(json_file)
+        variable = config['visualization']['variable']
+
+        # Filter the DataFrame to keep only the specified variables
+        filtered_dataframe = self.data[self.data['QI'].isin([variable])]
+        filtered_dataframe = filtered_dataframe[filtered_dataframe['site_name'].isin(["General"])]
+
+        aggregated_dataframe = filtered_dataframe.groupby(['YQ', 'site_name'])['Value'].median().reset_index()
+
+        json_data = aggregated_dataframe.to_json(orient='records')
+
+        compressed_content = gzip.compress(json.dumps(json_data).encode("utf-8"))
+        compressed_content_decoded = base64.b64encode(compressed_content).decode("utf-8")
+
+        payload = {"file_type": "data", "file_content": compressed_content_decoded}
+
+        response = requests.post(self.website_url, json=payload)
+
+        return response
 
     def plot_timeline(self, x, y, x_label: str = None, y_label: str = None):
         self._plot_name = "timeline"

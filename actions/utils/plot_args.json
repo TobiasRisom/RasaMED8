@@ -1,6 +1,6 @@
 {
   "visualization": {
-    "type": "line",
+    "type": "bar",
     "title": "",
     "variable": "age",
     "data": {

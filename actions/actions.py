@@ -61,6 +61,9 @@ class ActionChangeSelectedvalue(Action):
         response = PLOT_HANDLER.send_args()
         dispatcher.utter_message(text=f"{response}")
 
+        response = PLOT_HANDLER.edit_data()
+        dispatcher.utter_message(text=f"{response}")
+
         return []
 
 
