@@ -2,6 +2,11 @@ version: "3.1"
 
 rules:
 
+- rule: initialise
+  steps:
+  - intent: greet
+  - action: action_prefill_slots
+
 - rule: activate form loop
   steps:
   - intent: intent_create_plot
@@ -16,4 +21,21 @@ rules:
   - active_loop: null
   - slot_was_set:
       - requested_slot: null
-  - action: action_create_plot
+  - action: action_change_plottype
+  - action: action_change_selectedvalue
+
+#- rule: set plot type
+#  steps:
+#    - intent: intent_create_plot
+#    - slot_was_set:
+#      - plot_type: line
+#    - action: utter_did_that_help
+#    - action: action_change_plottype
+
+#- rule: set selected value
+#  steps:
+#    - intent: intent_create_plot
+#    - slot_was_set:
+#        - selected_value: age
+#    - action: utter_happy
+#    - action: action_change_selectedvalue

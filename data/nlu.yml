@@ -39,61 +39,13 @@ nlu:
     - that sounds good
     - correct
 
-- intent: deny
+- intent: reject
   examples: |
     - no
-    - n
     - never
-    - I don't think so
-    - don't like that
     - no way
     - not really
 
-- intent: mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
-
-- intent: mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
-
-- intent: bot_challenge
-  examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
-
-- intent: information
-  examples: |
-    - info
-    - information
 
 - intent: intent_create_plot
   examples: |
@@ -101,7 +53,7 @@ nlu:
     - I want a plot
     - Create a plot
     - Give me a plot
-    - I want to create a [bar](plot_type) chart depends on [site_country](x) for [age](selected_value) filter by male(filter_by_gender).
+    - I want to create a [bar](plot_type) chart depends on [site_country](x) for [age](selected_value)
     - Show me a [line](plot_type) plot of [nihss_score](selected_value).
     - Generate a [bar](plot_type) chart based on [door_to_needle](selected_value).
     - Can you create a [line](plot_type) plot for [door_to_groin](selected_value)?
@@ -111,20 +63,22 @@ nlu:
     - Show me a [line](plot_type) chart of [cholesterol](selected_value).
     - I want to see a [bar](plot_type) plot for [sys_blood_pressure](selected_value).
     - Generate a [line](plot_type) graph for [prestroke_mrs](selected_value).
-    - Plot a [bar](plot_type) chart for [discharge_mrs](selected_value) filter by [gender](filter_by_gender).
+    - Plot a [bar](plot_type) chart for [discharge_mrs](selected_value)
     - Show me a [line](plot_type) plot of [three_m_mrs](selected_value) for [subject_id](x).
     - Plot a [bar](plot_type) chart for [QI](selected_value).
-    - Give me a [line](plot_type) graph for [Value](selected_value) filter by [discharge_quarter](x).
-    - I want to create a [bar](plot_type) chart based on [imaging_done](x) filter by [dysphagia_screening_done](selected_value).
-    - Create a [line](plot_type) plot for [occup_physiotherapy_received](x) filter by [prenotification](selected_value).
+    - Give me a [line](plot_type) graph for [Value](selected_value)
+    - I want to create a [bar](plot_type) chart based on [imaging_done](x) 
+    - Create a [line](plot_type) plot for [occup_physiotherapy_received](x)
     - [bar](plot_type)
     - [age](selected_value)
     - Plot a [line](plot_type) graph for [site_id](x).
     - Show me a [bar](plot_type) chart for [YQ](x).
-    - Generate a [line](plot_type) plot for [Value](x) filter by [gender](filter_by_gender).
-    - Create a [bar](plot_type) chart for [discharge_year](x) filter by [discharge_quarter](x).
+    - Generate a [line](plot_type) plot for [Value](x) 
+    - Create a [bar](plot_type) chart for [discharge_year](x) 
     - I want to see a [line](plot_type) plot for [three_m_mrs](selected_value) based on [subject_id](x).
-    - Plot a [bar](plot_type) graph for [occup_physiotherapy_received](x) filter by [prenotification](selected_value).
+    - Plot a [bar](plot_type) graph for [occup_physiotherapy_received](x) 
+    - [DNT]{"entity": "selected_value", "value": "door_to_needle"} 
+    - [DTN]{"entity": "selected_value", "value": "door_to_needle"} 
 
 - lookup: x
   examples: |
@@ -197,48 +151,211 @@ nlu:
     - Numeric value
     - Measurement value
     - Value of interest
+    
+
+- synonym: door_to_needle
+  examples: |
+    - DNT
+    - DTN
+    - door to needle time
+    - door to needle
+    - needle time
+    - thrombolysis time
+
+- synonym: nihss_score
+  examples: |
+    - NIHSS
+    - NIH Stroke Scale
+    - stroke severity score
+    - neurological assessment score
+
+- synonym: door_to_groin
+  examples: |
+    - D2G
+    - D2G time
+    - DTG
+    - DGT
+    - groin puncture time
+    - time to groin intervention
+
+- synonym: onset_to_door
+  examples: |
+    - OTD
+    - symptom onset to door
+    - arrival time after symptoms
+    - time from symptoms to ER
+
+- synonym: discharge_nihss_score
+  examples: |
+    - discharge NIHSS
+    - NIH Stroke Scale at discharge
+    - post-treatment NIHSS
+    - neurological assessment score at discharge
+
+- synonym: glucose
+  examples: |
+    - blood sugar
+    - sugar level
+    - glucose level
+    - blood glucose concentration
+
+- synonym: cholesterol
+  examples: |
+    - lipid profile
+    - lipid panel
+    - cholesterol level
+    - lipid concentration
+
+- synonym: sys_blood_pressure
+  examples: |
+    - systolic BP
+    - SBP
+    - blood pressure (systolic)
+    - systolic pressure
+
+- synonym: prestroke_mrs
+  examples: |
+    - pre-stroke mRS
+    - mRS before stroke
+    - modified Rankin Scale before stroke
+    - functional status before stroke
+
+- synonym: dis_blood_pressure
+  examples: |
+    - diastolic BP
+    - DBP
+    - blood pressure (diastolic)
+    - diastolic pressure
+
+- synonym: perfusion_core
+  examples: |
+    - perfusion imaging core
+    - core infarct volume
+    - perfusion deficit volume
+    - ischemic core volume
+
+- synonym: hypoperfusion_core
+  examples: |
+    - hypoperfused tissue volume
+    - hypoperfused core volume
+    - tissue at risk volume
+    - hypoperfusion imaging core
+
+- synonym: bleeding_volume_value
+  examples: |
+    - hemorrhage volume
+    - bleed volume
+    - bleeding amount
+    - hemorrhagic volume
 
 - synonym: discharge_mrs
   examples: |
-    - Discharge MRS
-    - MRS score at discharge
-    - Outcome score
-
-- synonym: prenotification
-  examples: |
-    - Prenotification received
-    - Notification in advance
-    - Advance notice
-
-- synonym: imaging_done
-  examples: |
-    - Imaging performed
-    - Image taken
-    - Imaging procedure
+    - discharge mRS
+    - post-stroke mRS
+    - modified Rankin Scale at discharge
+    - functional status at discharge
+    - mrs
 
 - synonym: three_m_mrs
   examples: |
-    - Three-month MRS
-    - MRS score at three months
-    - Three-month outcome score
+    - 3-month mRS
+    - mRS at 3 months
+    - modified Rankin Scale at 3 months
+    - functional status at 90 days
 
 - synonym: gender
   examples: |
-    - Male/female
-    - Gender
-    - Sex
+    - sex
+    - biological sex
+    - gender identity
+    - patient's sex
 
-- synonym: occup_physiotherapy_received
+- synonym: hospital_stroke
   examples: |
-    - Occupancy physiotherapy received
-    - Therapy during occupancy
-    - Physiotherapy during stay
+    - stroke occurrence in hospital
+    - in-hospital stroke
+    - hospital-acquired stroke
+    - stroke during hospitalization
 
 - synonym: dysphagia_screening_done
   examples: |
-    - Dysphagia screening done
-    - Screening for difficulty in swallowing
-    - Swallowing assessment completed
+    - dysphagia screening performed
+    - swallowing assessment done
+    - dysphagia screening completed
+    - assessment for swallowing done
+
+- synonym: risk_previous_ischemic_stroke
+  examples: |
+    - history of ischemic stroke
+    - previous ischemic stroke
+    - ischemic stroke risk factor
+    - ischemic stroke history
+
+- synonym: risk_previous_hemorrhagic_stroke
+  examples: |
+    - history of hemorrhagic stroke
+    - previous hemorrhagic stroke
+    - hemorrhagic stroke risk factor
+    - hemorrhagic stroke history
+
+- synonym: physiotherapy_start_within_3days
+  examples: |
+    - PT start within 3 days
+    - physiotherapy initiation within 72 hours
+    - PT started within three days
+    - onset of physical therapy within 3 days
+
+- synonym: occup_physiotherapy_received
+  examples: |
+    - occupational therapy received
+    - occupational PT given
+    - OT therapy provided
+    - occupation-related physical therapy given
+
+- synonym: risk_hypertension
+  examples: |
+    - hypertension risk
+    - high blood pressure risk
+    - risk of hypertension
+    - hypertensive risk factor
+
+- synonym: risk_diabetes
+  examples: |
+    - diabetes risk
+    - high blood sugar risk
+    - risk of diabetes
+    - diabetic risk factor
+    - diabetes
+    - diabetic
+
+- synonym: prenotification
+  examples: |
+    - pre-hospital notification
+    - notification before arrival
+    - advance notice
+    - pre-arrival alert
+
+- synonym: imaging_done
+  examples: |
+    - imaging performed
+    - diagnostic imaging done
+    - radiological scans completed
+    - imaging studies carried out
+
+- synonym: ich_score
+  examples: |
+    - intracerebral hemorrhage score
+    - ICH grading
+    - hemorrhage severity score
+    - bleeding severity assessment
+
+- synonym: thrombolysis
+  examples: |
+    - clot-busting therapy
+    - thrombolytic treatment
+    - tissue plasminogen activator (tPA) therapy
+    - fibrinolytic therapy
+
 
 - lookup: plot_type
   examples: |

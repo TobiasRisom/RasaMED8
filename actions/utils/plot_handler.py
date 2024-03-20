@@ -1,3 +1,5 @@
+import base64
+
 import matplotlib.figure
 import matplotlib.pyplot as plt
 import datetime
@@ -7,7 +9,9 @@ import numpy as np
 from actions.utils import globals
 from sklearn import linear_model, ensemble
 import json
-
+import requests
+import pandas as pd
+import gzip
 
 class PlotHandler:
     def __init__(self, save_plot=False):
@@ -15,16 +19,63 @@ class PlotHandler:
         self._plot_name = None
         self._save = save_plot
         self.json_file_path = "actions/utils/plot_args.json"
+        self.json_data_path = "actions/utils/data.json"
+        self.website_url = "http://localhost:3000/rasa-webhook"
+        #self.website_url = "https://dashboards.create.aau.dk/rasa-webhook"
+        self.data = pd.read_csv("actions/utils/dataREanonymized_long.csv")
 
-    def change_plot_type (self, plot_type):
+    def change_arg(self, arg, value):
         with open(self.json_file_path, 'r') as json_file:
             config = json.load(json_file)
 
-        config['visualization']['plot_type'] = plot_type
+        config['visualization'][arg] = value
 
         with open(self.json_file_path, 'w') as json_file:
             json.dump(config, json_file, indent=2)
             print(json.dumps(config, indent=2))
+
+    def send_args(self):
+        with open(self.json_file_path, 'r') as file:
+            json_data = json.load(file)
+
+        compressed_content = gzip.compress(json.dumps(json_data).encode("utf-8"))
+        compressed_content_decoded = base64.b64encode(compressed_content).decode("utf-8")
+
+        payload = {"file_type": "args", "file_content": compressed_content_decoded}
+
+        response = requests.post(self.website_url, json=payload)
+        return response
+
+    def edit_data(self):
+        with open(self.json_file_path, 'r') as json_file:
+            config = json.load(json_file)
+        variable = config['visualization']['variable']
+
+        # Filter the DataFrame to keep only the specified variables
+        filtered_dataframe = self.data[self.data['variable'].isin([variable])]
+        filtered_dataframe = filtered_dataframe[filtered_dataframe['site_id'].isin(["Riverside"])]
+
+        if filtered_dataframe['ATTRIBUTE_TYPE'].iloc[0] == 'Quantitative' or filtered_dataframe['ATTRIBUTE_TYPE'].iloc[0] == 'Categorical_binary':
+            filtered_dataframe['Value'] = filtered_dataframe['Value'].astype(float).dropna()
+
+        aggregated_dataframe = filtered_dataframe.groupby(['YQ', 'site_id'])['Value'].median().reset_index()
+
+        json_data = aggregated_dataframe.to_json(orient='records')
+
+        with open(self.json_data_path, 'w') as json_file:
+            json_file.write(json_data)
+
+        with open(self.json_data_path, 'r') as json_file:
+            config = json.load(json_file)
+
+        compressed_content = gzip.compress(json.dumps(config).encode("utf-8"))
+        compressed_content_decoded = base64.b64encode(compressed_content).decode("utf-8")
+
+        payload = {"file_type": "data", "file_content": compressed_content_decoded}
+
+        response = requests.post(self.website_url, json=payload)
+
+        return response
 
     def plot_timeline(self, x, y, x_label: str = None, y_label: str = None):
         self._plot_name = "timeline"
