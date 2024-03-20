@@ -7,10 +7,12 @@ intents:
   - reject
   - init
   - intent_create_plot
+  - intent_change_color
   - request_create_plot_form
 entities:
   - selected_value
   - plot_type
+  - color
 
 slots:
   plot_type:
@@ -27,11 +29,19 @@ slots:
       - type: from_entity
         entity: selected_value
 
+  color:
+    type: text
+    influence_conversation: true
+    mappings:
+      - type: from_entity
+        entity: color
+
 forms:
   create_plot_form:
     required_slots:
     - plot_type
     - selected_value
+    - color
 
 responses:
   utter_greet:
@@ -65,9 +75,16 @@ responses:
   utter_submit_create_plot_form:
     - text: "Great! I will create the plot with the specified details. Is there anything else I can help you with?"
 
+  utter_ask_for_color:
+    - text: "Sure! What color do you want?"
+
+  utter_change_color:
+    - text: "Sure thing! The color will be changed!"
+
 actions:
 - ActionHelloWorld
 - action_change_plottype
+- action_change_color
 - action_change_selectedvalue
 - action_prefill_slots
 - utter_submit_create_plot_form

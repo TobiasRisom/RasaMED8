@@ -1,6 +1,6 @@
 {
   "visualization": {
-    "type": "line",
+    "type": "bar",
     "title": "",
     "variable": "age",
     "data": {
@@ -39,6 +39,7 @@
       },
       "legend": true
     },
-    "plot_type": "line"
+    "plot_type": "line",
+    "color": "red"
   }
 }

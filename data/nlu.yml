@@ -80,6 +80,22 @@ nlu:
     - [DNT]{"entity": "selected_value", "value": "door_to_needle"} 
     - [DTN]{"entity": "selected_value", "value": "door_to_needle"} 
 
+- intent: intent_change_color
+  examples: |
+    - Change color
+    - I want to change color
+    - Change the color
+    - Please change color
+    - Change the color to [blue](color)
+    - Can you switch the color
+    - Switch the color to [red](color)
+    - Adjust the color
+    - Alter color
+    - Modify the current color
+    - Update color
+    - I want the color to be [green](color)
+
+- synonym:
 - lookup: x
   examples: |
     - site_country
@@ -356,6 +372,10 @@ nlu:
     - tissue plasminogen activator (tPA) therapy
     - fibrinolytic therapy
 
+- synonym: color
+  examples: |
+    - colour
+    - hue
 
 - lookup: plot_type
   examples: |

@@ -31,7 +31,7 @@ ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in"
                            "sys_blood_pressure", "dis_blood_pressure", "perfusion_core", "hypoperfusion_core",
                            "stroke_mimics_diagnosis", "prestroke_mrs", "tici_score", "prenotification", "ich_score",
                            "hunt_hess_score"]
-
+ALLOWED_COLORS = ["red", "green", "blue"]
 
 
 class ActionChangePlottype(Action):
@@ -53,6 +53,31 @@ class ActionChangePlottype(Action):
             dispatcher.utter_message(text=f"OK! I will create a {plot_type} plot.")
 
         PLOT_HANDLER.change_arg("type", plot_type)
+
+        response = PLOT_HANDLER.send_args()
+        dispatcher.utter_message(text=f"{response}")
+
+        return []
+
+
+class ActionChangeColor(Action):
+    def name(self) -> Text:
+        return "action_change_color"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        color = tracker.get_slot("color")
+
+        print(color)
+
+        if color:
+            if color.lower() not in ALLOWED_COLORS:
+                dispatcher.utter_message(text=f"Sorry, I can only change the color to {'/'.join(ALLOWED_COLORS)}.")
+                return {"color": None}
+            dispatcher.utter_message(text=f"OK! The color will be changed to {color}.")
+
+        PLOT_HANDLER.change_arg("color", color)
 
         response = PLOT_HANDLER.send_args()
         dispatcher.utter_message(text=f"{response}")
@@ -108,4 +133,3 @@ class ActionHelloWorld(Action):
         dispatcher.utter_message(text="Here is your INFO")
 
         return []
-
