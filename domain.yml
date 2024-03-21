@@ -1,92 +1,77 @@
-version: "3.1"
-
+version: '3.1'
 intents:
-  - greet
-  - goodbye
-  - affirm
-  - reject
-  - init
-  - intent_create_plot
-  - intent_change_color
-  - request_create_plot_form
+- affirm
+- goodbye
+- greet
+- init
+- intent_change_color
+- intent_create_plot
+- reject
+- request_create_plot_form
 entities:
-  - selected_value
-  - plot_type
-  - color
-
+- color
+- selected_value
+- plot_type
 slots:
   plot_type:
     type: text
     influence_conversation: true
     mappings:
-      - type: from_entity
-        entity: plot_type
-
+    - type: from_entity
+      entity: plot_type
   selected_value:
     type: text
     influence_conversation: true
     mappings:
-      - type: from_entity
-        entity: selected_value
-
+    - type: from_entity
+      entity: selected_value
   color:
     type: text
     influence_conversation: true
     mappings:
-      - type: from_entity
-        entity: color
-
+    - type: from_entity
+      entity: color
 forms:
   create_plot_form:
     required_slots:
     - plot_type
     - selected_value
+  change_color_form:
+    required_slots:
     - color
-
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
-
+  - text: Hey! How are you?
   utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
+  - text: 'Here is something to cheer you up:'
+    image: https://i.imgur.com/nGF1K8f.jpg
   utter_did_that_help:
-  - text: "Did that help you?"
-
+  - text: Did that help you?
   utter_happy:
-  - text: "Great, carry on!"
-
+  - text: Great, carry on!
   utter_goodbye:
-  - text: "Bye"
-
+  - text: Bye
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
-
+  - text: I am a bot, powered by Rasa.
   utter_info:
-  - text: "fuckin works m8"
-
+  - text: fuckin works m8
   utter_ask_plot_type:
-    - text: "What type of plot do you want to create?"
-
+  - text: What type of plot do you want to create?
   utter_ask_selected_value:
-    - text: "What value you want to see?"
-
+  - text: What value you want to see?
   utter_submit_create_plot_form:
-    - text: "Great! I will create the plot with the specified details. Is there anything else I can help you with?"
-
+  - text: Great! I will create the plot with the specified details. Is there anything else I can help you with?
   utter_ask_for_color:
-    - text: "Sure! What color do you want?"
-
+  - text: Sure! What color do you want?
   utter_change_color:
-    - text: "Sure thing! The color will be changed!"
-
+  - text: Sure thing! The color will be changed!
 actions:
+- utter_ask_for_color
+- action_change_color
+- action_prefill_slots
 - ActionHelloWorld
 - action_change_plottype
-- action_change_color
 - action_change_selectedvalue
-- action_prefill_slots
 - utter_submit_create_plot_form
 - action_init
 - utter_greet
@@ -94,7 +79,6 @@ actions:
 - utter_happy
 - utter_goodbye
 - utter_iamabot
-
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

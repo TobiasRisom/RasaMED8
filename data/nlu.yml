@@ -1,5 +1,4 @@
 version: "3.1"
-
 nlu:
 - intent: greet
   examples: |
@@ -16,7 +15,6 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-
 - intent: goodbye
   examples: |
     - cu
@@ -29,7 +27,6 @@ nlu:
     - see you around
     - bye bye
     - see you later
-
 - intent: affirm
   examples: |
     - yes
@@ -38,15 +35,12 @@ nlu:
     - of course
     - that sounds good
     - correct
-
 - intent: reject
   examples: |
     - no
     - never
     - no way
     - not really
-
-
 - intent: intent_create_plot
   examples: |
     - I want to create a plot
@@ -67,19 +61,18 @@ nlu:
     - Show me a [line](plot_type) plot of [three_m_mrs](selected_value) for [subject_id](x).
     - Plot a [bar](plot_type) chart for [QI](selected_value).
     - Give me a [line](plot_type) graph for [Value](selected_value)
-    - I want to create a [bar](plot_type) chart based on [imaging_done](x) 
+    - I want to create a [bar](plot_type) chart based on [imaging_done](x)
     - Create a [line](plot_type) plot for [occup_physiotherapy_received](x)
     - [bar](plot_type)
     - [age](selected_value)
     - Plot a [line](plot_type) graph for [site_id](x).
     - Show me a [bar](plot_type) chart for [YQ](x).
-    - Generate a [line](plot_type) plot for [Value](x) 
-    - Create a [bar](plot_type) chart for [discharge_year](x) 
+    - Generate a [line](plot_type) plot for [Value](x)
+    - Create a [bar](plot_type) chart for [discharge_year](x)
     - I want to see a [line](plot_type) plot for [three_m_mrs](selected_value) based on [subject_id](x).
-    - Plot a [bar](plot_type) graph for [occup_physiotherapy_received](x) 
-    - [DNT]{"entity": "selected_value", "value": "door_to_needle"} 
-    - [DTN]{"entity": "selected_value", "value": "door_to_needle"} 
-
+    - Plot a [bar](plot_type) graph for [occup_physiotherapy_received](x)
+    - [DNT]{"entity": "selected_value", "value": "door_to_needle"}
+    - [DTN]{"entity": "selected_value", "value": "door_to_needle"}
 - intent: intent_change_color
   examples: |
     - Change color
@@ -94,8 +87,233 @@ nlu:
     - Modify the current color
     - Update color
     - I want the color to be [green](color)
-
-- synonym:
+    - change color
+    - [blue](color)
+    - change color to [red](color)
+- synonym: door_to_needle
+  examples: |
+    - DNT
+    - DTN
+    - door to needle time
+    - door to needle
+    - needle time
+    - thrombolysis time
+- synonym: site_country
+  examples: |
+    - Hospital country
+    - Geography
+    - Place
+- synonym: site_name
+  examples: |
+    - Hospital name
+    - Name of the site
+    - Medical center
+- synonym: site_id
+  examples: |
+    - ID of the site
+    - Facility ID
+    - Location ID
+- synonym: discharge_year
+  examples: |
+    - Year of discharge
+    - Discharge time
+    - Date of discharge
+- synonym: discharge_quarter
+  examples: |
+    - Discharge quarter
+    - Quarter of discharge
+    - Quarter year
+- synonym: YQ
+  examples: |
+    - Year and quarter
+    - Year quarter
+    - YQ value
+- synonym: subject_id
+  examples: |
+    - ID of subject
+    - Patient ID
+    - Identification number
+- synonym: QI
+  examples: |
+    - Quality indicator
+    - QI value
+    - Indicator value
+- synonym: Value
+  examples: |
+    - Numeric value
+    - Measurement value
+    - Value of interest
+- synonym: nihss_score
+  examples: |
+    - NIHSS
+    - NIH Stroke Scale
+    - stroke severity score
+    - neurological assessment score
+- synonym: door_to_groin
+  examples: |
+    - D2G
+    - D2G time
+    - DTG
+    - DGT
+    - groin puncture time
+    - time to groin intervention
+- synonym: onset_to_door
+  examples: |
+    - OTD
+    - symptom onset to door
+    - arrival time after symptoms
+    - time from symptoms to ER
+- synonym: discharge_nihss_score
+  examples: |
+    - discharge NIHSS
+    - NIH Stroke Scale at discharge
+    - post-treatment NIHSS
+    - neurological assessment score at discharge
+- synonym: glucose
+  examples: |
+    - blood sugar
+    - sugar level
+    - glucose level
+    - blood glucose concentration
+- synonym: cholesterol
+  examples: |
+    - lipid profile
+    - lipid panel
+    - cholesterol level
+    - lipid concentration
+- synonym: sys_blood_pressure
+  examples: |
+    - systolic BP
+    - SBP
+    - blood pressure (systolic)
+    - systolic pressure
+- synonym: prestroke_mrs
+  examples: |
+    - pre-stroke mRS
+    - mRS before stroke
+    - modified Rankin Scale before stroke
+    - functional status before stroke
+- synonym: dis_blood_pressure
+  examples: |
+    - diastolic BP
+    - DBP
+    - blood pressure (diastolic)
+    - diastolic pressure
+- synonym: perfusion_core
+  examples: |
+    - perfusion imaging core
+    - core infarct volume
+    - perfusion deficit volume
+    - ischemic core volume
+- synonym: hypoperfusion_core
+  examples: |
+    - hypoperfused tissue volume
+    - hypoperfused core volume
+    - tissue at risk volume
+    - hypoperfusion imaging core
+- synonym: bleeding_volume_value
+  examples: |
+    - hemorrhage volume
+    - bleed volume
+    - bleeding amount
+    - hemorrhagic volume
+- synonym: discharge_mrs
+  examples: |
+    - discharge mRS
+    - post-stroke mRS
+    - modified Rankin Scale at discharge
+    - functional status at discharge
+    - mrs
+- synonym: three_m_mrs
+  examples: |
+    - 3-month mRS
+    - mRS at 3 months
+    - modified Rankin Scale at 3 months
+    - functional status at 90 days
+- synonym: gender
+  examples: |
+    - sex
+    - biological sex
+    - gender identity
+    - patient's sex
+- synonym: hospital_stroke
+  examples: |
+    - stroke occurrence in hospital
+    - in-hospital stroke
+    - hospital-acquired stroke
+    - stroke during hospitalization
+- synonym: dysphagia_screening_done
+  examples: |
+    - dysphagia screening performed
+    - swallowing assessment done
+    - dysphagia screening completed
+    - assessment for swallowing done
+- synonym: risk_previous_ischemic_stroke
+  examples: |
+    - history of ischemic stroke
+    - previous ischemic stroke
+    - ischemic stroke risk factor
+    - ischemic stroke history
+- synonym: risk_previous_hemorrhagic_stroke
+  examples: |
+    - history of hemorrhagic stroke
+    - previous hemorrhagic stroke
+    - hemorrhagic stroke risk factor
+    - hemorrhagic stroke history
+- synonym: physiotherapy_start_within_3days
+  examples: |
+    - PT start within 3 days
+    - physiotherapy initiation within 72 hours
+    - PT started within three days
+    - onset of physical therapy within 3 days
+- synonym: occup_physiotherapy_received
+  examples: |
+    - occupational therapy received
+    - occupational PT given
+    - OT therapy provided
+    - occupation-related physical therapy given
+- synonym: risk_hypertension
+  examples: |
+    - hypertension risk
+    - high blood pressure risk
+    - risk of hypertension
+    - hypertensive risk factor
+- synonym: risk_diabetes
+  examples: |
+    - diabetes risk
+    - high blood sugar risk
+    - risk of diabetes
+    - diabetic risk factor
+    - diabetes
+    - diabetic
+- synonym: prenotification
+  examples: |
+    - pre-hospital notification
+    - notification before arrival
+    - advance notice
+    - pre-arrival alert
+- synonym: imaging_done
+  examples: |
+    - imaging performed
+    - diagnostic imaging done
+    - radiological scans completed
+    - imaging studies carried out
+- synonym: ich_score
+  examples: |
+    - intracerebral hemorrhage score
+    - ICH grading
+    - hemorrhage severity score
+    - bleeding severity assessment
+- synonym: thrombolysis
+  examples: |
+    - clot-busting therapy
+    - thrombolytic treatment
+    - tissue plasminogen activator (tPA) therapy
+    - fibrinolytic therapy
+- synonym: color
+  examples: |
+    - colour
+    - hue
 - lookup: x
   examples: |
     - site_country
@@ -114,271 +332,7 @@ nlu:
     - gender
     - occup_physiotherapy_received
     - dysphagia_screening
-- synonym: site_country
-  examples: |
-    - Hospital country
-    - Geography
-    - Place
-
-- synonym: site_name
-  examples: |
-    - Hospital name
-    - Name of the site
-    - Medical center
-
-- synonym: site_id
-  examples: |
-    - ID of the site
-    - Facility ID
-    - Location ID
-
-- synonym: discharge_year
-  examples: |
-    - Year of discharge
-    - Discharge time
-    - Date of discharge
-
-- synonym: discharge_quarter
-  examples: |
-    - Discharge quarter
-    - Quarter of discharge
-    - Quarter year
-
-- synonym: YQ
-  examples: |
-    - Year and quarter
-    - Year quarter
-    - YQ value
-
-- synonym: subject_id
-  examples: |
-    - ID of subject
-    - Patient ID
-    - Identification number
-
-- synonym: QI
-  examples: |
-    - Quality indicator
-    - QI value
-    - Indicator value
-
-- synonym: Value
-  examples: |
-    - Numeric value
-    - Measurement value
-    - Value of interest
-    
-
-- synonym: door_to_needle
-  examples: |
-    - DNT
-    - DTN
-    - door to needle time
-    - door to needle
-    - needle time
-    - thrombolysis time
-
-- synonym: nihss_score
-  examples: |
-    - NIHSS
-    - NIH Stroke Scale
-    - stroke severity score
-    - neurological assessment score
-
-- synonym: door_to_groin
-  examples: |
-    - D2G
-    - D2G time
-    - DTG
-    - DGT
-    - groin puncture time
-    - time to groin intervention
-
-- synonym: onset_to_door
-  examples: |
-    - OTD
-    - symptom onset to door
-    - arrival time after symptoms
-    - time from symptoms to ER
-
-- synonym: discharge_nihss_score
-  examples: |
-    - discharge NIHSS
-    - NIH Stroke Scale at discharge
-    - post-treatment NIHSS
-    - neurological assessment score at discharge
-
-- synonym: glucose
-  examples: |
-    - blood sugar
-    - sugar level
-    - glucose level
-    - blood glucose concentration
-
-- synonym: cholesterol
-  examples: |
-    - lipid profile
-    - lipid panel
-    - cholesterol level
-    - lipid concentration
-
-- synonym: sys_blood_pressure
-  examples: |
-    - systolic BP
-    - SBP
-    - blood pressure (systolic)
-    - systolic pressure
-
-- synonym: prestroke_mrs
-  examples: |
-    - pre-stroke mRS
-    - mRS before stroke
-    - modified Rankin Scale before stroke
-    - functional status before stroke
-
-- synonym: dis_blood_pressure
-  examples: |
-    - diastolic BP
-    - DBP
-    - blood pressure (diastolic)
-    - diastolic pressure
-
-- synonym: perfusion_core
-  examples: |
-    - perfusion imaging core
-    - core infarct volume
-    - perfusion deficit volume
-    - ischemic core volume
-
-- synonym: hypoperfusion_core
-  examples: |
-    - hypoperfused tissue volume
-    - hypoperfused core volume
-    - tissue at risk volume
-    - hypoperfusion imaging core
-
-- synonym: bleeding_volume_value
-  examples: |
-    - hemorrhage volume
-    - bleed volume
-    - bleeding amount
-    - hemorrhagic volume
-
-- synonym: discharge_mrs
-  examples: |
-    - discharge mRS
-    - post-stroke mRS
-    - modified Rankin Scale at discharge
-    - functional status at discharge
-    - mrs
-
-- synonym: three_m_mrs
-  examples: |
-    - 3-month mRS
-    - mRS at 3 months
-    - modified Rankin Scale at 3 months
-    - functional status at 90 days
-
-- synonym: gender
-  examples: |
-    - sex
-    - biological sex
-    - gender identity
-    - patient's sex
-
-- synonym: hospital_stroke
-  examples: |
-    - stroke occurrence in hospital
-    - in-hospital stroke
-    - hospital-acquired stroke
-    - stroke during hospitalization
-
-- synonym: dysphagia_screening_done
-  examples: |
-    - dysphagia screening performed
-    - swallowing assessment done
-    - dysphagia screening completed
-    - assessment for swallowing done
-
-- synonym: risk_previous_ischemic_stroke
-  examples: |
-    - history of ischemic stroke
-    - previous ischemic stroke
-    - ischemic stroke risk factor
-    - ischemic stroke history
-
-- synonym: risk_previous_hemorrhagic_stroke
-  examples: |
-    - history of hemorrhagic stroke
-    - previous hemorrhagic stroke
-    - hemorrhagic stroke risk factor
-    - hemorrhagic stroke history
-
-- synonym: physiotherapy_start_within_3days
-  examples: |
-    - PT start within 3 days
-    - physiotherapy initiation within 72 hours
-    - PT started within three days
-    - onset of physical therapy within 3 days
-
-- synonym: occup_physiotherapy_received
-  examples: |
-    - occupational therapy received
-    - occupational PT given
-    - OT therapy provided
-    - occupation-related physical therapy given
-
-- synonym: risk_hypertension
-  examples: |
-    - hypertension risk
-    - high blood pressure risk
-    - risk of hypertension
-    - hypertensive risk factor
-
-- synonym: risk_diabetes
-  examples: |
-    - diabetes risk
-    - high blood sugar risk
-    - risk of diabetes
-    - diabetic risk factor
-    - diabetes
-    - diabetic
-
-- synonym: prenotification
-  examples: |
-    - pre-hospital notification
-    - notification before arrival
-    - advance notice
-    - pre-arrival alert
-
-- synonym: imaging_done
-  examples: |
-    - imaging performed
-    - diagnostic imaging done
-    - radiological scans completed
-    - imaging studies carried out
-
-- synonym: ich_score
-  examples: |
-    - intracerebral hemorrhage score
-    - ICH grading
-    - hemorrhage severity score
-    - bleeding severity assessment
-
-- synonym: thrombolysis
-  examples: |
-    - clot-busting therapy
-    - thrombolytic treatment
-    - tissue plasminogen activator (tPA) therapy
-    - fibrinolytic therapy
-
-- synonym: color
-  examples: |
-    - colour
-    - hue
-
 - lookup: plot_type
   examples: |
     - line
     - bar
-

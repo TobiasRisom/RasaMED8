@@ -24,12 +24,6 @@ rules:
   - action: action_change_plottype
   - action: action_change_selectedvalue
 
-- rule: change color
-  steps:
-    - intent: intent_change_color
-    - action: utter_ask_for_color
-    - action: action_change_color
-
 #- rule: set plot type
 #  steps:
 #    - intent: intent_create_plot
