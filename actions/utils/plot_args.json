@@ -1,8 +1,8 @@
 {
   "visualization": {
-    "type": "bar",
+    "type": "line",
     "title": "",
-    "variable": "age",
+    "variable": "onset_to_door",
     "data": {
       "x": "",
       "y": "",
@@ -40,6 +40,9 @@
       "legend": true
     },
     "plot_type": "line",
-    "color": "red"
+    "color": "blue",
+    "selectedAxis": "y-axis",
+    "y-value": "age",
+    "x-label": "thrombolysis"
   }
 }

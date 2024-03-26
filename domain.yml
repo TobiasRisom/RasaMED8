@@ -5,12 +5,15 @@ intents:
 - greet
 - init
 - intent_change_color
+- intent_change_data
 - intent_create_plot
 - reject
 - request_create_plot_form
 entities:
-- color
+- selected_axis
+- axis_value
 - selected_value
+- color
 - plot_type
 slots:
   plot_type:
@@ -31,6 +34,18 @@ slots:
     mappings:
     - type: from_entity
       entity: color
+  selected_axis:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: selected_axis
+  axis_value:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: axis_value
 forms:
   create_plot_form:
     required_slots:
@@ -39,6 +54,10 @@ forms:
   change_color_form:
     required_slots:
     - color
+  change_axis_form:
+    required_slots:
+    - selected_axis
+    - axis_value
 responses:
   utter_greet:
   - text: Hey! How are you?
@@ -59,13 +78,20 @@ responses:
   - text: What type of plot do you want to create?
   utter_ask_selected_value:
   - text: What value you want to see?
+  utter_ask_selected_axisvalue:
+    - text: What value you want to see?
   utter_submit_create_plot_form:
   - text: Great! I will create the plot with the specified details. Is there anything else I can help you with?
   utter_ask_for_color:
   - text: Sure! What color do you want?
   utter_change_color:
   - text: Sure thing! The color will be changed!
+  utter_change_axis:
+  - text: okay, which axis do you want changed?
 actions:
+- utter_ask_selected_value
+- action_change_axis
+- utter_change_axis
 - utter_ask_for_color
 - action_change_color
 - action_prefill_slots

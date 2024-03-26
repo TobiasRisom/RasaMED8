@@ -1,7 +1,7 @@
 version: "3.1"
 
 stories:
-  - story: interactive_story_1
+  - story: color_story
     steps:
     - intent: intent_change_color
     - action: utter_ask_for_color
@@ -17,6 +17,21 @@ stories:
     - slot_was_set:
       - color: red
     - action: action_change_color
+
+  - story: changeAxis_story_1
+    steps:
+      - intent: intent_change_data
+      - action: utter_change_axis
+      - intent: intent_change_data
+        entities:
+          - selected_axis: x-axis
+          - axis_value: age
+      - slot_was_set:
+          - axis_value: age
+      - slot_was_set:
+          - selected_axis: x-axis
+      - action: action_change_axis
+
 
 #- story: interactive_story_1
 #  steps:

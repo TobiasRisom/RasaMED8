@@ -32,7 +32,8 @@ ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in"
                            "stroke_mimics_diagnosis", "prestroke_mrs", "tici_score", "prenotification", "ich_score",
                            "hunt_hess_score"]
 ALLOWED_COLORS = ["red", "green", "blue"]
-
+ALLOWED_AXIS = ["x-axis", "y-axis"]
+ALLOWED_AXIS_VALUES = ["age","thrombolysis","stroke_type","onset_to_door","gender","hospital_stroke","prestroke_mrs"]
 
 class ActionChangePlottype(Action):
 
@@ -83,6 +84,35 @@ class ActionChangeColor(Action):
         dispatcher.utter_message(text=f"{response}")
 
         return []
+
+class ActionChangeAxis(Action):
+    def name(self) -> Text:
+        return "action_change_axis"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        selectedAxis = tracker.get_slot("selected_axis")
+        axisValue = tracker.get_slot("axis_value")
+
+        print(selectedAxis)
+        print(axisValue)
+
+        if selectedAxis:
+            if selectedAxis.lower() not in ALLOWED_AXIS or axisValue.lower() not in ALLOWED_AXIS_VALUES:
+                dispatcher.utter_message(text=f"Sorry, I can only use the values in the data.")
+                return {"selectedAxis": None}
+            dispatcher.utter_message(text=f"OK! The {selectedAxis} will be changed.")
+
+        PLOT_HANDLER.change_arg("selectedAxis", selectedAxis)
+
+        if selectedAxis == "x-axis":
+            PLOT_HANDLER.change_arg("x-label", axisValue)
+        elif selectedAxis == "y-axis":
+            PLOT_HANDLER.change_arg("y-value", axisValue)
+
+        response = PLOT_HANDLER.send_args()
+        dispatcher.utter_message(text=f"{response}")
 
 
 class ActionChangeSelectedvalue(Action):
