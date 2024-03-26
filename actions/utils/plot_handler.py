@@ -47,19 +47,29 @@ class PlotHandler:
         return response
 
     def edit_data(self):
+        # Open plot_args.json
         with open(self.json_file_path, 'r') as json_file:
             config = json.load(json_file)
-        variable = config['visualization']['variable']
 
-        # Filter the DataFrame to keep only the specified variables
-        filtered_dataframe = self.data[self.data['variable'].isin([variable])]
+        # From plot_args.json, get the "x-value" and "y-value" under "visualization"
+        var_x = config['visualization']['x-value']
+        var_y = config['visualization']['y-value']
+
+        # Filter the DataFrame to keep only the specified variables (var_x and var_y)
+        filtered_dataframe = self.data[self.data['variable'].isin([var_x, var_y])]
+
+        # Only gets data with "Riverside" at the "site_id" (Should probably be changed later)
         filtered_dataframe = filtered_dataframe[filtered_dataframe['site_id'].isin(["Riverside"])]
 
-        if filtered_dataframe['ATTRIBUTE_TYPE'].iloc[0] == 'Quantitative' or filtered_dataframe['ATTRIBUTE_TYPE'].iloc[0] == 'Categorical_binary':
-            filtered_dataframe['Value'] = filtered_dataframe['Value'].astype(float).dropna()
+        # if filtered_dataframe['ATTRIBUTE_TYPE'].iloc[0] == 'Quantitative' or filtered_dataframe['ATTRIBUTE_TYPE'].iloc[0] == 'Categorical_binary':
+        filtered_dataframe['Value'] = filtered_dataframe['Value'].astype(float).dropna()
 
-        aggregated_dataframe = filtered_dataframe.groupby(['YQ', 'site_id'])['Value'].median().reset_index()
+        # Group by 'YQ' and 'variable', and calculate median for each category
+        aggregated_dataframe = filtered_dataframe.groupby(['YQ', 'variable'])['Value'].median().unstack().reset_index()
+        # Rename columns to 'x_value' and 'y_value'
+        aggregated_dataframe.rename(columns={var_x: 'x_value', var_y: 'y_value'}, inplace=True)
 
+        # Creates data.json with the new values
         json_data = aggregated_dataframe.to_json(orient='records')
 
         with open(self.json_data_path, 'w') as json_file:

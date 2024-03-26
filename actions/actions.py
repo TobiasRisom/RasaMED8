@@ -83,6 +83,9 @@ class ActionChangeColor(Action):
         response = PLOT_HANDLER.send_args()
         dispatcher.utter_message(text=f"{response}")
 
+        response = PLOT_HANDLER.edit_data()
+        dispatcher.utter_message(text=f"{response}")
+
         return []
 
 class ActionChangeAxis(Action):
@@ -107,7 +110,7 @@ class ActionChangeAxis(Action):
         PLOT_HANDLER.change_arg("selectedAxis", selectedAxis)
 
         if selectedAxis == "x-axis":
-            PLOT_HANDLER.change_arg("x-label", axisValue)
+            PLOT_HANDLER.change_arg("x-value", axisValue)
         elif selectedAxis == "y-axis":
             PLOT_HANDLER.change_arg("y-value", axisValue)
 
@@ -137,7 +140,6 @@ class ActionChangeSelectedvalue(Action):
         dispatcher.utter_message(text=f"{response}")
 
         return []
-
 
 class PrefillSlots(Action):
     def name(self) -> Text:

@@ -83,7 +83,7 @@ responses:
   utter_submit_create_plot_form:
   - text: Great! I will create the plot with the specified details. Is there anything else I can help you with?
   utter_ask_for_color:
-  - text: Sure! What color do you want?
+  - text: Sure! What color do you want? You can choose from RED, BLUE or GREEN!
   utter_change_color:
   - text: Sure thing! The color will be changed!
   utter_change_axis:
