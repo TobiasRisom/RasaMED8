@@ -1,8 +1,8 @@
 {
   "visualization": {
-    "type": "bar",
+    "type": "line",
     "title": "",
-    "variable": "door_to_needle",
+    "variable": "age",
     "data": {
       "x": "",
       "y": "",
@@ -42,7 +42,7 @@
     "plot_type": "line",
     "color": "green",
     "x-value": "age",
-    "y-value": "age",
+    "y-value": "door_to_needle",
     "selectedAxis": "y-axis"
   }
 }
