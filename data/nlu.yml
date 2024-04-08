@@ -61,18 +61,18 @@ nlu:
     - Show me a [line](plot_type) plot of [three_m_mrs](selected_value).
     - Plot a [bar](plot_type) chart for [QI](selected_value).
     - Give me a [line](plot_type) graph for [Value](selected_value)
-    - I want to create a [bar](plot_type) chart based on [imaging_done](selected_value) 
+    - I want to create a [bar](plot_type) chart based on [imaging_done](selected_value)
     - Create a [line](plot_type) plot for [occup_physiotherapy_received](selected_value)
     - [bar](plot_type)
     - [age](selected_value)
     - Plot a [line](plot_type) graph for [door to needle time](selected_value).
     - Show me a [bar](plot_type) chart for [door to groin](selected_value).
-    - Generate a [line](plot_type) plot for [discharge mrs](selected_value) 
-    - Create a [bar](plot_type) chart for [3 month mrs](selected_value) 
+    - Generate a [line](plot_type) plot for [discharge mrs](selected_value)
+    - Create a [bar](plot_type) chart for [3 month mrs](selected_value)
     - I want to see a [line](plot_type) plot for [three_m_mrs](selected_value).
-    - Plot a [bar](plot_type) graph for [occup_physiotherapy_received](selected_value) 
-    - [DNT]{"entity": "selected_value", "value": "door_to_needle"} 
-    - [DTN]{"entity": "selected_value", "value": "door_to_needle"} 
+    - Plot a [bar](plot_type) graph for [occup_physiotherapy_received](selected_value)
+    - [DNT]{"entity": "selected_value", "value": "door_to_needle"}
+    - [DTN]{"entity": "selected_value", "value": "door_to_needle"}
     - [door to needle]{"entity": "selected_value", "value": "door_to_needle"}
     - [door to needle time]{"entity": "selected_value", "value": "door_to_needle"}
     - [needle time]{"entity": "selected_value", "value": "door_to_needle"}
@@ -185,6 +185,10 @@ nlu:
     - [thrombolytic treatment]{"entity": "selected_value", "value": "thrombolysis"}
     - [tissue plasminogen activator (tPA) therapy]{"entity": "selected_value", "value": "thrombolysis"}
     - [fibrinolytic therapy]{"entity": "selected_value", "value": "thrombolysis"}
+    - make a plot
+    - a [line](plot_type) plot please
+    - [onset_to_door](selected_value)
+    - please make a [line](plot_type) plot for [age](selected_value)
 - intent: intent_change_color
   examples: |
     - Change color
@@ -223,7 +227,7 @@ nlu:
     - i want to change the [x-axis](selected_axis)
     - change the [x-axis](selected_axis) to [prestroke_mrs](axis_value)
     - [DTN]{"entity": "axis_value", "value": "door_to_needle"}
-    - [DNT]{"entity": "axis_value", "value": "door_to_needle"} 
+    - [DNT]{"entity": "axis_value", "value": "door_to_needle"}
     - [door to needle]{"entity": "axis_value", "value": "door_to_needle"}
     - [door to needle time]{"entity": "axis_value", "value": "door_to_needle"}
     - [needle time]{"entity": "axis_value", "value": "door_to_needle"}
@@ -344,79 +348,45 @@ nlu:
     - I want to compare it with [door_to_needle](selected_value)
     - Compare with [age](selected_value)
     - Plot it against [glucose](selected_value)
+- intent: intent_select_year
+  examples: |
+    - I want to change year
+    - change year
+    - select year
+    - Choose year
+    - I want to change the year to [2019](year)
+    - change year to [2018](year)
+    - make the year [2020](year)
+    - data from [2018](year)
+    - the year should be [2022](year), [Q1](quarter)
+    - I want the year [2023](year) and the quarter [Q2](quarter)
+    - Quarter [Q3](quarter) in year [2021](year)
+    - change to [Q2](quarter) [2019](year)
+    - show [all](year) [all](quarter)
+    - i want the data from [2021](year) [all](quarter)
+    - the year [2021](year)
 - synonym: door_to_needle
   examples: |
     - DNT
     - DTN
-    - door to needle time
     - door to needle
+    - door to needle time
     - needle time
     - thrombolysis time
-- synonym: site_country
-  examples: |
-    - Hospital country
-    - Geography
-    - Place
-- synonym: site_name
-  examples: |
-    - Hospital name
-    - Name of the site
-    - Medical center
-- synonym: site_id
-  examples: |
-    - ID of the site
-    - Facility ID
-    - Location ID
-- synonym: discharge_year
-  examples: |
-    - Year of discharge
-    - Discharge time
-    - Date of discharge
-- synonym: discharge_quarter
-  examples: |
-    - Discharge quarter
-    - Quarter of discharge
-    - Quarter year
-- synonym: YQ
-  examples: |
-    - Year and quarter
-    - Year quarter
-    - YQ value
-- synonym: subject_id
-  examples: |
-    - ID of subject
-    - Patient ID
-    - Identification number
-- synonym: QI
-  examples: |
-    - Quality indicator
-    - QI value
-    - Indicator value
-- synonym: Value
-  examples: |
-    - Numeric value
-    - Measurement value
-    - Value of interest
 - synonym: nihss_score
   examples: |
     - NIHSS
     - NIH Stroke Scale
     - stroke severity score
     - neurological assessment score
-- synonym: door_to_groin
-  examples: |
-    - D2G
-    - D2G time
-    - DTG
-    - DGT
-    - groin puncture time
-    - time to groin intervention
 - synonym: onset_to_door
   examples: |
     - OTD
     - symptom onset to door
     - arrival time after symptoms
     - time from symptoms to ER
+    - onset to door
+    - onset to door time
 - synonym: discharge_nihss_score
   examples: |
     - discharge NIHSS
@@ -459,6 +429,7 @@ nlu:
     - core infarct volume
     - perfusion deficit volume
     - ischemic core volume
+    - perfusion core
 - synonym: hypoperfusion_core
   examples: |
     - hypoperfused tissue volume
@@ -471,6 +442,7 @@ nlu:
     - bleed volume
     - bleeding amount
     - hemorrhagic volume
+    - bleeding volume
 - synonym: discharge_mrs
   examples: |
     - discharge mRS
@@ -564,6 +536,59 @@ nlu:
     - thrombolytic treatment
     - tissue plasminogen activator (tPA) therapy
     - fibrinolytic therapy
+- synonym: site_country
+  examples: |
+    - Hospital country
+    - Geography
+    - Place
+- synonym: site_name
+  examples: |
+    - Hospital name
+    - Name of the site
+    - Medical center
+- synonym: site_id
+  examples: |
+    - ID of the site
+    - Facility ID
+    - Location ID
+- synonym: discharge_year
+  examples: |
+    - Year of discharge
+    - Discharge time
+    - Date of discharge
+- synonym: discharge_quarter
+  examples: |
+    - Discharge quarter
+    - Quarter of discharge
+    - Quarter year
+- synonym: YQ
+  examples: |
+    - Year and quarter
+    - Year quarter
+    - YQ value
+- synonym: subject_id
+  examples: |
+    - ID of subject
+    - Patient ID
+    - Identification number
+- synonym: QI
+  examples: |
+    - Quality indicator
+    - QI value
+    - Indicator value
+- synonym: Value
+  examples: |
+    - Numeric value
+    - Measurement value
+    - Value of interest
+- synonym: door_to_groin
+  examples: |
+    - D2G
+    - D2G time
+    - DTG
+    - DGT
+    - groin puncture time
+    - time to groin intervention
 - synonym: color
   examples: |
     - colour
@@ -590,3 +615,28 @@ nlu:
   examples: |
     - line
     - bar
+- lookup: year
+  examples: |
+    - all
+    - 2018
+    - 2019
+    - 2020
+    - 2021
+    - 2022
+    - 2023
+- lookup: quarter
+  examples: |
+    - all
+    - Q1
+    - Q2
+    - Q3
+    - Q4
+- lookup: hospital
+  examples: |
+    - Evergreen
+    - Riverside
+    - Vitality
+    - Horizon
+    - Summit
+    - Pineview
+    - WellSpring

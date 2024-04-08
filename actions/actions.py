@@ -34,6 +34,7 @@ ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in"
 ALLOWED_COLORS = ["red", "green", "blue"]
 ALLOWED_AXIS = ["x-axis", "y-axis"]
 ALLOWED_AXIS_VALUES = ["age","thrombolysis","stroke_type","onset_to_door","gender","hospital_stroke","prestroke_mrs"]
+ALLOWED_YEARS = ["all", "2018", "2019", "2020", "2021","2022","2023"]
 
 class ActionChangePlottype(Action):
 
@@ -135,6 +136,29 @@ class ActionChangeSelectedvalue(Action):
             dispatcher.utter_message(text=f"OK! I will create a {selected_value} plot.")
 
         PLOT_HANDLER.change_arg("variable", selected_value)
+
+        response = PLOT_HANDLER.edit_data()
+        dispatcher.utter_message(text=f"{response}")
+
+        return []
+
+class ActionChangeYear(Action):
+
+    def name(self) -> Text:
+        return "action_change_year"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        selected_year = tracker.get_slot("year")
+
+        if selected_year:
+            if selected_year.lower() not in ALLOWED_SELECTED_VALUES:
+                dispatcher.utter_message(text=f"Sorry, I only have data for the following years: {'/'.join(ALLOWED_YEARS)}")
+                return {"selected_value": None}
+            dispatcher.utter_message(text=f"OK! Year has been changed to {selected_year}.")
+
+        PLOT_HANDLER.change_arg("year", selected_year)
 
         response = PLOT_HANDLER.edit_data()
         dispatcher.utter_message(text=f"{response}")

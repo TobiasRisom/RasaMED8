@@ -40,9 +40,10 @@
       "legend": true
     },
     "plot_type": "line",
-    "color": "green",
+    "color": "blue",
     "x-value": "age",
-    "y-value": "door_to_needle",
-    "selectedAxis": "y-axis"
+    "y-value": "nihss_score",
+    "selectedAxis": "x-axis",
+    "year": 2019
   }
 }

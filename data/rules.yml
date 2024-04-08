@@ -23,6 +23,7 @@ rules:
       - requested_slot: null
   - action: action_change_plottype
   - action: action_change_selectedvalue
+  - action: action_change_year
 
 #- rule: set plot type
 #  steps:

@@ -7,14 +7,16 @@ intents:
 - intent_change_color
 - intent_change_data
 - intent_create_plot
+- intent_select_year
 - reject
 - request_create_plot_form
 entities:
+- year
+- selected_value
+- plot_type
 - selected_axis
 - axis_value
-- selected_value
 - color
-- plot_type
 slots:
   plot_type:
     type: text
@@ -34,6 +36,12 @@ slots:
     mappings:
     - type: from_entity
       entity: color
+  year:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: year
   selected_axis:
     type: text
     influence_conversation: true
@@ -51,6 +59,7 @@ forms:
     required_slots:
     - plot_type
     - selected_value
+    - year
   change_color_form:
     required_slots:
     - color
@@ -58,6 +67,9 @@ forms:
     required_slots:
     - selected_axis
     - axis_value
+  change_year_form:
+    required_slots:
+    - year
 responses:
   utter_greet:
   - text: Hey! How are you?
@@ -79,7 +91,7 @@ responses:
   utter_ask_selected_value:
   - text: What value you want to see?
   utter_ask_selected_axisvalue:
-    - text: What value you want to see?
+  - text: What value you want to see?
   utter_submit_create_plot_form:
   - text: Great! I will create the plot with the specified details. Is there anything else I can help you with?
   utter_ask_for_color:
@@ -87,8 +99,14 @@ responses:
   utter_change_color:
   - text: Sure thing! The color will be changed!
   utter_change_axis:
-  - text: okay, which axis do you want changed?
+  - text: Okay, which axis do you want changed?
+  utter_ask_change_year:
+  - text: What year do you want to get data from? (Type specific year or "all")
+  utter_change_year:
+  - text: Year has been set!
 actions:
+- utter_ask_change_year
+- action_change_plottype
 - utter_ask_selected_value
 - action_change_axis
 - utter_change_axis
@@ -96,9 +114,10 @@ actions:
 - action_change_color
 - action_prefill_slots
 - ActionHelloWorld
-- action_change_plottype
 - action_change_selectedvalue
 - utter_submit_create_plot_form
+- action_change_year
+- utter_change_year
 - action_init
 - utter_greet
 - utter_did_that_help

@@ -51,26 +51,66 @@ class PlotHandler:
         with open(self.json_file_path, 'r') as json_file:
             config = json.load(json_file)
 
+        print("Config values:")
+        print(config['visualization']['x-value'])
+        print(config['visualization']['y-value'])
+
         # From plot_args.json, get the "x-value" and "y-value" under "visualization"
         var_x = config['visualization']['x-value']
         var_y = config['visualization']['y-value']
+        year = config['visualization']['year']
 
         # Filter the DataFrame to keep only the specified variables (var_x and var_y)
-        filtered_dataframe = self.data[self.data['variable'].isin([var_x, var_y])]
+        filtered_dataframe_x = self.data[self.data['variable'].isin([var_x])]
+        filtered_dataframe_y = self.data[self.data['variable'].isin([var_y])]
+
+        print("Filtered DataFrames:")
+        print(filtered_dataframe_x.head())
+        print(filtered_dataframe_y.head())
+
+        #if year != 'all':
+            #filtered_dataframe = filtered_dataframe[filtered_dataframe['YQ'].split()[0].isin([year])]
+
 
         # Only gets data with "Riverside" at the "site_id" (Should probably be changed later)
-        filtered_dataframe = filtered_dataframe[filtered_dataframe['site_id'].isin(["Riverside"])]
+        filtered_dataframe_x = filtered_dataframe_x[filtered_dataframe_x['site_id'].isin(["Riverside"])]
+        filtered_dataframe_y = filtered_dataframe_y[filtered_dataframe_y['site_id'].isin(["Riverside"])]
+
+        print("After Riverside Filter DataFrames:")
+        print(filtered_dataframe_x.head())
+        print(filtered_dataframe_y.head())
 
         # if filtered_dataframe['ATTRIBUTE_TYPE'].iloc[0] == 'Quantitative' or filtered_dataframe['ATTRIBUTE_TYPE'].iloc[0] == 'Categorical_binary':
-        filtered_dataframe['Value'] = filtered_dataframe['Value'].astype(float).dropna()
+        filtered_dataframe_x['Value'] = filtered_dataframe_x['Value'].astype(float).dropna()
+        filtered_dataframe_y['Value'] = filtered_dataframe_y['Value'].astype(float).dropna()
+
+        print("After DropNA Filter DataFrames:")
+        print(filtered_dataframe_x.head())
+        print(filtered_dataframe_y.head())
 
         # Group by 'YQ' and 'variable', and calculate median for each category
-        aggregated_dataframe = filtered_dataframe.groupby(['YQ', 'variable'])['Value'].median().unstack().reset_index()
-        # Rename columns to 'x_value' and 'y_value'
-        aggregated_dataframe.rename(columns={var_x: 'x_value', var_y: 'y_value'}, inplace=True)
+        #aggregated_dataframe_x = filtered_dataframe_x.groupby(['subject_id','variable'])['Value'].median()
+        #aggregated_dataframe_y = filtered_dataframe_y.groupby(['subject_id', 'variable'])['Value'].median()
+
+        # Merge dataframes on subject_id
+        merged_dataframe = pd.merge(filtered_dataframe_x, filtered_dataframe_y, on='subject_id').dropna
+
+        print("Merge DataFrames:")
+        print(merged_dataframe.head())
+
+        final_dataframe = merged_dataframe[['subject_id', 'Value_x', 'Value_y']]
+
+        print("Final DataFrame:")
+        print(final_dataframe.head())
+
+        # Reshape the dataframe
+        #final_dataframe = merged_dataframe.pivot(index='subject_id', columns='variable', values=['Value']).reset_index()
+
+        # Rename the columns to x_value and y_value
+        #final_dataframe.columns = ['subject_id', 'x_value', 'v_value']
 
         # Creates data.json with the new values
-        json_data = aggregated_dataframe.to_json(orient='records')
+        json_data = final_dataframe.to_json(orient='records')
 
         with open(self.json_data_path, 'w') as json_file:
             json_file.write(json_data)
