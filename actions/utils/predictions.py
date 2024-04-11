@@ -133,3 +133,47 @@ sorted_indices = np.argsort(mean_shap_values)[::-1][:10]
 print("Top", 10, "most important features::::::::::::::::::::::::::::::::::::::::::::::")
 for i in sorted_indices[:10]:
     print(f"{predictor_variables_filtered_names[i]}: {mean_shap_values[i]}")
+
+# Fill in the values for the new patient's features
+new_patient_features = {
+    'age': 65,
+    'nihss_score': 2,
+    'covid_test': 1,
+    'door_to_imaging': 44,
+    'bleeding_source': 1,
+    'risk_smoker': 1,
+    'cholesterol': 3.4
+}
+
+# Create a DataFrame for the new patient with the same columns as the imputed data
+new_patient_df = pd.DataFrame(columns=data_wide.columns, index=[0])
+
+#for feature, value in new_patient_features.items():
+    #if feature in predictor_variables_filtered:
+        #new_patient_df[feature] = value
+
+print("Data Wide:")
+print(data_wide.iloc[0])
+print("New Patient:")
+print(new_patient_df.iloc[0])
+
+new_patient_df = new_patient_df.iloc[:, :-2]
+
+# Use the imputer to fill missing values in the new patient data
+new_patient_df_imputed = pd.DataFrame(imputer.transform(new_patient_df), columns=new_patient_df.columns)
+
+# Convert the imputed array back to a DataFrame
+new_patient_df_imputed = pd.DataFrame(new_patient_df_imputed, columns=predictor_variables_filtered)
+
+print("New Patient Imputed:")
+print(new_patient_df_imputed.iloc[0])
+
+# Use the trained model to predict the target variable for the new patient
+predicted_value = gbr.predict(new_patient_df_imputed)
+
+print("Mean target variable:", data_wide[target_variable].mean())
+print("Predicted target variable value for the new patient:", predicted_value)
+
+
+
+
