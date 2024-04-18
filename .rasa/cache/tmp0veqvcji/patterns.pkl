@@ -1,0 +1,6 @@
+[
+  {
+    "name": "plot_type",
+    "pattern": "(\\bline\\b|\\bbar\\b)"
+  }
+]

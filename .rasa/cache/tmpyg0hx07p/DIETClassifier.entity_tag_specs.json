@@ -1,0 +1,44 @@
+[
+  {
+    "tag_name": "entity",
+    "ids_to_tags": {
+      "1": "B-axis_value",
+      "2": "I-axis_value",
+      "3": "L-axis_value",
+      "4": "U-axis_value",
+      "5": "B-color",
+      "6": "I-color",
+      "7": "L-color",
+      "8": "U-color",
+      "9": "B-plot_type",
+      "10": "I-plot_type",
+      "11": "L-plot_type",
+      "12": "U-plot_type",
+      "13": "B-selected_value",
+      "14": "I-selected_value",
+      "15": "L-selected_value",
+      "16": "U-selected_value",
+      "0": "O"
+    },
+    "tags_to_ids": {
+      "B-axis_value": 1,
+      "I-axis_value": 2,
+      "L-axis_value": 3,
+      "U-axis_value": 4,
+      "B-color": 5,
+      "I-color": 6,
+      "L-color": 7,
+      "U-color": 8,
+      "B-plot_type": 9,
+      "I-plot_type": 10,
+      "L-plot_type": 11,
+      "U-plot_type": 12,
+      "B-selected_value": 13,
+      "I-selected_value": 14,
+      "L-selected_value": 15,
+      "U-selected_value": 16,
+      "O": 0
+    },
+    "num_tags": 17
+  }
+]

@@ -6,6 +6,8 @@ intents:
 - init
 - intent_change_color
 - intent_change_data
+- intent_change_x_value
+- intent_change_y_value
 - intent_create_plot
 - intent_select_year
 - reject
@@ -65,7 +67,6 @@ forms:
     - color
   change_axis_form:
     required_slots:
-    - selected_axis
     - axis_value
   change_year_form:
     required_slots:
@@ -105,11 +106,15 @@ responses:
   utter_change_year:
   - text: Year has been set!
 actions:
+- utter_ask_selected_axis_value
+- utter_change_axis
+- action_change_Xaxis
 - utter_ask_change_year
 - action_change_plottype
 - utter_ask_selected_value
-- action_change_axis
-- utter_change_axis
+- action_change_Yaxis
+- utter_select_axis
+- utter_select_datapoint
 - utter_ask_for_color
 - action_change_color
 - action_prefill_slots

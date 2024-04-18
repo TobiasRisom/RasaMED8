@@ -51,10 +51,6 @@ class PlotHandler:
         with open(self.json_file_path, 'r') as json_file:
             config = json.load(json_file)
 
-        print("Config values:")
-        print(config['visualization']['x-value'])
-        print(config['visualization']['y-value'])
-
         # From plot_args.json, get the "x-value" and "y-value" under "visualization"
         var_x = config['visualization']['x-value']
         var_y = config['visualization']['y-value']
