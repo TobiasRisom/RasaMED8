@@ -93,15 +93,15 @@ class PlotHandler:
         #aggregated_dataframe_y = filtered_dataframe_y.groupby(['subject_id', 'variable'])['Value'].median()
 
         # Merge dataframes on subject_id
-        merged_dataframe = pd.merge(filtered_dataframe_x, filtered_dataframe_y, on='subject_id').dropna
+        merged_dataframe = pd.merge(filtered_dataframe_x, filtered_dataframe_y, on='subject_id').dropna()
 
-        print("Merge DataFrames:")
-        print(merged_dataframe.head())
+        #print("Merge DataFrames:")
+        #print(merged_dataframe.head())
 
         final_dataframe = merged_dataframe[['subject_id', 'Value_x', 'Value_y']]
 
-        print("Final DataFrame:")
-        print(final_dataframe.head())
+        #print("Final DataFrame:")
+        #print(final_dataframe.head())
 
         # Reshape the dataframe
         #final_dataframe = merged_dataframe.pivot(index='subject_id', columns='variable', values=['Value']).reset_index()

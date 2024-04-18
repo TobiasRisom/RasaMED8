@@ -41,7 +41,7 @@
     },
     "plot_type": "line",
     "color": "blue",
-    "x-value": "age",
+    "x-value": "three_m_mrs",
     "y-value": "nihss_score",
     "selectedAxis": "x-axis",
     "year": 2019

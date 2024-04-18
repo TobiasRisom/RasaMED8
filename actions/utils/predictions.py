@@ -171,7 +171,7 @@ print(new_patient_df_imputed.iloc[0])
 # Use the trained model to predict the target variable for the new patient
 predicted_value = gbr.predict(new_patient_df_imputed)
 
-print("Mean target variable:", data_wide[target_variable].mean())
+print("Mean target variable:", data_wide[target_variable].median())
 print("Predicted target variable value for the new patient:", predicted_value)
 
 
