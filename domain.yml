@@ -7,12 +7,14 @@ intents:
 - intent_change_color
 - intent_change_data
 - intent_create_plot
+- intent_predict_values
 - intent_select_year
 - reject
 - request_create_plot_form
 entities:
-- year
+- subject_id
 - selected_value
+- year
 - plot_type
 - selected_axis
 - axis_value
@@ -54,6 +56,12 @@ slots:
     mappings:
     - type: from_entity
       entity: axis_value
+  subject_id:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: subject_id
 forms:
   create_plot_form:
     required_slots:
@@ -70,6 +78,10 @@ forms:
   change_year_form:
     required_slots:
     - year
+  prediction_form:
+    required_slots:
+    - subject_id
+    - selected_value
 responses:
   utter_greet:
   - text: Hey! How are you?
@@ -104,7 +116,16 @@ responses:
   - text: What year do you want to get data from? (Type specific year or "all")
   utter_change_year:
   - text: Year has been set!
+  utter_prediction_response:
+  - text: Sure thing, I can do a prediction for you!
+  utter_prediction_ask_for_subject_id:
+  - text: Please provide the subject ID that you want to predict a value for.
+  utter_prediction_ask_for_value:
+  - text: Please provide the value you want to predict.
+  utter_prediction_done:
+  - text: Prediction done!
 actions:
+- action_predict_value
 - utter_ask_change_year
 - action_change_plottype
 - utter_ask_selected_value

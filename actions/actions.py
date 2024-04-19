@@ -8,6 +8,7 @@ from rasa.core.actions.forms import FormAction
 # This is a simple example for a custom action which utters "Hello World!"
 
 from actions.utils import plot_handler
+from actions.utils import predictions
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
@@ -86,6 +87,43 @@ class ActionChangeColor(Action):
 
         response = PLOT_HANDLER.edit_data()
         dispatcher.utter_message(text=f"{response}")
+
+        return []
+
+class ActionPredictValue(Action):
+    def name(self) -> Text:
+        return "action_predict_value"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        value = tracker.get_slot("selected_value")
+        subject = tracker.get_slot("subject_id")
+
+        if value:
+            if value.lower() not in ALLOWED_SELECTED_VALUES:
+                dispatcher.utter_message(text=f"Sorry, I don't recognize that value.")
+                return {"selected_value": None}
+
+        if subject:
+            if subject.lower() != 'iamafakepatient':
+                dispatcher.utter_message(text=f"Sorry, I do not recognize the patient id.")
+                return {"subject_id": None}
+
+        dispatcher.utter_message(text=f"OK! Predicting {value} for {subject}...")
+
+        PLOT_HANDLER.change_arg("selected_value", value)
+        PLOT_HANDLER.change_arg("subject_id", subject)
+
+        prediction_value, feature_list, feature_response = predictions.prediction_and_feature_importance()
+        dispatcher.utter_message(text=f"Response from predictions: {feature_response}")  # 200 for success
+
+        response = PLOT_HANDLER.send_args()
+        dispatcher.utter_message(text=f"Response from send_args: {response}") # 200 for success
+
+        dispatcher.utter_message(text=f"Prediction is **{prediction_value}** for {value}, {subject}")
+
+        dispatcher.utter_message(text=f"Graph is displaying SHAP values for the 10 most important related features for {value}!")
 
         return []
 

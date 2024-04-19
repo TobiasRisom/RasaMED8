@@ -365,6 +365,13 @@ nlu:
     - show [all](year) [all](quarter)
     - i want the data from [2021](year) [all](quarter)
     - the year [2021](year)
+- intent: intent_predict_values
+  examples: |
+    - I want to predict [door_to_needle](selected_value) for [iamafakepatient](subject_id)
+    - Predict a value for [three_m_mrs](selected_value)
+    - Predict [nihss_score](selected_value) for [iamafakepatient](subject_id)
+    - Predict for patient [iamafakepatient](subject_id) the value [three_m_mrs](selected_value)
+    - I want to predict [door_to_needle](selected_value) for [iamafakepatient](subject_id)
 - synonym: door_to_needle
   examples: |
     - DNT
