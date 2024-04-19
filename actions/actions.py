@@ -81,6 +81,7 @@ class ActionChangeColor(Action):
             dispatcher.utter_message(text=f"OK! The color will be changed to {color}.")
 
         PLOT_HANDLER.change_arg("color", color)
+        PLOT_HANDLER.change_arg("data_type", "comparison") # What type of data do we have? Comparison = Compare X to Y
 
         response = PLOT_HANDLER.send_args()
         dispatcher.utter_message(text=f"{response}")
@@ -114,6 +115,7 @@ class ActionPredictValue(Action):
 
         PLOT_HANDLER.change_arg("selected_value", value)
         PLOT_HANDLER.change_arg("subject_id", subject)
+        PLOT_HANDLER.change_arg("data_type", "shap")  # What type of data do we have? shap = shap values
 
         prediction_value, feature_list, feature_response = predictions.prediction_and_feature_importance()
         dispatcher.utter_message(text=f"Response from predictions: {feature_response}")  # 200 for success

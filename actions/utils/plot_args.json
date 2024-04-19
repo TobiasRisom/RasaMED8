@@ -46,6 +46,7 @@
     "selectedAxis": "x-axis",
     "year": 2019,
     "selected_value": "door_to_needle",
-    "subject_id": "iamafakepatient"
+    "subject_id": "iamafakepatient",
+    "data_type": "shap"
   }
 }

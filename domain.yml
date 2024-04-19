@@ -14,8 +14,8 @@ intents:
 - reject
 - request_create_plot_form
 entities:
-- subject_id
 - selected_value
+- subject_id
 - year
 - plot_type
 - selected_axis
@@ -126,10 +126,10 @@ responses:
   utter_prediction_done:
   - text: Prediction done!
 actions:
+- action_predict_value
 - utter_ask_selected_axis_value
 - utter_change_axis
 - action_change_Xaxis
-- action_predict_value
 - utter_ask_change_year
 - action_change_plottype
 - utter_ask_selected_value

@@ -86,3 +86,15 @@ stories:
     - slot_was_set:
       - subject_id: iamafakepatient
     - action: action_predict_value
+
+  - story: interactive_story_2
+    steps:
+    - intent: intent_predict_values
+      entities:
+      - selected_value: three_m_mrs
+      - subject_id: iamafakepatient
+    - slot_was_set:
+      - selected_value: three_m_mrs
+    - slot_was_set:
+      - subject_id: iamafakepatient
+    - action: action_predict_value

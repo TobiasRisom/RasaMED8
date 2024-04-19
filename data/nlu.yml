@@ -223,7 +223,7 @@ nlu:
     - i want to change the [x-axis](selected_axis)
     - change the [x-axis](selected_axis) to [prestroke_mrs](axis_value)
     - [DTN]{"entity": "axis_value", "value": "door_to_needle"}
-    - [DNT]{"entity": "axis_value", "value": "door_to_needle"} 
+    - [DNT]{"entity": "axis_value", "value": "door_to_needle"}
     - [door to needle]{"entity": "axis_value", "value": "door_to_needle"}
     - [door to needle time]{"entity": "axis_value", "value": "door_to_needle"}
     - [needle time]{"entity": "axis_value", "value": "door_to_needle"}
@@ -367,13 +367,13 @@ nlu:
     - Predict a value for [three_m_mrs](selected_value)
     - Predict [nihss_score](selected_value) for [iamafakepatient](subject_id)
     - Predict for patient [iamafakepatient](subject_id) the value [three_m_mrs](selected_value)
-    - I want to predict [door_to_needle](selected_value) for [iamafakepatient](subject_id)
+    - I want to predict [three_m_mrs](selected_value) for [iamafakepatient](subject_id)
 - synonym: door_to_needle
   examples: |
     - DNT
     - DTN
-    - door to needle time
     - door to needle
+    - door to needle time
     - needle time
     - thrombolysis time
 - synonym: nihss_score
