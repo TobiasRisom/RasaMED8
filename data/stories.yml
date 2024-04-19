@@ -49,44 +49,31 @@ stories:
       - color: red
     - action: action_change_color
 
-  - story: changeAxis_story_1
+  - story: change_y_story
     steps:
       - intent: intent_change_data
       - action: utter_change_axis
-      - intent: intent_change_data
+      - intent: intent_change_y_value
+      - action: utter_ask_selected_axis_value
+      - intent: intent_change_y_value
         entities:
-          - selected_axis: x-axis
-          - axis_value: age
+          - axis_value: onset_to_door
       - slot_was_set:
-          - axis_value: age
-      - slot_was_set:
-          - selected_axis: x-axis
-      - action: action_change_axis
+          - axis_value: onset_to_door
+      - action: action_change_Yaxis
 
-  - story: plot_with_year_story
+  - story: change_x_story
     steps:
-    - intent: intent_create_plot
-      entities:
-      - plot_type: line
-      - selected_value: age
-    - slot_was_set:
-      - plot_type: line
-    - slot_was_set:
-      - selected_value: age
-    - action: create_plot_form
-    - active_loop: create_plot_form
-    - slot_was_set:
-      - plot_type: line
-    - slot_was_set:
-      - selected_value: age
-    - slot_was_set:
-      - requested_slot: year
-    - intent: intent_select_year
-      entities:
-      - year: '2021'
-    - slot_was_set:
-      - year: '2021'
-    - action: action_change_plottype
+      - intent: intent_change_data
+      - action: utter_change_axis
+      - intent: intent_change_x_value
+      - action: utter_ask_selected_axis_value
+      - intent: intent_change_x_value
+        entities:
+          - axis_value: onset_to_door
+      - slot_was_set:
+          - axis_value: onset_to_door
+      - action: action_change_Xaxis
 
   - story: interactive_story_1
     steps:

@@ -127,35 +127,55 @@ class ActionPredictValue(Action):
 
         return []
 
-class ActionChangeAxis(Action):
+class ActionChangeXAxis(Action):
+
     def name(self) -> Text:
-        return "action_change_axis"
+        return "action_change_Xaxis"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        selectedAxis = tracker.get_slot("selected_axis")
-        axisValue = tracker.get_slot("axis_value")
+        axis_value = tracker.get_slot("axis_value")
 
-        print(selectedAxis)
-        print(axisValue)
+        if axis_value:
+            if axis_value.lower() not in ALLOWED_SELECTED_VALUES:
+                dispatcher.utter_message(text=f"Sorry, I can only use the available data points")
+                return {"axis_value": None}
+            dispatcher.utter_message(text=f"OK! I will change x to be {axis_value}.")
 
-        if selectedAxis:
-            if selectedAxis.lower() not in ALLOWED_AXIS or axisValue.lower() not in ALLOWED_AXIS_VALUES:
+        PLOT_HANDLER.change_arg("x-value", axis_value)
+
+        response = PLOT_HANDLER.edit_data()
+        dispatcher.utter_message(text=f"{response}")
+
+        return []
+class ActionChangeYAxis(Action):
+
+    def name(self) -> Text:
+        return "action_change_Yaxis"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        axis_value = tracker.get_slot("axis_value")
+
+        print(axis_value)
+
+        if axis_value:
+            if axis_value.lower() not in ALLOWED_SELECTED_VALUES:
                 dispatcher.utter_message(text=f"Sorry, I can only use the values in the data.")
-                return {"selectedAxis": None}
-            dispatcher.utter_message(text=f"OK! The {selectedAxis} will be changed.")
+                return {"axis_value": None}
+            dispatcher.utter_message(text=f"OK! The y-axis will be changed to show {axis_value}")
 
-        PLOT_HANDLER.change_arg("selectedAxis", selectedAxis)
-
-        if selectedAxis == "x-axis":
-            PLOT_HANDLER.change_arg("x-value", axisValue)
-        elif selectedAxis == "y-axis":
-            PLOT_HANDLER.change_arg("y-value", axisValue)
+        PLOT_HANDLER.change_arg("y-value", axis_value)
 
         response = PLOT_HANDLER.send_args()
         dispatcher.utter_message(text=f"{response}")
 
+        response = PLOT_HANDLER.edit_data()
+        dispatcher.utter_message(text=f"{response}")
+
+        return []
 
 class ActionChangeSelectedvalue(Action):
 

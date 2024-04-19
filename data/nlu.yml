@@ -185,10 +185,6 @@ nlu:
     - [thrombolytic treatment]{"entity": "selected_value", "value": "thrombolysis"}
     - [tissue plasminogen activator (tPA) therapy]{"entity": "selected_value", "value": "thrombolysis"}
     - [fibrinolytic therapy]{"entity": "selected_value", "value": "thrombolysis"}
-    - make a plot
-    - a [line](plot_type) plot please
-    - [onset_to_door](selected_value)
-    - please make a [line](plot_type) plot for [age](selected_value)
 - intent: intent_change_color
   examples: |
     - Change color
@@ -227,7 +223,7 @@ nlu:
     - i want to change the [x-axis](selected_axis)
     - change the [x-axis](selected_axis) to [prestroke_mrs](axis_value)
     - [DTN]{"entity": "axis_value", "value": "door_to_needle"}
-    - [DNT]{"entity": "axis_value", "value": "door_to_needle"}
+    - [DNT]{"entity": "axis_value", "value": "door_to_needle"} 
     - [door to needle]{"entity": "axis_value", "value": "door_to_needle"}
     - [door to needle time]{"entity": "axis_value", "value": "door_to_needle"}
     - [needle time]{"entity": "axis_value", "value": "door_to_needle"}
@@ -376,8 +372,8 @@ nlu:
   examples: |
     - DNT
     - DTN
-    - door to needle
     - door to needle time
+    - door to needle
     - needle time
     - thrombolysis time
 - synonym: nihss_score
@@ -600,24 +596,6 @@ nlu:
   examples: |
     - colour
     - hue
-- lookup: x
-  examples: |
-    - site_country
-    - site_name
-    - site_id
-    - discharge_year
-    - discharge_quarter
-    - YQ
-    - subject_id
-    - QI
-    - Value
-    - discharge_mrs
-    - prenotification
-    - imaging_done
-    - three_m_mrs
-    - gender
-    - occup_physiotherapy_received
-    - dysphagia_screening
 - lookup: plot_type
   examples: |
     - line
