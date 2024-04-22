@@ -248,6 +248,3 @@ def prediction_and_feature_importance():
     response = requests.post("http://localhost:3000/rasa-webhook", json=payload)
 
     return predicted_value, top_ten_features, response
-
-
-

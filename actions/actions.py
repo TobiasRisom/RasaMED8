@@ -16,6 +16,7 @@ from rasa_sdk.events import SlotSet
 from rasa_sdk.types import DomainDict
 
 # SOCKET = sockets.Socket()
+NEWPATIENTDATA = predictions.new_patient_features
 PLOT_HANDLER = plot_handler.PlotHandler()
 ALLOWED_PLOT_TYPES = ["line", "bar", "pie", "barh"]
 ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in", "department_type", "stroke_type",
@@ -34,8 +35,14 @@ ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in"
                            "hunt_hess_score"]
 ALLOWED_COLORS = ["red", "green", "blue"]
 ALLOWED_AXIS = ["x-axis", "y-axis"]
-ALLOWED_AXIS_VALUES = ["age","thrombolysis","stroke_type","onset_to_door","gender","hospital_stroke","prestroke_mrs"]
 ALLOWED_YEARS = ["all", "2018", "2019", "2020", "2021","2022","2023"]
+ALLOWED_FAKEIDS = ["imafakepatient"]
+def sendFPData():
+    for key, value in NEWPATIENTDATA.items():
+        PLOT_HANDLER.change_arg("FakePatient_"+str(key), value)
+
+    response = PLOT_HANDLER.send_args()
+    response = PLOT_HANDLER.edit_data()
 
 class ActionChangePlottype(Action):
 
@@ -129,54 +136,59 @@ class ActionPredictValue(Action):
 
         return []
 
-class ActionChangeXAxis(Action):
-
+class ActionCollectAndShowNewPaitentData(Action):
+    #Does not actually show data yet, but does collect it and send it to plot_args.json
     def name(self) -> Text:
-        return "action_change_Xaxis"
-
+        return "action_show_specified_fake_patient"
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        axis_value = tracker.get_slot("axis_value")
+        fake_patient_id = tracker.get_slot("fake_patient_id")
 
-        if axis_value:
-            if axis_value.lower() not in ALLOWED_SELECTED_VALUES:
-                dispatcher.utter_message(text=f"Sorry, I can only use the available data points")
-                return {"axis_value": None}
-            dispatcher.utter_message(text=f"OK! I will change x to be {axis_value}.")
+        print(fake_patient_id)
 
-        PLOT_HANDLER.change_arg("x-value", axis_value)
-
-        response = PLOT_HANDLER.edit_data()
-        dispatcher.utter_message(text=f"{response}")
-
+        if fake_patient_id:
+            if fake_patient_id.lower() not in ALLOWED_FAKEIDS:
+                dispatcher.utter_message(text=f"Sorry, I can only show the patients with missing data.")
+                return {"fake_patient_id": None}
+            dispatcher.utter_message(text=f"OK! here is the data for {fake_patient_id}")
+            sendFPData()
         return []
-class ActionChangeYAxis(Action):
 
+class ActionChangeDatabeingShowcased(Action):
     def name(self) -> Text:
-        return "action_change_Yaxis"
-
+        return "action_change_data"
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        axis_value = tracker.get_slot("axis_value")
+        selected_axis = tracker.get_slot("selected_axis")
+        axis_value = tracker.get_slot("selected_value")
 
+        print(selected_axis)
         print(axis_value)
 
-        if axis_value:
+        if axis_value and selected_axis:
             if axis_value.lower() not in ALLOWED_SELECTED_VALUES:
-                dispatcher.utter_message(text=f"Sorry, I can only use the values in the data.")
-                return {"axis_value": None}
-            dispatcher.utter_message(text=f"OK! The y-axis will be changed to show {axis_value}")
-
-        PLOT_HANDLER.change_arg("y-value", axis_value)
-
-        response = PLOT_HANDLER.send_args()
-        dispatcher.utter_message(text=f"{response}")
-
-        response = PLOT_HANDLER.edit_data()
-        dispatcher.utter_message(text=f"{response}")
-
+                dispatcher.utter_message(text=f"Sorry, I can only show data point that exist in the datasheet.")
+                axis_value = None
+                return {"selected_value": None}
+            if selected_axis.lower() not in ALLOWED_AXIS:
+                dispatcher.utter_message(text=f"Sorry, I can only show data point that exist in the datasheet.")
+                selected_axis = None
+                return {"selected_axis": None}
+            if axis_value and selected_axis:
+                dispatcher.utter_message(text=f"Okay, I will show {axis_value} along the {selected_axis}")
+                if selected_axis == "x-axis":
+                    PLOT_HANDLER.change_arg("x-value", axis_value)
+                elif selected_axis == "y-axis":
+                    PLOT_HANDLER.change_arg("y-value", axis_value)
+                selected_axis = None
+                axis_value = None
+                return {"selected_value": None, "selected_axis": None}
+        elif axis_value and selected_axis is None:
+            dispatcher.utter_message(text=f"Okay, which axis should I show {axis_value} along?")
+        elif selected_axis and axis_value is None:
+            dispatcher.utter_message(text=f"Okay, which data point should I show along the {selected_axis}?")
         return []
 
 class ActionChangeSelectedvalue(Action):

@@ -48,5 +48,16 @@
     "selected_value": "door_to_needle",
     "subject_id": "iamafakepatient",
     "data_type": "shap"
+    "x-value": "door_to_needle",
+    "y-value": "age",
+    "year": 2019,
+    "age": 65,
+    "FakePatient_age": 65,
+    "FakePatient_nihss_score": 2,
+    "FakePatient_covid_test": 1,
+    "FakePatient_door_to_imaging": 44,
+    "FakePatient_bleeding_source": 1,
+    "FakePatient_risk_smoker": 1,
+    "FakePatient_cholesterol": 3.4
   }
 }
