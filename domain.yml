@@ -6,20 +6,22 @@ intents:
 - init
 - intent_change_color
 - intent_change_data
-- intent_change_x_value
-- intent_change_y_value
 - intent_create_plot
 - intent_predict_values
 - intent_select_year
 - reject
 - request_create_plot_form
+- show_patient_data
 entities:
+- year
 - selected_value
 - subject_id
 - year
 - plot_type
 - selected_axis
-- axis_value
+- fake_patient_id
+- year
+- plot_type
 - color
 slots:
   plot_type:
@@ -52,12 +54,12 @@ slots:
     mappings:
     - type: from_entity
       entity: selected_axis
-  axis_value:
+  fake_patient_id:
     type: text
     influence_conversation: true
     mappings:
     - type: from_entity
-      entity: axis_value
+      entity: fake_patient_id
   subject_id:
     type: text
     influence_conversation: true
@@ -73,9 +75,6 @@ forms:
   change_color_form:
     required_slots:
     - color
-  change_axis_form:
-    required_slots:
-    - axis_value
   change_year_form:
     required_slots:
     - year
@@ -125,19 +124,24 @@ responses:
   - text: Please provide the value you want to predict.
   utter_prediction_done:
   - text: Prediction done!
+  utter_ask_selected_axis_value:
+  - text: Okay, which data point do you want to be shown?
+  utter_ask_to_specify_fake_patient:
+  - text: Okay, which patient's data do you want to see?
 actions:
 - action_prefill_slots
 - utter_greet
+- action_change_data
 - action_predict_value
 - utter_ask_selected_axis_value
+- utter_ask_selected_value
+- utter_ask_to_specify_fake_patient
+- action_show_specified_fake_patient
 - utter_change_axis
 - action_change_Xaxis
 - utter_ask_change_year
 - action_change_plottype
-- utter_ask_selected_value
 - action_change_Yaxis
-- utter_select_axis
-- utter_select_datapoint
 - utter_ask_for_color
 - action_change_color
 - ActionHelloWorld
