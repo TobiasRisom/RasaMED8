@@ -13,15 +13,12 @@ intents:
 - request_create_plot_form
 - show_patient_data
 entities:
-- year
 - selected_value
 - subject_id
-- year
 - plot_type
 - selected_axis
 - fake_patient_id
 - year
-- plot_type
 - color
 slots:
   plot_type:
@@ -154,6 +151,10 @@ actions:
 - utter_happy
 - utter_goodbye
 - utter_iamabot
+- intent_create_plot
+- intent_change_color
+- show_patient_data
+- intent_change_data
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

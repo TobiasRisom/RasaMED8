@@ -22,7 +22,7 @@ class PlotHandler:
         self.json_data_path = "actions/utils/data.json"
         self.website_url = "http://localhost:3000/rasa-webhook"
         #self.website_url = "https://dashboards.create.aau.dk/rasa-webhook"
-        self.data = pd.read_csv("actions/utils/dataREanonymized_long.csv")
+        self.data = pd.read_csv("actions/utils/dataREanonymized_long2.csv")
 
     def change_arg(self, arg, value):
         with open(self.json_file_path, 'r') as json_file:
@@ -69,8 +69,8 @@ class PlotHandler:
 
 
         # Only gets data with "Riverside" at the "site_id" (Should probably be changed later)
-        filtered_dataframe_x = filtered_dataframe_x[filtered_dataframe_x['site_id'].isin(["Riverside"])]
-        filtered_dataframe_y = filtered_dataframe_y[filtered_dataframe_y['site_id'].isin(["Riverside"])]
+        #filtered_dataframe_x = filtered_dataframe_x[filtered_dataframe_x['site_id'].isin(["Riverside"])]
+        #filtered_dataframe_y = filtered_dataframe_y[filtered_dataframe_y['site_id'].isin(["Riverside"])]
 
         print("After Riverside Filter DataFrames:")
         print(filtered_dataframe_x.head())
@@ -91,13 +91,13 @@ class PlotHandler:
         # Merge dataframes on subject_id
         merged_dataframe = pd.merge(filtered_dataframe_x, filtered_dataframe_y, on='subject_id').dropna()
 
-        #print("Merge DataFrames:")
-        #print(merged_dataframe.head())
+        print("Merge DataFrames:")
+        print(merged_dataframe.head())
 
         final_dataframe = merged_dataframe[['subject_id', 'Value_x', 'Value_y']]
 
-        #print("Final DataFrame:")
-        #print(final_dataframe.head())
+        print("Final DataFrame:")
+        print(final_dataframe.head())
 
         # Reshape the dataframe
         #final_dataframe = merged_dataframe.pivot(index='subject_id', columns='variable', values=['Value']).reset_index()

@@ -16,7 +16,7 @@ from rasa_sdk.events import SlotSet
 from rasa_sdk.types import DomainDict
 
 # SOCKET = sockets.Socket()
-NEWPATIENTDATA = predictions.new_patient_features
+NEWPATIENTDATA = predictions.set_patient_variables("iamafakepatient")
 PLOT_HANDLER = plot_handler.PlotHandler()
 ALLOWED_PLOT_TYPES = ["line", "bar", "pie", "barh"]
 ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in", "department_type", "stroke_type",
@@ -138,6 +138,18 @@ class ActionPredictValue(Action):
         PLOT_HANDLER.change_arg("selected_value", value)
         PLOT_HANDLER.change_arg("subject_id", subject)
         PLOT_HANDLER.change_arg("data_type", "shap")  # What type of data do we have? shap = shap values
+
+
+        patient_values = predictions.set_patient_variables(subject)
+
+        # If the value we're predicting is discharge_mrs, we need to check if the features we are predicting it from
+        # are missing or not
+        if value == "discharge_mrs":
+            missing_value_check, missing_values = predictions.check_nan_variables(patient_values)
+            if missing_value_check == False:
+                dispatcher.utter_message(text=f"Missing values! Cannot predict discharge_mrs.")
+                dispatcher.utter_message(text=f"List of missing values: {missing_values}")
+                return[]
 
         prediction_value, feature_list, feature_response = predictions.prediction_and_feature_importance()
         dispatcher.utter_message(text=f"Response from predictions: {feature_response}")  # 200 for success

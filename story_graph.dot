@@ -2,6 +2,7 @@ digraph  {
 0 [class="start active", fillcolor=green, fontsize=12, label=START, style=filled];
 "-1" [class=end, fillcolor=red, fontsize=12, label=END, style=filled];
 1 [class=active, fontsize=12, label=action_session_start];
+<<<<<<< Updated upstream
 2 [class=active, fontsize=12, label=action_change_data];
 4 [class="intent dashed active", label="  ?  ", shape=rect];
 5 [class="intent active", fillcolor=lightblue, label="/intent_change_data", shape=rect, style=filled];
@@ -13,4 +14,16 @@ digraph  {
 2 -> 6  [class=active, key=0];
 5 -> 2  [class=active, key=0];
 6 -> 2  [class=active, key=0];
+=======
+2 [class=active, fontsize=12, label=action_prefill_slots];
+3 [class=active, fontsize=12, label=utter_greet];
+4 [class="intent dashed active", label="  ?  ", shape=rect];
+5 [class="intent active", fillcolor=lightblue, label="/greet", shape=rect, style=filled];
+0 -> "-1"  [class="", key=NONE, label=""];
+0 -> 1  [class=active, key=NONE, label=""];
+1 -> 5  [class=active, key=0];
+2 -> 3  [class=active, key=NONE, label=""];
+3 -> 4  [class=active, key=NONE, label=""];
+5 -> 2  [class=active, key=0];
+>>>>>>> Stashed changes
 }

@@ -1,4 +1,5 @@
 import base64
+import math
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -29,12 +30,7 @@ ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in"
                            "stroke_mimics_diagnosis", "prestroke_mrs", "tici_score", "prenotification", "ich_score",
                            "hunt_hess_score"]
 
-def set_patient_variables():
-    with open("actions/utils/plot_args.json", 'r') as json_file:
-        config = json.load(json_file)
-
-    target_variable = config['visualization']['selected_value']
-    subject_id = config['visualization']['subject_id']
+def set_patient_variables(subject_id):
     # Sets the values for the patient based on the id
     if subject_id == 'iamafakepatient':
         # Fill in the values for the new patient's features
@@ -48,6 +44,14 @@ def set_patient_variables():
             'cholesterol': 3.4,
         }
 
+
+# A check to see if any NaN values need to be predicted before we can move on with predicting the MRS
+def check_nan_variables(patient_variables):
+    nan_variables = [key for key, value in patient_variables.items() if isinstance(value, float) and math.isnan(value)]
+    if nan_variables:
+        return False, nan_variables
+    else:
+        return True, None
 
 def prediction_and_feature_importance():
 
