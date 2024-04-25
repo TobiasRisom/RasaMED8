@@ -40,7 +40,7 @@
       "legend": true
     },
     "plot_type": "line",
-    "color": "blue",
+    "color": "red",
     "x-value": "three_m_mrs",
     "y-value": "nihss_score",
     "selectedAxis": "x-axis",
