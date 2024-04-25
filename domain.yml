@@ -85,7 +85,7 @@ forms:
     - selected_value
 responses:
   utter_greet:
-  - text: Hey! How are you?
+  - text: 'Hi! I am Rasa, a chatbot designed to help you sort through patient data!'
   utter_cheer_up:
   - text: 'Here is something to cheer you up:'
     image: https://i.imgur.com/nGF1K8f.jpg
@@ -126,6 +126,8 @@ responses:
   utter_prediction_done:
   - text: Prediction done!
 actions:
+- action_prefill_slots
+- utter_greet
 - action_predict_value
 - utter_ask_selected_axis_value
 - utter_change_axis
@@ -138,14 +140,12 @@ actions:
 - utter_select_datapoint
 - utter_ask_for_color
 - action_change_color
-- action_prefill_slots
 - ActionHelloWorld
 - action_change_selectedvalue
 - utter_submit_create_plot_form
 - action_change_year
 - utter_change_year
 - action_init
-- utter_greet
 - utter_did_that_help
 - utter_happy
 - utter_goodbye

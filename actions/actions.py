@@ -37,6 +37,21 @@ ALLOWED_AXIS = ["x-axis", "y-axis"]
 ALLOWED_AXIS_VALUES = ["age","thrombolysis","stroke_type","onset_to_door","gender","hospital_stroke","prestroke_mrs"]
 ALLOWED_YEARS = ["all", "2018", "2019", "2020", "2021","2022","2023"]
 
+class ActionGreeting(Action):
+
+    def name(self) -> Text:
+        return "ActionHelloWorld"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(text="Hi! I am Rasa, a chatbot designed to help you sort through patient data!")
+        dispatcher.utter_message(text="Here is a list of actions I can perform:")
+        dispatcher.utter_message(text="- Spiders")
+        dispatcher.utter_message(text="- Spiders")
+        dispatcher.utter_message(text="- Spiders")
+
+        return []
 class ActionChangePlottype(Action):
 
     def name(self) -> Text:

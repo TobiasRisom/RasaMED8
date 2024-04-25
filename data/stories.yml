@@ -98,3 +98,12 @@ stories:
     - slot_was_set:
       - subject_id: iamafakepatient
     - action: action_predict_value
+
+  - story: interactive_story_greet
+    steps:
+      - intent: greet
+      - action: action_prefill_slots
+      - slot_was_set:
+          - plot_type: line
+      - action: utter_greet
+

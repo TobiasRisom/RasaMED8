@@ -15,6 +15,10 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
+    - Hi Rasa
+    - Hello Rasa
+    - Howdy
+    - Hello Rasa!
 - intent: goodbye
   examples: |
     - cu

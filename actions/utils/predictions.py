@@ -29,26 +29,34 @@ ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in"
                            "stroke_mimics_diagnosis", "prestroke_mrs", "tici_score", "prenotification", "ich_score",
                            "hunt_hess_score"]
 
+def set_patient_variables():
+    with open("actions/utils/plot_args.json", 'r') as json_file:
+        config = json.load(json_file)
+
+    target_variable = config['visualization']['selected_value']
+    subject_id = config['visualization']['subject_id']
+    # Sets the values for the patient based on the id
+    if subject_id == 'iamafakepatient':
+        # Fill in the values for the new patient's features
+        return {
+            'age': 65,
+            'nihss_score': 2,
+            'covid_test': 1,
+            'door_to_imaging': 44,
+            'bleeding_source': 1,
+            'risk_smoker': 1,
+            'cholesterol': 3.4,
+        }
+
+
 def prediction_and_feature_importance():
 
     with open("actions/utils/plot_args.json", 'r') as json_file:
         config = json.load(json_file)
 
     target_variable = config['visualization']['selected_value']
-    subject_id = config['visualization']['subject_id']
 
-    # Sets the values for the patient based on the id
-    if subject_id == 'iamafakepatient':
-        # Fill in the values for the new patient's features
-        new_patient_features = {
-        'age': 65,
-        'nihss_score': 2,
-        'covid_test': 1,
-        'door_to_imaging': 44,
-        'bleeding_source': 1,
-        'risk_smoker': 1,
-        'cholesterol': 3.4,
-        }
+    new_patient_data = set_patient_variables()
 
     # Load the data
     #OBS, USE THIS LINE FOR RUNNING "RASA RUN ACTIONS":
@@ -104,7 +112,7 @@ def prediction_and_feature_importance():
     data_wide = data.pivot_table(index=['YQ', 'subject_id'], columns='variable', values='Value').reset_index()
 
     # Impute attempt
-    imputer = SimpleImputer(strategy='mean')
+    imputer = SimpleImputer(strategy='median')
     data_wide_imputed = imputer.fit_transform(data_wide.iloc[:, 2:])  # Exclude non-numeric columns 'YQ' and 'subject_id'
 
     # Convert the imputed array back to a DataFrame
@@ -197,21 +205,10 @@ def prediction_and_feature_importance():
     with open("actions/utils/data.json", 'w') as json_file:
         json_file.write(json_data)
 
-    # Fill in the values for the new patient's features
-    new_patient_features = {
-        'age': 65,
-        'nihss_score': 2,
-        'covid_test': 1,
-        'door_to_imaging': 44,
-        'bleeding_source': 1,
-        'risk_smoker': 1,
-        'cholesterol': 3.4,
-    }
-
     # Create a DataFrame for the new patient with the same columns as the imputed data
     new_patient_df = pd.DataFrame(columns=data_wide.columns, index=[0])
 
-    for feature, value in new_patient_features.items():
+    for feature, value in new_patient_data.items():
         if feature in predictor_variables_filtered:
             new_patient_df[feature] = value
 
