@@ -30,11 +30,7 @@ ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in"
                            "stroke_mimics_diagnosis", "prestroke_mrs", "tici_score", "prenotification", "ich_score",
                            "hunt_hess_score"]
 
-def set_patient_variables(subject_id):
-    # Sets the values for the patient based on the id
-    if subject_id == 'iamafakepatient':
-        # Fill in the values for the new patient's features
-        return {
+iamafakepatient_values = {
             'age': 65,
             'nihss_score': 2,
             'covid_test': 1,
@@ -44,9 +40,29 @@ def set_patient_variables(subject_id):
             'cholesterol': 3.4,
         }
 
+ihavelostdataid_values = {
+            'age': 52,
+            'nihss_score': 3,
+            'covid_test': 1,
+            'door_to_imaging': math.nan,
+            'bleeding_source': 3,
+            'door_to_needle': math.nan,
+            'risk_smoker': 0,
+            'cholesterol': 2.3,
+        }
+
+def set_patient_variables(subject_id):
+    # Sets the values for the patient based on the id
+    if subject_id == 'iamafakepatient':
+        # Fill in the values for the new patient's features
+        return iamafakepatient_values
+    if subject_id == 'ihavelostdataid':
+        return ihavelostdataid_values
+
 
 # A check to see if any NaN values need to be predicted before we can move on with predicting the MRS
-def check_nan_variables(patient_variables):
+def check_nan_variables(subject_id):
+    patient_variables = set_patient_variables(subject_id)
     nan_variables = [key for key, value in patient_variables.items() if isinstance(value, float) and math.isnan(value)]
     if nan_variables:
         return False, nan_variables
@@ -60,7 +76,7 @@ def prediction_and_feature_importance():
 
     target_variable = config['visualization']['selected_value']
 
-    new_patient_data = set_patient_variables()
+    new_patient_data = set_patient_variables('iamafakepatient')
 
     # Load the data
     #OBS, USE THIS LINE FOR RUNNING "RASA RUN ACTIONS":
