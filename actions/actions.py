@@ -170,18 +170,20 @@ class ActionCollectAndShowNewPaitentData(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        fake_patient_id = tracker.get_slot("fake_patient_id")
+        subject_id = tracker.get_slot("subject_id")
+        NEWPATIENTDATA = predictions.set_patient_variables(subject_id)
+        print(subject_id)
 
-        print(fake_patient_id)
-
-        if fake_patient_id:
-            if fake_patient_id.lower() not in ALLOWED_FAKEIDS:
+        if subject_id:
+            if subject_id.lower() not in ALLOWED_FAKEIDS:
                 dispatcher.utter_message(text=f"Sorry, I can only show the patients with missing data.")
-                return {"fake_patient_id": None}
-            dispatcher.utter_message(text=f"OK! here is the data for {fake_patient_id}")
+                return {"subject_id": None}
+            dispatcher.utter_message(text=f"OK! here is the data for {subject_id}")
             sendFPData()
+            for key, value in NEWPATIENTDATA.items():
+                dispatcher.utter_message(text=f"{key}, {value}")
+            response = PLOT_HANDLER.send_args()
         return []
-
 class ActionChangeDatabeingShowcased(Action):
     def name(self) -> Text:
         return "action_change_data"
@@ -209,6 +211,7 @@ class ActionChangeDatabeingShowcased(Action):
                     PLOT_HANDLER.change_arg("x-value", axis_value)
                 elif selected_axis == "y-axis":
                     PLOT_HANDLER.change_arg("y-value", axis_value)
+                response = PLOT_HANDLER.send_args()
                 selected_axis = None
                 axis_value = None
                 return {"selected_value": None, "selected_axis": None}

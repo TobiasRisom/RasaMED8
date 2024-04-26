@@ -17,7 +17,6 @@ entities:
 - subject_id
 - plot_type
 - selected_axis
-- fake_patient_id
 - year
 - color
 slots:
@@ -51,12 +50,6 @@ slots:
     mappings:
     - type: from_entity
       entity: selected_axis
-  fake_patient_id:
-    type: text
-    influence_conversation: true
-    mappings:
-    - type: from_entity
-      entity: fake_patient_id
   subject_id:
     type: text
     influence_conversation: true
