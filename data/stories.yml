@@ -24,9 +24,9 @@ stories:
     - action: utter_ask_to_specify_fake_patient
     - intent: show_patient_data
       entities:
-      - fake_patient_id: imafakepatient
+      - fake_patient_id: subject_id
     - slot_was_set:
-      - fake_patient_id: imafakepatient
+      - fake_patient_id: subject_id
     - action: action_show_specified_fake_patient
 
   - story: change_data_story_1
