@@ -383,6 +383,38 @@ nlu:
     - Predict [nihss_score](selected_value) for [iamafakepatient](subject_id)
     - Predict for patient [iamafakepatient](subject_id) the value [three_m_mrs](selected_value)
     - I want to predict [three_m_mrs](selected_value) for [iamafakepatient](subject_id)
+    - I want to predict [door_to_needle](selected_value) for [ihavelostdataid](subject_id)
+    - Predict [nihss_score](selected_value) for [ihavelostdataid](subject_id)
+    - Predict for patient [ihavelostdataid](subject_id) the value [three_m_mrs](selected_value)
+    - I want to predict [three_m_mrs](selected_value) for [ihavelostdataid](subject_id)
+    - predict [discharge_mrs](selected_value) for [iamafakepatient](subject_id)
+    - predict [discharge_mrs](selected_value) for [iamafakepatient](subject_id)
+- intent: intent_model_accuracy
+  examples: |
+    - Display the accuracy of the model
+    - Display model accuracy
+    - Model accuracy
+    - I want the accuracy of the previous model
+    - Accuracy
+    - Show me the accuracy of the previous prediction
+    - How accurate is the prediction?
+    - Give me the model accuracy.
+    - Show the latest model's accuracy
+    - show me the accuracy of the latest model
+    - give me the accuracy of the model
+- intent: choose_hospital
+  examples: |
+    - I want to see data from [Riverside](hospital)
+    - [Evergreen](hospital)
+    - [Riverside](hospital)
+    - [Vitality](hospital)
+    - [Horizon](hospital)
+    - [Summit](hospital)
+    - [Pineview](hospital)
+    - [WellSpring](hospital)
+    - [All](hospital)
+    - I'd like data from [all](hospital)
+    - [Riverside](hospital)
 - intent: show_patient_data
   examples: |
     - Show me the patient's data
@@ -406,8 +438,8 @@ nlu:
   examples: |
     - DNT
     - DTN
-    - door to needle time
     - door to needle
+    - door to needle time
     - needle time
     - thrombolysis time
 - synonym: nihss_score
@@ -667,6 +699,7 @@ nlu:
     - Summit
     - Pineview
     - WellSpring
+    - All
 - lookup: selected_axis
   examples: |
     - x-axis

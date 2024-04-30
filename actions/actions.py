@@ -3,6 +3,8 @@
 #
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
+import math
+
 from rasa.core.actions.forms import FormAction
 
 # This is a simple example for a custom action which utters "Hello World!"
@@ -16,7 +18,7 @@ from rasa_sdk.events import SlotSet
 from rasa_sdk.types import DomainDict
 
 # SOCKET = sockets.Socket()
-#NEWPATIENTDATA = predictions.set_patient_variables("iamafakepatient")
+NEWPATIENTDATA = predictions.set_patient_variables("iamafakepatient")
 PLOT_HANDLER = plot_handler.PlotHandler()
 ALLOWED_PLOT_TYPES = ["line", "bar", "pie", "barh"]
 ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in", "department_type", "stroke_type",
@@ -37,6 +39,14 @@ ALLOWED_COLORS = ["red", "green", "blue"]
 ALLOWED_AXIS = ["x-axis", "y-axis"]
 ALLOWED_YEARS = ["all", "2018", "2019", "2020", "2021","2022","2023"]
 ALLOWED_FAKEIDS = ["iamafakepatient", "ihavelostdataid"]
+ALLOWED_FAKEIDS = ["iamafakepatient", "ihavelostdataid"]
+ALLOWED_HOSPITALS = ["evergreen", "riverside", "vitality", "horizon", "summit", "pineview", "wellspring", "all"]
+def sendFPData():
+    for key, value in NEWPATIENTDATA.items():
+        PLOT_HANDLER.change_arg("FakePatient_"+str(key), value)
+
+    response = PLOT_HANDLER.send_args()
+    response = PLOT_HANDLER.edit_data()
 
 class ActionGreeting(Action):
 
@@ -123,38 +133,63 @@ class ActionPredictValue(Action):
                 return {"selected_value": None}
 
         if subject:
-            if subject.lower() != 'iamafakepatient':
+            if subject.lower() not in ALLOWED_FAKEIDS:
                 dispatcher.utter_message(text=f"Sorry, I do not recognize the patient id.")
                 return {"subject_id": None}
 
-        dispatcher.utter_message(text=f"OK! Predicting {value} for {subject}...")
+        dispatcher.utter_message(text=f"Predicting {value} for {subject}...")
 
         PLOT_HANDLER.change_arg("selected_value", value)
         PLOT_HANDLER.change_arg("subject_id", subject)
         PLOT_HANDLER.change_arg("data_type", "shap")  # What type of data do we have? shap = shap values
 
-
-        patient_values = predictions.set_patient_variables(subject)
-
         # If the value we're predicting is discharge_mrs, we need to check if the features we are predicting it from
         # are missing or not
         if value == "discharge_mrs":
-            missing_value_check, missing_values = predictions.check_nan_variables(patient_values)
+            missing_value_check, missing_values = predictions.check_nan_variables(subject)
             if missing_value_check == False:
                 dispatcher.utter_message(text=f"Missing values! Cannot predict discharge_mrs.")
                 dispatcher.utter_message(text=f"List of missing values: {missing_values}")
                 return[]
 
         prediction_value, feature_list, feature_response = predictions.prediction_and_feature_importance()
-        dispatcher.utter_message(text=f"Response from predictions: {feature_response}")  # 200 for success
+        #dispatcher.utter_message(text=f"Response from predictions: {feature_response}")  # 200 for success
+
+        # If the value is not discharge_mrs, we want to change the value in the code
+        if value != 'discharge_mrs':
+            patient_values = predictions.set_patient_variables(subject)
+            if math.isnan(patient_values[value]):
+                patient_values[value] = prediction_value
+                print(f"{value} is now: {patient_values[value]}")
 
         response = PLOT_HANDLER.send_args()
-        dispatcher.utter_message(text=f"Response from send_args: {response}") # 200 for success
+        #dispatcher.utter_message(text=f"Response from send_args: {response}") # 200 for success
 
         dispatcher.utter_message(text=f"Prediction is **{prediction_value}** for {value}, {subject}")
 
-        dispatcher.utter_message(text=f"Graph is displaying SHAP values for the 10 most important related features for {value}!")
+        dispatcher.utter_message(text=f"Graph is displaying SHAP values for the 10 most important related features for {value}.")
 
+        return []
+
+class ActionModelAccuracy(Action):
+    def name(self) -> Text:
+        return "action_model_accuracy"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        value = tracker.get_slot("selected_value")
+        subject = tracker.get_slot("subject_id")
+
+        dispatcher.utter_message(text=f"Showing accuracy of latest prediction: {value} for {subject}:")
+        dispatcher.utter_message(text=f"Model accuracy is {predictions.latest_prediction_value}")
+        dispatcher.utter_message(text=f"Graph shows predicted values compared to real values.")
+
+        accuracy_response = predictions.model_accuracy()
+        #dispatcher.utter_message(text=f"Response from model_accuracy: {accuracy_response}")  # 200 for success
+
+        response = PLOT_HANDLER.send_args()
+        #dispatcher.utter_message(text=f"Response from send_args: {response}")  # 200 for success
         return []
 
 class ActionCollectAndShowNewPaitentData(Action):
@@ -259,6 +294,29 @@ class ActionChangeYear(Action):
 
         response = PLOT_HANDLER.edit_data()
         dispatcher.utter_message(text=f"{response}")
+
+        return []
+
+class ActionChangeHospital(Action):
+
+    def name(self) -> Text:
+        return "action_change_hospital"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        hospital = tracker.get_slot("hospital")
+
+        if hospital:
+            if hospital.lower() not in ALLOWED_HOSPITALS:
+                dispatcher.utter_message(text=f"Hospital not found. Allowed hospitals are: {'/'.join(ALLOWED_HOSPITALS)}.")
+                return {"hospital": None}
+            dispatcher.utter_message(text=f"OK! I will use data from {hospital}.")
+
+        PLOT_HANDLER.change_arg("hospital", hospital)
+
+        response = PLOT_HANDLER.send_args()
+        dispatcher.utter_message(text=f"Response from send_args: {response}")
 
         return []
 

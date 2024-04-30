@@ -1,20 +1,23 @@
 version: '3.1'
 intents:
 - affirm
+- choose_hospital
 - goodbye
 - greet
 - init
 - intent_change_color
 - intent_change_data
 - intent_create_plot
+- intent_model_accuracy
 - intent_predict_values
 - intent_select_year
 - reject
 - request_create_plot_form
 - show_patient_data
 entities:
-- selected_value
 - subject_id
+- hospital
+- selected_value
 - plot_type
 - selected_axis
 - year
@@ -56,6 +59,12 @@ slots:
     mappings:
     - type: from_entity
       entity: subject_id
+  hospital:
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: hospital
 forms:
   create_plot_form:
     required_slots:
@@ -74,7 +83,7 @@ forms:
     - selected_value
 responses:
   utter_greet:
-  - text: 'Hi! I am Rasa, a chatbot designed to help you sort through patient data!'
+  - text: Hi! I am Rasa, a chatbot designed to help you sort through patient data!
   utter_cheer_up:
   - text: 'Here is something to cheer you up:'
     image: https://i.imgur.com/nGF1K8f.jpg
@@ -109,20 +118,25 @@ responses:
   utter_prediction_response:
   - text: Sure thing, I can do a prediction for you!
   utter_prediction_ask_for_subject_id:
-  - text: Please provide the subject ID that you want to predict a value for.
+  - text: Can you give me the ID of the subject you want to make a prediction for?
   utter_prediction_ask_for_value:
-  - text: Please provide the value you want to predict.
+  - text: Which value would you like to predict?
   utter_prediction_done:
   - text: Prediction done!
   utter_ask_selected_axis_value:
   - text: Okay, which data point do you want to be shown?
   utter_ask_to_specify_fake_patient:
   - text: Okay, which patient's data do you want to see?
+  utter_specify_hospital:
+  - text: Okay, which hospital do you want to use for data comparison? (Type hospital name, or "all")
 actions:
+- utter_specify_hospital
+- action_predict_value
+- action_model_accuracy
+- action_change_hospital
 - action_prefill_slots
 - utter_greet
 - action_change_data
-- action_predict_value
 - utter_ask_selected_axis_value
 - utter_ask_selected_value
 - utter_ask_to_specify_fake_patient

@@ -52,6 +52,10 @@ ihavelostdataid_values = {
             'cholesterol': 2.3,
         }
 
+latest_prediction_value = 0
+latest_y_test = {}
+latest_y_pred = {}
+
 def set_patient_variables(subject_id):
     # Sets the values for the patient based on the id
     if subject_id == "iamafakepatient":
@@ -107,8 +111,11 @@ def prediction_and_feature_importance():
     # Get the category of the target variable
     target_category = data.loc[data['variable'] == target_variable, 'TAB'].iloc[0]
 
-    # Sort data to one hospital
-    data = data[data['site_id'].isin(["Pineview"])]
+    # Sort data to the hospital set by the user (or all)
+    chosen_hospital = config['visualization']['hospital']
+    print(chosen_hospital)
+    if chosen_hospital != 'all':
+        data = data[data['site_id'].isin([chosen_hospital])]
 
     # Filter predictor variables based on the category order
     predictor_variables_filtered = []
@@ -186,7 +193,7 @@ def prediction_and_feature_importance():
 
     # Calculate accuracy (RMSE in this case)
     accuracy = mean_squared_error(y_test, y_pred, squared=False)
-    #print(f'Root Mean Squared Error: {accuracy}')
+    # print(f'Root Mean Squared Error: {accuracy}')
 
     feature_importances = gbr.feature_importances_
     # Sort feature importances
@@ -255,6 +262,15 @@ def prediction_and_feature_importance():
     print("Median target variable:", data_wide[target_variable].median())
     print("Predicted target variable value for the new patient:", predicted_value)
 
+    # Also set the model accuracy values
+    global latest_prediction_value
+    latest_prediction_value = accuracy
+    global latest_y_pred
+    latest_y_pred = y_pred
+    global latest_y_test
+    latest_y_test = y_test
+
+
     with open("actions/utils/data.json", 'r') as json_file:
         config = json.load(json_file)
 
@@ -265,4 +281,31 @@ def prediction_and_feature_importance():
 
     response = requests.post("http://localhost:3000/rasa-webhook", json=payload)
 
+
     return predicted_value, top_ten_features, response
+
+def model_accuracy():
+    global latest_prediction_value
+    global latest_y_test
+    global latest_y_pred
+
+    accuracy_dataframe = pd.DataFrame({'Value_x': latest_y_test, 'Value_y': latest_y_pred})
+
+    # Turn it into a .json file
+    data = accuracy_dataframe.to_json(orient='records')
+
+    with open("actions/utils/data.json", 'w') as json_file:
+        json_file.write(data)
+
+    with open("actions/utils/data.json", 'r') as json_file:
+        config = json.load(json_file)
+
+    compressed_content = gzip.compress(json.dumps(config).encode("utf-8"))
+    compressed_content_decoded = base64.b64encode(compressed_content).decode("utf-8")
+
+    payload = {"file_type": "data", "file_content": compressed_content_decoded}
+
+    response = requests.post("http://localhost:3000/rasa-webhook", json=payload)
+
+
+    return response

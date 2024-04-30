@@ -78,36 +78,23 @@ stories:
       - selected_axis: x-axis
     - action: action_change_data
 
-  - story: interactive_story_1
+  - story: interactive_story_predict_hospital
     steps:
     - intent: intent_predict_values
       entities:
-      - selected_value: door_to_needle
+      - selected_value: discharge_mrs
       - subject_id: iamafakepatient
     - slot_was_set:
-      - selected_value: door_to_needle
+      - selected_value: discharge_mrs
     - slot_was_set:
       - subject_id: iamafakepatient
-    - action: action_predict_value
-
-  - story: interactive_story_2
-    steps:
-    - intent: intent_predict_values
+    - action: utter_specify_hospital
+    - intent: choose_hospital
       entities:
-      - selected_value: three_m_mrs
-      - subject_id: iamafakepatient
+      - hospital: Riverside
     - slot_was_set:
-      - selected_value: three_m_mrs
-    - slot_was_set:
-      - subject_id: iamafakepatient
+      - hospital: Riverside
+    - action: action_change_hospital
     - action: action_predict_value
-
-  - story: interactive_story_greet
-    steps:
-      - intent: greet
-      - action: action_prefill_slots
-      - slot_was_set:
-          - plot_type: line
-      - action: utter_greet
-
-
+    - intent: intent_model_accuracy
+    - action: action_model_accuracy
