@@ -389,6 +389,11 @@ nlu:
     - I want to predict [three_m_mrs](selected_value) for [ihavelostdataid](subject_id)
     - predict [discharge_mrs](selected_value) for [iamafakepatient](subject_id)
     - predict [discharge_mrs](selected_value) for [iamafakepatient](subject_id)
+    - [discharge mRS]{"entity": "selected_value", "value": "discharge_mrs"}
+    - [post-stroke mRS]{"entity": "selected_value", "value": "discharge_mrs"}
+    - [modified Rankin Scale at discharge]{"entity": "selected_value", "value": "discharge_mrs"}
+    - [functional status at discharge]{"entity": "selected_value", "value": "discharge_mrs"}
+    - [mrs]{"entity": "selected_value", "value": "discharge_mrs"}
 - intent: intent_model_accuracy
   examples: |
     - Display the accuracy of the model

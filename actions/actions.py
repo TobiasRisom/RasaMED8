@@ -206,9 +206,10 @@ class ActionCollectAndShowNewPaitentData(Action):
             if subject_id.lower() not in ALLOWED_FAKEIDS:
                 dispatcher.utter_message(text=f"Sorry, I can only show the patients with missing data.")
                 return {"subject_id": None}
-            dispatcher.utter_message(text=f"OK! here is the data for {subject_id}")
-            for key, value in subjectdata.items():
-                dispatcher.utter_message(text=f"{key},{value}")
+            dispatcher.utter_message(text=f"OK! the data for {subject_id} will be shown in the table in the bottom tab")
+            #for key, value in subjectdata.items():
+            #    dispatcher.utter_message(text=f"{key},{value}")
+            PLOT_HANDLER.change_arg("subject_id", subject_id)
             for key, value in subjectdata.items():
                 PLOT_HANDLER.change_arg("FakePatient_" + str(key), value)
             response = PLOT_HANDLER.send_args()
@@ -229,12 +230,12 @@ class ActionChangeDatabeingShowcased(Action):
         if selected_value and selected_axis:
             if selected_value.lower() not in ALLOWED_SELECTED_VALUES:
                 dispatcher.utter_message(text=f"Sorry, I can only show data point that exist in the datasheet.")
-                axis_value = None
-                return {"selected_value": None}
+                selected_value = None
+                return [SlotSet("selected_value", None)]
             if selected_axis.lower() not in ALLOWED_AXIS:
                 dispatcher.utter_message(text=f"Sorry, I can only show data point that exist in the datasheet.")
                 selected_axis = None
-                return {"selected_axis": None}
+                return [SlotSet("selected_axis", None)]
             if selected_value and selected_axis:
                 dispatcher.utter_message(text=f"Okay, I will show {selected_value} along the {selected_axis}")
                 if selected_axis == "x-axis":
@@ -243,8 +244,8 @@ class ActionChangeDatabeingShowcased(Action):
                     PLOT_HANDLER.change_arg("y-value", selected_value)
                 response = PLOT_HANDLER.send_args()
                 selected_axis = None
-                axis_value = None
-                return {"selected_value": None, "selected_axis": None}
+                selected_value = None
+                return [SlotSet("selected_axis", None),("selected_value", None)]
         elif selected_value and selected_axis is None:
             dispatcher.utter_message(text=f"Okay, which axis should I show {selected_value} along?")
         elif selected_axis and selected_value is None:
