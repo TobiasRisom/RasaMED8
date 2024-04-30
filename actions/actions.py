@@ -63,7 +63,7 @@ class ActionChangePlottype(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         plot_type = tracker.get_slot("plot_type")
 
-        print(plot_type)
+        #print(plot_type)
 
         if plot_type:
             if plot_type.lower() not in ALLOWED_PLOT_TYPES:
@@ -88,7 +88,7 @@ class ActionChangeColor(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         color = tracker.get_slot("color")
 
-        print(color)
+       # print(color)
 
         if color:
             if color.lower() not in ALLOWED_COLORS:
@@ -165,7 +165,7 @@ class ActionCollectAndShowNewPaitentData(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         subject_id = tracker.get_slot("subject_id")
-        print(subject_id)
+        #print(subject_id)
         subjectdata = predictions.set_patient_variables(subject_id)
         if subject_id:
             if subject_id.lower() not in ALLOWED_FAKEIDS:
@@ -188,8 +188,8 @@ class ActionChangeDatabeingShowcased(Action):
         selected_axis = tracker.get_slot("selected_axis")
         selected_value = tracker.get_slot("selected_value")
 
-        print(selected_axis)
-        print(selected_value)
+       # print(selected_axis)
+       # print(selected_value)
 
         if selected_value and selected_axis:
             if selected_value.lower() not in ALLOWED_SELECTED_VALUES:

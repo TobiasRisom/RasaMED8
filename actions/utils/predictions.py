@@ -36,6 +36,7 @@ iamafakepatient_values = {
             'covid_test': 1,
             'door_to_imaging': 44,
             'bleeding_source': 1,
+            'door_to_needle': 35,
             'risk_smoker': 1,
             'cholesterol': 3.4,
         }
@@ -44,19 +45,19 @@ ihavelostdataid_values = {
             'age': 52,
             'nihss_score': 3,
             'covid_test': 1,
-            'door_to_imaging': math.nan,
+            'door_to_imaging': None,
             'bleeding_source': 3,
-            'door_to_needle': math.nan,
+            'door_to_needle': None,
             'risk_smoker': 0,
             'cholesterol': 2.3,
         }
 
 def set_patient_variables(subject_id):
     # Sets the values for the patient based on the id
-    if subject_id == 'iamafakepatient':
+    if subject_id == "iamafakepatient":
         # Fill in the values for the new patient's features
         return iamafakepatient_values
-    if subject_id == 'ihavelostdataid':
+    if subject_id == "ihavelostdataid":
         return ihavelostdataid_values
 
 
