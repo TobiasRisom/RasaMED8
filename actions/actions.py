@@ -64,15 +64,17 @@ class ActionGreeting(Action):
         PLOT_HANDLER.change_arg("selectedAxis", "x-axis"),
         PLOT_HANDLER.change_arg("year", "2019"),
         PLOT_HANDLER.change_arg("selected_value", None),
-        PLOT_HANDLER.change_arg("subject_id", "patient1"),
+        PLOT_HANDLER.change_arg("subject_id", None),
         PLOT_HANDLER.change_arg("data_type,", "shap"),
         PLOT_HANDLER.change_arg("hospital", "Riverside")
 
         response = PLOT_HANDLER.send_args()
-        dispatcher.utter_message(text=f"{response}")
+        print(response)
+        #dispatcher.utter_message(text=f"{response}")
 
         edit_response = PLOT_HANDLER.edit_data()
-        dispatcher.utter_message(text=f"{edit_response}")
+        print(edit_response)
+        #dispatcher.utter_message(text=f"{edit_response}")
 
         return []
 class ActionChangePlottype(Action):
@@ -96,7 +98,8 @@ class ActionChangePlottype(Action):
         PLOT_HANDLER.change_arg("type", plot_type)
 
         response = PLOT_HANDLER.send_args()
-        dispatcher.utter_message(text=f"{response}")
+        print(response)
+        #dispatcher.utter_message(text=f"{response}")
 
         return []
 
@@ -122,7 +125,8 @@ class ActionChangeColor(Action):
         PLOT_HANDLER.change_arg("data_type", "comparison") # What type of data do we have? Comparison = Compare X to Y
 
         response = PLOT_HANDLER.send_args()
-        dispatcher.utter_message(text=f"{response}")
+        print(response)
+        #dispatcher.utter_message(text=f"{response}")
 
         return []
 
@@ -135,6 +139,19 @@ class ActionPredictValue(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         value = tracker.get_slot("selected_value")
         subject = tracker.get_slot("subject_id")
+
+        if value is None and subject is None:
+            dispatcher.utter_message(text=f"Error: Please provide the patient and what value to use for the prediction!")
+            return [SlotSet("subject_id", None),
+            SlotSet("selected_value", None)]
+        if value is None:
+            dispatcher.utter_message(text=f"Error: Can't do prediction without knowing what to predict!")
+            return [SlotSet("subject_id", None),
+            SlotSet("selected_value", None)]
+        if subject is None:
+            dispatcher.utter_message(text=f"Error: Can't do prediction without knowing which patient to predict for!")
+            return [SlotSet("subject_id", None),
+            SlotSet("selected_value", None)]
 
         if value:
             if value.lower() not in ALLOWED_SELECTED_VALUES:
@@ -160,15 +177,17 @@ class ActionPredictValue(Action):
             if not missing_value_check:
                 dispatcher.utter_message(text=f"Missing values! Cannot predict discharge_mrs.")
                 dispatcher.utter_message(text=f"List of missing values: {missing_values}")
-                return[]
+                return [SlotSet("subject_id", None),
+                        SlotSet("selected_value", None)]
 
         prediction_value, feature_list, feature_response = predictions.prediction_and_feature_importance()
+        print(feature_response)
         #dispatcher.utter_message(text=f"Response from predictions: {feature_response}")  # 200 for success
 
         # If the value is not discharge_mrs, we want to change the value in the code
         if value != 'discharge_mrs':
             patient_values = predictions.set_patient_variables(subject)
-            if math.isnan(patient_values[value]):
+            if patient_values[value] is None:
                 patient_values[value] = prediction_value
                 print(f"{value} is now: {patient_values[value]}")
 
@@ -176,6 +195,7 @@ class ActionPredictValue(Action):
         PLOT_HANDLER.change_arg("y-value", "SHAP Value")
 
         response = PLOT_HANDLER.send_args()
+        print(response)
         #dispatcher.utter_message(text=f"Response from send_args: {response}") # 200 for success
 
         dispatcher.utter_message(text=f"Prediction is **{prediction_value}** for {value}, {subject}")
@@ -195,7 +215,7 @@ class ActionModelAccuracy(Action):
         subject = tracker.get_slot("subject_id")
 
         dispatcher.utter_message(text=f"Showing accuracy of latest prediction: {value} for {subject}:")
-        dispatcher.utter_message(text=f"Model accuracy is {predictions.latest_prediction_value}")
+        dispatcher.utter_message(text=f"Root Mean Squared Error for prediction is: {predictions.latest_prediction_value}.")
         dispatcher.utter_message(text=f"Graph shows predicted values compared to real values.")
 
         PLOT_HANDLER.change_arg("data_type", "comparison")
@@ -203,11 +223,15 @@ class ActionModelAccuracy(Action):
         PLOT_HANDLER.change_arg("y-value", "Predicted Values")
 
         accuracy_response = predictions.model_accuracy()
+        print(accuracy_response)
         #dispatcher.utter_message(text=f"Response from model_accuracy: {accuracy_response}")  # 200 for success
 
         response = PLOT_HANDLER.send_args()
+        print(response)
         #dispatcher.utter_message(text=f"Response from send_args: {response}")  # 200 for success
-        return []
+
+        return [SlotSet("subject_id", None),
+                SlotSet("selected_value", None)]
 
 class ActionCollectAndShowNewPaitentData(Action):
     #Does not actually show data yet, but does collect it and send it to plot_args.json
@@ -288,7 +312,8 @@ class ActionChangeSelectedvalue(Action):
         PLOT_HANDLER.change_arg("variable", selected_value)
 
         response = PLOT_HANDLER.edit_data()
-        dispatcher.utter_message(text=f"{response}")
+        print(response)
+        #dispatcher.utter_message(text=f"{response}")
 
         return []
 
@@ -311,7 +336,8 @@ class ActionChangeYear(Action):
         PLOT_HANDLER.change_arg("year", selected_year)
 
         response = PLOT_HANDLER.edit_data()
-        dispatcher.utter_message(text=f"{response}")
+        print(response)
+        #dispatcher.utter_message(text=f"{response}")
 
         return []
 
@@ -334,7 +360,8 @@ class ActionChangeHospital(Action):
         PLOT_HANDLER.change_arg("hospital", hospital)
 
         response = PLOT_HANDLER.send_args()
-        dispatcher.utter_message(text=f"Response from send_args: {response}")
+        print(response)
+        #dispatcher.utter_message(text=f"Response from send_args: {response}")
 
         return []
 

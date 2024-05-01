@@ -34,55 +34,6 @@ stories:
       - subject_id: subject_id
     - action: action_show_specified_fake_patient
 
-  - story: change_data_story_1
-    steps:
-      - intent: intent_change_data
-      - action: utter_ask_selected_axis_value
-      - intent: intent_change_data
-        entities:
-          - selected_value
-      - slot_was_set:
-          - selected_value
-      - action: action_change_data
-      - intent: intent_change_data
-        entities:
-          - selected_axis
-      - slot_was_set:
-          - selected_axis
-      - action: action_change_data
-
-  - story: change_data_story_2
-    steps:
-      - intent: intent_change_data
-        entities:
-          - selected_value
-          - selected_axis
-      - slot_was_set:
-          - selected_value
-          - selected_axis
-      - action: action_change_data
-
-  - story: change_data_story_3
-    steps:
-    - intent: intent_change_data
-      entities:
-      - selected_axis: y-axis
-      - selected_value: age
-    - slot_was_set:
-      - selected_value: age
-    - slot_was_set:
-      - selected_axis: y-axis
-    - action: action_change_data
-    - intent: intent_change_data
-      entities:
-      - selected_axis: x-axis
-      - selected_value: door_to_needle
-    - slot_was_set:
-      - selected_value: door_to_needle
-    - slot_was_set:
-      - selected_axis: x-axis
-    - action: action_change_data
-
   - story: interactive_story_predict_hospital
     steps:
     - intent: intent_predict_values
@@ -100,6 +51,29 @@ stories:
     - slot_was_set:
       - hospital: Riverside
     - action: utter_hospital_note
+    - action: action_change_hospital
+    - action: action_predict_value
+    - intent: intent_model_accuracy
+    - action: action_model_accuracy
+
+  - story: interactive_story_predict_w_hospital
+    steps:
+    - intent: greet
+    - action: action_greeting
+    - intent: intent_predict_values
+      entities:
+      - selected_value: discharge_mrs
+      - subject_id: patient1
+    - slot_was_set:
+      - selected_value: discharge_mrs
+    - slot_was_set:
+      - subject_id: patient1
+    - action: utter_specify_hospital
+    - intent: choose_hospital
+      entities:
+      - hospital: Pineview
+    - slot_was_set:
+      - hospital: Pineview
     - action: action_change_hospital
     - action: action_predict_value
     - intent: intent_model_accuracy

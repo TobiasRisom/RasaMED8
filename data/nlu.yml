@@ -382,23 +382,26 @@ nlu:
   examples: |
     - I want to predict [door_to_needle](selected_value) for [patient1](subject_id)
     - Predict a value for [three_m_mrs](selected_value)
-    - Predict [mrs]{"entity": "selected_value", "value": "discharge_mrs"}
-    - Make a prediction for [MRS]{"entity": "selected_value", "value": "discharge_mrs"} for [patient1](subject_id)
-    - Predict the value for [mrs]{"entity": "selected_value", "value": "discharge_mrs"} for [patient1](subject_id)
+    - Predict [mrs](selected_value){"entity": "selected_value", "value": "discharge_mrs"}
+    - Make a prediction for [MRS](selected_value){"entity": "selected_value", "value": "discharge_mrs"} for [patient1](subject_id)
+    - Predict the value for [mrs](selected_value){"entity": "selected_value", "value": "discharge_mrs"} for [patient1](subject_id)
     - Predict [nihss_score](selected_value) for [patient1](subject_id)
     - Predict for patient [patient1](subject_id) the value [three_m_mrs](selected_value)
     - I want to predict [three_m_mrs](selected_value) for [patient1](subject_id)
     - I want to predict [door_to_needle](selected_value) for [patient2](subject_id)
     - Predict [nihss_score](selected_value) for [patient2](subject_id)
+    - Predict [door_to_imaging](selected_value){"entity": "selected_value", "value": "door_to_imaging"} for [patient1](subject_id)
+    - Predict [door to imaging](selected_value){"entity": "selected_value", "value": "door_to_imaging"} for [patient 1](subject_id){"entity": "subject_id", "value": "patient1"} 
+    - Predict [nihss score](selected_value){"entity": "selected_value", "value": "nihss_score"} for [patient 2](subject_id){"entity": "subject_id", "value": "patient2"} 
     - Predict for patient [patient2](subject_id) the value [three_m_mrs](selected_value)
     - I want to predict [three_m_mrs](selected_value) for [patient2](subject_id)
-    - predict [discharge_mrs](selected_value) for [patient1](subject_id)
     - predict [discharge_mrs](selected_value) for [patient1](subject_id)
     - [discharge mRS]{"entity": "selected_value", "value": "discharge_mrs"}
     - [post-stroke mRS]{"entity": "selected_value", "value": "discharge_mrs"}
     - [modified Rankin Scale at discharge]{"entity": "selected_value", "value": "discharge_mrs"}
     - [functional status at discharge]{"entity": "selected_value", "value": "discharge_mrs"}
     - [mrs]{"entity": "selected_value", "value": "discharge_mrs"}
+    - predict [mrs]{"entity": "selected_value", "value": "discharge_mrs"} for [patient1](subject_id)
 - intent: intent_model_accuracy
   examples: |
     - Display the accuracy of the model
@@ -424,6 +427,7 @@ nlu:
     - [WellSpring](hospital)
     - [All](hospital)
     - I'd like data from [all](hospital)
+    - [pineview]{"entity": "hospital", "value": "Pineview"}
 - intent: show_patient_data
   examples: |
     - Show me the patient's data
@@ -616,12 +620,12 @@ nlu:
     - fibrinolytic therapy
 - synonym: x-axis
   examples: |
-    - x axis
     - x
+    - x axis
 - synonym: y_axis
   examples: |
-    - y axis
     - y
+    - y axis
 - synonym: site_country
   examples: |
     - Hospital country
@@ -679,6 +683,18 @@ nlu:
   examples: |
     - colour
     - hue
+- synonym: patient1
+  examples: |
+    - patient 1
+    - Patient 1
+    - patient #1
+    - Patient #1
+- synonym: patient2
+  examples: |
+    - patient 2
+    - Patient 2
+    - patient #2
+    - Patient #2
 - lookup: plot_type
   examples: |
     - line

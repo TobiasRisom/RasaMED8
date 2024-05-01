@@ -197,7 +197,7 @@ def prediction_and_feature_importance():
     y_pred = gbr.predict(X_test)
 
     # Calculate accuracy (RMSE in this case)
-    accuracy = mean_squared_error(y_test, y_pred, squared=False)
+    accuracy = mean_squared_error(y_test, y_pred, squared=True)
     # print(f'Root Mean Squared Error: {accuracy}')
 
     feature_importances = gbr.feature_importances_
@@ -264,6 +264,8 @@ def prediction_and_feature_importance():
     # Use the trained model to predict the target variable for the new patient
     predicted_value = gbr.predict(new_patient_df_imputed)
 
+    # Write the predicted value to
+
     print("Median target variable:", data_wide[target_variable].median())
     print("Predicted target variable value for the new patient:", predicted_value)
 
@@ -311,6 +313,5 @@ def model_accuracy():
     payload = {"file_type": "data", "file_content": compressed_content_decoded}
 
     response = requests.post("http://localhost:3000/rasa-webhook", json=payload)
-
 
     return response
