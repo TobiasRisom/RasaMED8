@@ -40,12 +40,7 @@ ALLOWED_AXIS = ["x-axis", "y-axis"]
 ALLOWED_YEARS = ["all", "2018", "2019", "2020", "2021","2022","2023"]
 ALLOWED_FAKEIDS = ["patient1", "patient2"]
 ALLOWED_HOSPITALS = ["evergreen", "riverside", "vitality", "horizon", "summit", "pineview", "wellspring", "all"]
-def sendFPData():
-    for key, value in NEWPATIENTDATA.items():
-        PLOT_HANDLER.change_arg("FakePatient_"+str(key), value)
-
-    response = PLOT_HANDLER.send_args()
-    response = PLOT_HANDLER.edit_data()
+isActive = False
 
 class ActionGreeting(Action):
 
@@ -61,7 +56,7 @@ class ActionGreeting(Action):
         PLOT_HANDLER.change_arg("color", "blue"),
         PLOT_HANDLER.change_arg("x-value", "age"),
         PLOT_HANDLER.change_arg("y-value", "door_to_needle"),
-        PLOT_HANDLER.change_arg("selectedAxis", "x-axis"),
+        PLOT_HANDLER.change_arg("selectedAxis", None),
         PLOT_HANDLER.change_arg("year", "2019"),
         PLOT_HANDLER.change_arg("selected_value", None),
         PLOT_HANDLER.change_arg("subject_id", None),
@@ -75,6 +70,9 @@ class ActionGreeting(Action):
         edit_response = PLOT_HANDLER.edit_data()
         print(edit_response)
         #dispatcher.utter_message(text=f"{edit_response}")
+
+        if isActive:
+            dispatcher.utter_message(text=f"Is there anything I can help you with?")
 
         return []
 class ActionChangePlottype(Action):
@@ -246,15 +244,21 @@ class ActionCollectAndShowNewPaitentData(Action):
         if subject_id:
             if subject_id.lower() not in ALLOWED_FAKEIDS:
                 dispatcher.utter_message(text=f"Sorry, I can only show the patients with missing data.")
-                return {"subject_id": None}
+                return [SlotSet("subject_id", None)]
             dispatcher.utter_message(text=f"OK! the data for {subject_id} will be shown in the table in the bottom tab")
             #for key, value in subjectdata.items():
             #    dispatcher.utter_message(text=f"{key},{value}")
             PLOT_HANDLER.change_arg("subject_id", subject_id)
             for key, value in subjectdata.items():
-                PLOT_HANDLER.change_arg("FakePatient_" + str(key), value)
+                PLOT_HANDLER.change_arg("Fake" + str(key), value)
             response = PLOT_HANDLER.send_args()
-            return {"subject_id": None}
+            return [SlotSet("subject_id", None)]
+        if isActive:
+            if subject_id is "patient2":
+                for key, value in subjectdata.items():
+                    if value is None:
+                        dispatcher.utter_message(
+                            text=f"This patient is missing some data, do you want to try to synthesize the missing data with a prediction?")
         return []
 class ActionChangeDatabeingShowcased(Action):
     def name(self) -> Text:
@@ -271,11 +275,9 @@ class ActionChangeDatabeingShowcased(Action):
         if selected_value and selected_axis:
             if selected_value.lower() not in ALLOWED_SELECTED_VALUES:
                 dispatcher.utter_message(text=f"Sorry, I can only show data point that exist in the datasheet.")
-                selected_value = None
                 return [SlotSet("selected_value", None)]
             if selected_axis.lower() not in ALLOWED_AXIS:
                 dispatcher.utter_message(text=f"Sorry, I can only show data point that exist in the datasheet.")
-                selected_axis = None
                 return [SlotSet("selected_axis", None)]
             if selected_value and selected_axis:
                 dispatcher.utter_message(text=f"Okay, I will show {selected_value} along the {selected_axis}")
@@ -284,8 +286,6 @@ class ActionChangeDatabeingShowcased(Action):
                 elif selected_axis == "y-axis":
                     PLOT_HANDLER.change_arg("y-value", selected_value)
                 response = PLOT_HANDLER.send_args()
-                selected_axis = None
-                selected_value = None
                 return [SlotSet("selected_axis", None),("selected_value", None)]
         elif selected_value and selected_axis is None:
             dispatcher.utter_message(text=f"Okay, which axis should I show {selected_value} along?")

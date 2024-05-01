@@ -1,5 +1,29 @@
 version: "3.1"
 nlu:
+- intent: affirm
+    - yes
+    - sure
+    - do it
+    - yeah
+    - definitely
+    - yes please
+    - absolutely
+    - that sounds good
+    - of course
+    - sounds great
+    - sure thing
+- intent: deny
+    - no
+    - nope
+    - not interested
+    - no thanks
+    - pass
+    - not right now
+    - no I'm good
+    - maybe later
+    - i'm not interested
+    - nah
+    - no I don't want to
 - intent: greet
   examples: |
     - hey
