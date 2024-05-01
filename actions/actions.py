@@ -18,7 +18,7 @@ from rasa_sdk.events import SlotSet
 from rasa_sdk.types import DomainDict
 
 # SOCKET = sockets.Socket()
-NEWPATIENTDATA = predictions.set_patient_variables("iamafakepatient")
+NEWPATIENTDATA = predictions.set_patient_variables('patient1')
 PLOT_HANDLER = plot_handler.PlotHandler()
 ALLOWED_PLOT_TYPES = ["line", "bar", "pie", "barh"]
 ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in", "department_type", "stroke_type",
@@ -38,8 +38,7 @@ ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in"
 ALLOWED_COLORS = ["red", "green", "blue"]
 ALLOWED_AXIS = ["x-axis", "y-axis"]
 ALLOWED_YEARS = ["all", "2018", "2019", "2020", "2021","2022","2023"]
-ALLOWED_FAKEIDS = ["iamafakepatient", "ihavelostdataid"]
-ALLOWED_FAKEIDS = ["iamafakepatient", "ihavelostdataid"]
+ALLOWED_FAKEIDS = ["patient1", "patient2"]
 ALLOWED_HOSPITALS = ["evergreen", "riverside", "vitality", "horizon", "summit", "pineview", "wellspring", "all"]
 def sendFPData():
     for key, value in NEWPATIENTDATA.items():
@@ -51,16 +50,29 @@ def sendFPData():
 class ActionGreeting(Action):
 
     def name(self) -> Text:
-        return "ActionHelloWorld"
+        return "action_greeting"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(text="Hi! I am Rasa, a chatbot designed to help you sort through patient data!")
-        dispatcher.utter_message(text="Here is a list of actions I can perform:")
-        dispatcher.utter_message(text="- Spiders")
-        dispatcher.utter_message(text="- Spiders")
-        dispatcher.utter_message(text="- Spiders")
+
+        PLOT_HANDLER.change_arg("plot_type", "bar"),
+        PLOT_HANDLER.change_arg("color", "blue"),
+        PLOT_HANDLER.change_arg("x-value", "age"),
+        PLOT_HANDLER.change_arg("y-value", "door_to_needle"),
+        PLOT_HANDLER.change_arg("selectedAxis", "x-axis"),
+        PLOT_HANDLER.change_arg("year", "2019"),
+        PLOT_HANDLER.change_arg("selected_value", None),
+        PLOT_HANDLER.change_arg("subject_id", "patient1"),
+        PLOT_HANDLER.change_arg("data_type,", "shap"),
+        PLOT_HANDLER.change_arg("hospital", "Riverside")
+
+        response = PLOT_HANDLER.send_args()
+        dispatcher.utter_message(text=f"{response}")
+
+        edit_response = PLOT_HANDLER.edit_data()
+        dispatcher.utter_message(text=f"{edit_response}")
 
         return []
 class ActionChangePlottype(Action):
@@ -112,9 +124,6 @@ class ActionChangeColor(Action):
         response = PLOT_HANDLER.send_args()
         dispatcher.utter_message(text=f"{response}")
 
-        response = PLOT_HANDLER.edit_data()
-        dispatcher.utter_message(text=f"{response}")
-
         return []
 
 class ActionPredictValue(Action):
@@ -142,12 +151,13 @@ class ActionPredictValue(Action):
         PLOT_HANDLER.change_arg("selected_value", value)
         PLOT_HANDLER.change_arg("subject_id", subject)
         PLOT_HANDLER.change_arg("data_type", "shap")  # What type of data do we have? shap = shap values
+        PLOT_HANDLER.change_arg("plot_type", "bar") # Using bar chart for clarity
 
         # If the value we're predicting is discharge_mrs, we need to check if the features we are predicting it from
         # are missing or not
         if value == "discharge_mrs":
             missing_value_check, missing_values = predictions.check_nan_variables(subject)
-            if missing_value_check == False:
+            if not missing_value_check:
                 dispatcher.utter_message(text=f"Missing values! Cannot predict discharge_mrs.")
                 dispatcher.utter_message(text=f"List of missing values: {missing_values}")
                 return[]
@@ -161,6 +171,9 @@ class ActionPredictValue(Action):
             if math.isnan(patient_values[value]):
                 patient_values[value] = prediction_value
                 print(f"{value} is now: {patient_values[value]}")
+
+        PLOT_HANDLER.change_arg("x-value", "Feature")
+        PLOT_HANDLER.change_arg("y-value", "SHAP Value")
 
         response = PLOT_HANDLER.send_args()
         #dispatcher.utter_message(text=f"Response from send_args: {response}") # 200 for success
@@ -184,6 +197,10 @@ class ActionModelAccuracy(Action):
         dispatcher.utter_message(text=f"Showing accuracy of latest prediction: {value} for {subject}:")
         dispatcher.utter_message(text=f"Model accuracy is {predictions.latest_prediction_value}")
         dispatcher.utter_message(text=f"Graph shows predicted values compared to real values.")
+
+        PLOT_HANDLER.change_arg("data_type", "comparison")
+        PLOT_HANDLER.change_arg("x-value", "Real Values")
+        PLOT_HANDLER.change_arg("y-value", "Predicted Values")
 
         accuracy_response = predictions.model_accuracy()
         #dispatcher.utter_message(text=f"Response from model_accuracy: {accuracy_response}")  # 200 for success

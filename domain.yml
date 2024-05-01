@@ -129,8 +129,12 @@ responses:
   - text: Okay, which patient's data do you want to see?
   utter_specify_hospital:
   - text: Okay, which hospital do you want to use for data comparison? (Type hospital name, or "all")
+  utter_hospital_note:
+  - text: Looking up hospital... (This may take a while, especially for "all")
 actions:
+- action_greeting
 - utter_specify_hospital
+- utter_hospital_note
 - action_predict_value
 - action_model_accuracy
 - action_change_hospital

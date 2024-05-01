@@ -39,16 +39,16 @@
       },
       "legend": true
     },
-    "plot_type": "line",
-    "color": "green",
-    "x-value": "age",
-    "y-value": "door_to_needle",
+    "plot_type": "bar",
+    "color": "blue",
+    "x-value": "Real Values",
+    "y-value": "Predicted Values",
     "selectedAxis": "x-axis",
-    "year": 2019,
+    "year": "2019",
     "selected_value": "discharge_mrs",
     "subject_id": "iamafakepatient",
     "data_type": "shap",
-    "hospital": "Riverside",
+    "hospital": "Pineview",
     "age": 65,
     "FakePatient_age": 65,
     "FakePatient_nihss_score": 2,
@@ -56,6 +56,8 @@
     "FakePatient_door_to_imaging": 44,
     "FakePatient_bleeding_source": 1,
     "FakePatient_risk_smoker": 1,
-    "FakePatient_cholesterol": 3.4
+    "FakePatient_cholesterol": 3.4,
+    "data_type,": "shap",
+    "FakePatient_door_to_needle": 35
   }
 }

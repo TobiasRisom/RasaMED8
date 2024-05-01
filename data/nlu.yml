@@ -380,17 +380,20 @@ nlu:
     - the year [2021](year)
 - intent: intent_predict_values
   examples: |
-    - I want to predict [door_to_needle](selected_value) for [iamafakepatient](subject_id)
+    - I want to predict [door_to_needle](selected_value) for [patient1](subject_id)
     - Predict a value for [three_m_mrs](selected_value)
-    - Predict [nihss_score](selected_value) for [iamafakepatient](subject_id)
-    - Predict for patient [iamafakepatient](subject_id) the value [three_m_mrs](selected_value)
-    - I want to predict [three_m_mrs](selected_value) for [iamafakepatient](subject_id)
-    - I want to predict [door_to_needle](selected_value) for [ihavelostdataid](subject_id)
-    - Predict [nihss_score](selected_value) for [ihavelostdataid](subject_id)
-    - Predict for patient [ihavelostdataid](subject_id) the value [three_m_mrs](selected_value)
-    - I want to predict [three_m_mrs](selected_value) for [ihavelostdataid](subject_id)
-    - predict [discharge_mrs](selected_value) for [iamafakepatient](subject_id)
-    - predict [discharge_mrs](selected_value) for [iamafakepatient](subject_id)
+    - Predict [mrs]{"entity": "selected_value", "value": "discharge_mrs"}
+    - Make a prediction for [MRS]{"entity": "selected_value", "value": "discharge_mrs"} for [patient1](subject_id)
+    - Predict the value for [mrs]{"entity": "selected_value", "value": "discharge_mrs"} for [patient1](subject_id)
+    - Predict [nihss_score](selected_value) for [patient1](subject_id)
+    - Predict for patient [patient1](subject_id) the value [three_m_mrs](selected_value)
+    - I want to predict [three_m_mrs](selected_value) for [patient1](subject_id)
+    - I want to predict [door_to_needle](selected_value) for [patient2](subject_id)
+    - Predict [nihss_score](selected_value) for [patient2](subject_id)
+    - Predict for patient [patient2](subject_id) the value [three_m_mrs](selected_value)
+    - I want to predict [three_m_mrs](selected_value) for [patient2](subject_id)
+    - predict [discharge_mrs](selected_value) for [patient1](subject_id)
+    - predict [discharge_mrs](selected_value) for [patient1](subject_id)
     - [discharge mRS]{"entity": "selected_value", "value": "discharge_mrs"}
     - [post-stroke mRS]{"entity": "selected_value", "value": "discharge_mrs"}
     - [modified Rankin Scale at discharge]{"entity": "selected_value", "value": "discharge_mrs"}
@@ -421,7 +424,6 @@ nlu:
     - [WellSpring](hospital)
     - [All](hospital)
     - I'd like data from [all](hospital)
-    - [Riverside](hospital)
 - intent: show_patient_data
   examples: |
     - Show me the patient's data
@@ -432,15 +434,15 @@ nlu:
     - What are the details of the patient?
     - Patient data please
     - I need to view some patient data
-    - Show me the data for patient [iamafakepatient](subject_id)
-    - Can you display the information for patient [iamafakepatient](subject_id)?
-    - I want to see the details of patient [iamafakepatient](subject_id)
-    - Show me patient data for [iamafakepatient](subject_id)
-    - Display data for patient [ihavelostdataid](subject_id)
-    - What are the details of patient [ihavelostdataid](subject_id)?
-    - Patient data for [ihavelostdataid](subject_id) please
+    - Show me the data for patient [patient1](subject_id)
+    - Can you display the information for patient [patient1](subject_id)?
+    - I want to see the details of patient [patient1](subject_id)
+    - Show me patient data for [patient1](subject_id)
+    - Display data for patient [patient2](subject_id)
+    - What are the details of patient [patient2](subject_id)?
+    - Patient data for [patient2](subject_id) please
     - show me the patient's data
-    - show me [ihavelostdataid](subject_id)
+    - show me [patient2](subject_id)
 - synonym: door_to_needle
   examples: |
     - DNT

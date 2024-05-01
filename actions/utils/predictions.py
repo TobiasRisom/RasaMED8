@@ -30,26 +30,28 @@ ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in"
                            "stroke_mimics_diagnosis", "prestroke_mrs", "tici_score", "prenotification", "ich_score",
                            "hunt_hess_score"]
 
-iamafakepatient_values = {
-            'age': 65,
-            'nihss_score': 2,
-            'covid_test': 1,
-            'door_to_imaging': 44,
-            'bleeding_source': 1,
-            'door_to_needle': 35,
-            'risk_smoker': 1,
-            'cholesterol': 3.4,
+patient1_values = {
+            'age': 71,
+            'onset_to_door': 185.0,
+            'door_to_imaging': 24.0,
+            'door_to_needle':  48.0,
+            'prestroke_mrs': 2.0,
+            'nihss_score': 7.0,
+            'sys_blood_pressure': 130.0,
+            'dis_blood_pressure': 90.0,
+            'cholestrol': 3.48,
         }
 
-ihavelostdataid_values = {
-            'age': 52,
-            'nihss_score': 3,
-            'covid_test': 1,
+patient2_values = {
+            'age': 63,
+            'onset_to_door': 240.0,
             'door_to_imaging': None,
-            'bleeding_source': 3,
-            'door_to_needle': None,
-            'risk_smoker': 0,
-            'cholesterol': 2.3,
+            'door_to_needle':  75.0,
+            'prestroke_mrs': 3.0,
+            'nihss_score': None,
+            'sys_blood_pressure': 135.0,
+            'dis_blood_pressure': 95.0,
+            'cholestrol': 3.88,
         }
 
 latest_prediction_value = 0
@@ -58,17 +60,17 @@ latest_y_pred = {}
 
 def set_patient_variables(subject_id):
     # Sets the values for the patient based on the id
-    if subject_id == "iamafakepatient":
+    if subject_id == "patient1":
         # Fill in the values for the new patient's features
-        return iamafakepatient_values
-    if subject_id == "ihavelostdataid":
-        return ihavelostdataid_values
+        return patient1_values
+    if subject_id == "patient2":
+        return patient2_values
 
 
 # A check to see if any NaN values need to be predicted before we can move on with predicting the MRS
 def check_nan_variables(subject_id):
     patient_variables = set_patient_variables(subject_id)
-    nan_variables = [key for key, value in patient_variables.items() if isinstance(value, float) and math.isnan(value)]
+    nan_variables = [key for key, value in patient_variables.items() if value is None]
     if nan_variables:
         return False, nan_variables
     else:
@@ -81,7 +83,10 @@ def prediction_and_feature_importance():
 
     target_variable = config['visualization']['selected_value']
 
-    new_patient_data = set_patient_variables('iamafakepatient')
+    if config['visualization']['subject_id'] == 'patient1':
+        new_patient_data = set_patient_variables('patient1')
+    elif config['visualization']['subject_id'] == 'patient2':
+        new_patient_data = set_patient_variables('patient2')
 
     # Load the data
     #OBS, USE THIS LINE FOR RUNNING "RASA RUN ACTIONS":
