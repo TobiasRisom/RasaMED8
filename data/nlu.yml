@@ -219,6 +219,8 @@ nlu:
     - Change the [x-axis](selected_axis) to [age](selected_value)
     - Switch the [y-axis](selected_axis) to [door_to_needle](selected_value)
     - I want the [x-axis](selected_axis) to be [stroke_type](selected_value)
+    - Change [x]{"entity": "selected_axis", "value": "x-axis"} to [age](selected_value)
+    - Switch [y]{"entity": "selected_axis", "value": "y_axis"} to [door_to_needle](selected_value)
     - change [y-axis](selected_axis) to [onset_to_door](selected_value)
     - [x-axis](selected_axis)
     - [y-axis](selected_axis)
