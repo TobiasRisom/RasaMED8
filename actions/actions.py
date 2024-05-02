@@ -40,7 +40,7 @@ ALLOWED_AXIS = ["x-axis", "y-axis"]
 ALLOWED_YEARS = ["all", "2018", "2019", "2020", "2021","2022","2023"]
 ALLOWED_FAKEIDS = ["patient1", "patient2"]
 ALLOWED_HOSPITALS = ["evergreen", "riverside", "vitality", "horizon", "summit", "pineview", "wellspring", "all"]
-isActive = False
+isActive = True
 def sendFPData():
     for key, value in NEWPATIENTDATA.items():
         PLOT_HANDLER.change_arg("FakePatient_"+str(key), value)
