@@ -199,7 +199,7 @@ class ActionPredictValue(Action):
         print(response)
         #dispatcher.utter_message(text=f"Response from send_args: {response}") # 200 for success
 
-        dispatcher.utter_message(text=f"Prediction is **{prediction_value}** for {value}, {subject}")
+        dispatcher.utter_message(text=f"Prediction is {prediction_value} for {value}, {subject}")
 
         dispatcher.utter_message(text=f"Graph is displaying SHAP values for the 10 most important related features for {value}.")
 
