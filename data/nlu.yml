@@ -1,29 +1,5 @@
 version: "3.1"
 nlu:
-- intent: affirm
-    - yes
-    - sure
-    - do it
-    - yeah
-    - definitely
-    - yes please
-    - absolutely
-    - that sounds good
-    - of course
-    - sounds great
-    - sure thing
-- intent: deny
-    - no
-    - nope
-    - not interested
-    - no thanks
-    - pass
-    - not right now
-    - no I'm good
-    - maybe later
-    - i'm not interested
-    - nah
-    - no I don't want to
 - intent: greet
   examples: |
     - hey
@@ -416,7 +392,7 @@ nlu:
     - I want to predict [door_to_needle](selected_value) for [patient2](subject_id)
     - Predict [nihss_score](selected_value) for [patient2](subject_id)
     - Predict [door_to_imaging](selected_value){"entity": "selected_value", "value": "door_to_imaging"} for [patient1](subject_id)
-    - Predict [door to imaging](selected_value){"entity": "selected_value", "value": "door_to_imaging"} for [patient 1](subject_id){"entity": "subject_id", "value": "patient1"} 
+    - Predict [door to imaging](selected_value){"entity": "selected_value", "value": "door_to_imaging"} for [patient 1](subject_id){"entity": "subject_id", "value": "patient1"}
     - Predict [nihss score](selected_value){"entity": "selected_value", "value": "nihss_score"} for [patient 2](subject_id){"entity": "subject_id", "value": "patient2"}
     - Predict [nihss](selected_value){"entity": "selected_value", "value": "nihss_score"} for [patient 2](subject_id){"entity": "subject_id", "value": "patient2"}
     - I want to predict [three_m_mrs](selected_value) for [patient2](subject_id)
@@ -473,6 +449,7 @@ nlu:
     - Patient data for [patient2](subject_id) please
     - show me the patient's data
     - show me [patient2](subject_id)
+    - show me data for [patient1](subject_id)
 - synonym: door_to_needle
   examples: |
     - DNT
@@ -652,6 +629,9 @@ nlu:
   examples: |
     - y
     - y axis
+- synonym: Pineview
+  examples: |
+    - pineview
 - synonym: site_country
   examples: |
     - Hospital country

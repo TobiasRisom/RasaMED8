@@ -15,8 +15,8 @@ intents:
 - request_create_plot_form
 - show_patient_data
 entities:
-- selected_value
 - subject_id
+- selected_value
 - hospital
 - plot_type
 - selected_axis
@@ -129,8 +129,12 @@ responses:
   - text: Okay, which patient's data do you want to see?
   utter_specify_hospital:
   - text: Okay, which hospital do you want to use for data comparison? (Type hospital name, or "all")
+  utter_Active_after_seeing_data1:
+  - text: This patient has all the necessary data, do you want to predict mRS
 actions:
+- action_show_specified_fake_patient
 - action_predict_value
+- utter_Active_after_seeing_data1
 - action_greeting
 - utter_specify_hospital
 - action_change_hospital
@@ -141,7 +145,6 @@ actions:
 - utter_ask_selected_axis_value
 - utter_ask_selected_value
 - utter_ask_to_specify_fake_patient
-- action_show_specified_fake_patient
 - utter_change_axis
 - action_change_Xaxis
 - utter_ask_change_year

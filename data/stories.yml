@@ -34,6 +34,22 @@ stories:
       - subject_id: subject_id
     - action: action_show_specified_fake_patient
 
+  - story: show_fake_patient_Active_Version
+    steps:
+      - intent: show_patient_data
+      - action: utter_ask_to_specify_fake_patient
+      - intent: show_patient_data
+        entities:
+          - subject_id: subject_id
+      - slot_was_set:
+          - subject_id: subject_id
+      - action: action_show_specified_fake_patient
+      - action: utter_Active_after_seeing_data1
+      - intent: affirm
+      - slot_was_set:
+          - selected_value: discharge_mrs
+      - action: action_predict_value
+
   - story: interactive_story_predict_hospital
     steps:
     - intent: intent_predict_values

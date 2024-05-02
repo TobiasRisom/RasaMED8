@@ -40,6 +40,7 @@ ALLOWED_AXIS = ["x-axis", "y-axis"]
 ALLOWED_YEARS = ["all", "2018", "2019", "2020", "2021","2022","2023"]
 ALLOWED_FAKEIDS = ["patient1", "patient2"]
 ALLOWED_HOSPITALS = ["evergreen", "riverside", "vitality", "horizon", "summit", "pineview", "wellspring", "all"]
+isActive = False
 def sendFPData():
     for key, value in NEWPATIENTDATA.items():
         PLOT_HANDLER.change_arg("FakePatient_"+str(key), value)
@@ -247,7 +248,7 @@ class ActionCollectAndShowNewPaitentData(Action):
         if subject_id:
             if subject_id.lower() not in ALLOWED_FAKEIDS:
                 dispatcher.utter_message(text=f"Sorry, I can only show the patients with missing data.")
-                return {"subject_id": None}
+                return [SlotSet("subject_id", None)]
             dispatcher.utter_message(text=f"OK! the data for {subject_id} will be shown in the table in the bottom tab")
             #for key, value in subjectdata.items():
             #    dispatcher.utter_message(text=f"{key},{value}")
@@ -255,7 +256,8 @@ class ActionCollectAndShowNewPaitentData(Action):
             for key, value in subjectdata.items():
                 PLOT_HANDLER.change_arg("FakePatient_" + str(key), value)
             response = PLOT_HANDLER.send_args()
-            return {"subject_id": None}
+            if isActive is False:
+                return [SlotSet("subject_id", None)]
         return []
 class ActionChangeDatabeingShowcased(Action):
     def name(self) -> Text:
