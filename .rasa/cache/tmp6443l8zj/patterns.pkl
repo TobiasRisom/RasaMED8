@@ -1,0 +1,22 @@
+[
+  {
+    "name": "plot_type",
+    "pattern": "(\\bline\\b|\\bbar\\b)"
+  },
+  {
+    "name": "year",
+    "pattern": "(\\ball\\b|\\b2018\\b|\\b2019\\b|\\b2020\\b|\\b2021\\b|\\b2022\\b|\\b2023\\b)"
+  },
+  {
+    "name": "quarter",
+    "pattern": "(\\ball\\b|\\bQ1\\b|\\bQ2\\b|\\bQ3\\b|\\bQ4\\b)"
+  },
+  {
+    "name": "hospital",
+    "pattern": "(\\bEvergreen\\b|\\bRiverside\\b|\\bVitality\\b|\\bHorizon\\b|\\bSummit\\b|\\bPineview\\b|\\bWellSpring\\b|\\bAll\\b)"
+  },
+  {
+    "name": "selected_axis",
+    "pattern": "(\\bx\\-axis\\b|\\by\\-axis\\b)"
+  }
+]
