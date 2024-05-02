@@ -404,6 +404,7 @@ nlu:
     - [mrs]{"entity": "selected_value", "value": "discharge_mrs"}
     - predict [mrs]{"entity": "selected_value", "value": "discharge_mrs"} for [patient1](subject_id)
     - predict [discharge mrs](selected_value){"entity": "selected_value", "value": "discharge_mrs"} for [patient 2](subject_id){"entity": "subject_id", "value": "patient2"}
+    - predict [discharge_mrs](selected_value) to [patient1](subject_id)
 - intent: intent_model_accuracy
   examples: |
     - Display the accuracy of the model
@@ -417,6 +418,7 @@ nlu:
     - Show the latest model's accuracy
     - show me the accuracy of the latest model
     - give me the accuracy of the model
+    - display model accuracy
 - intent: choose_hospital
   examples: |
     - I want to see data from [Riverside](hospital)
@@ -429,6 +431,7 @@ nlu:
     - [WellSpring](hospital)
     - [All](hospital)
     - I'd like data from [all](hospital)
+    - [pineview]{"entity": "hospital", "value": "Pineview"}
     - [pineview]{"entity": "hospital", "value": "Pineview"}
 - intent: show_patient_data
   examples: |
