@@ -59,8 +59,8 @@ class ActionGreeting(Action):
 
         PLOT_HANDLER.change_arg("plot_type", "bar"),
         PLOT_HANDLER.change_arg("color", "blue"),
-        PLOT_HANDLER.change_arg("x-value", "age"),
-        PLOT_HANDLER.change_arg("y-value", "door_to_needle"),
+        PLOT_HANDLER.change_arg("x-value", "X Axis"),
+        PLOT_HANDLER.change_arg("y-value", "Y Axis"),
         PLOT_HANDLER.change_arg("selectedAxis", "x-axis"),
         PLOT_HANDLER.change_arg("year", "2019"),
         PLOT_HANDLER.change_arg("selected_value", None),
@@ -139,19 +139,20 @@ class ActionPredictValue(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         value = tracker.get_slot("selected_value")
         subject = tracker.get_slot("subject_id")
+        hospital = tracker.get_slot("hospital")
 
+        if hospital is None:
+            dispatcher.utter_message(text=f"Error: No valid hospital name has been given.")
+            return [SlotSet("subject_id", None), SlotSet("selected_value", None), SlotSet("hospital", None)]
         if value is None and subject is None:
             dispatcher.utter_message(text=f"Error: Please provide the patient and what value to use for the prediction!")
-            return [SlotSet("subject_id", None),
-            SlotSet("selected_value", None)]
+            return [SlotSet("subject_id", None), SlotSet("selected_value", None)]
         if value is None:
             dispatcher.utter_message(text=f"Error: Can't do prediction without knowing what to predict!")
-            return [SlotSet("subject_id", None),
-            SlotSet("selected_value", None)]
+            return [SlotSet("subject_id", None), SlotSet("selected_value", None)]
         if subject is None:
             dispatcher.utter_message(text=f"Error: Can't do prediction without knowing which patient to predict for!")
-            return [SlotSet("subject_id", None),
-            SlotSet("selected_value", None)]
+            return [SlotSet("subject_id", None), SlotSet("selected_value", None)]
 
         if value:
             if value.lower() not in ALLOWED_SELECTED_VALUES:
@@ -354,7 +355,7 @@ class ActionChangeHospital(Action):
         if hospital:
             if hospital.lower() not in ALLOWED_HOSPITALS:
                 dispatcher.utter_message(text=f"Hospital not found. Allowed hospitals are: {'/'.join(ALLOWED_HOSPITALS)}.")
-                return {"hospital": None}
+                return [SlotSet("hospital", None)]
             dispatcher.utter_message(text=f"OK! I will use data from {hospital}.")
 
         PLOT_HANDLER.change_arg("hospital", hospital)
