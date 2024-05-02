@@ -40,15 +40,9 @@
       "legend": true
     },
     "plot_type": "bar",
-<<<<<<< Updated upstream
     "color": "red",
     "x-value": "X Axis",
     "y-value": "Y Axis",
-=======
-    "color": "blue",
-    "x-value": "Real Values",
-    "y-value": "Predicted Values",
->>>>>>> Stashed changes
     "selectedAxis": "x-axis",
     "year": "2019",
     "selected_value": null,
