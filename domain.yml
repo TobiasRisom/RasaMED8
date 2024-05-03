@@ -65,6 +65,12 @@ slots:
     mappings:
     - type: from_entity
       entity: hospital
+  status:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: status
 forms:
   create_plot_form:
     required_slots:
@@ -132,6 +138,10 @@ responses:
   utter_Active_after_seeing_data1:
   - text: This patient has all the necessary data, do you want to predict mRS
 actions:
+- change_status
+- followaction_predict_After_showdata
+- followaction_affirm_predict
+- follow_Denial_Wipe_Slots
 - action_show_specified_fake_patient
 - action_predict_value
 - utter_Active_after_seeing_data1

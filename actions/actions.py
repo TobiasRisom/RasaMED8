@@ -15,7 +15,9 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
+from rasa_sdk.events import FollowupAction
 from rasa_sdk.types import DomainDict
+
 
 # SOCKET = sockets.Socket()
 NEWPATIENTDATA = predictions.set_patient_variables('patient1')
@@ -40,14 +42,20 @@ ALLOWED_AXIS = ["x-axis", "y-axis"]
 ALLOWED_YEARS = ["all", "2018", "2019", "2020", "2021","2022","2023"]
 ALLOWED_FAKEIDS = ["patient1", "patient2"]
 ALLOWED_HOSPITALS = ["evergreen", "riverside", "vitality", "horizon", "summit", "pineview", "wellspring", "all"]
-isActive = True
-def sendFPData():
-    for key, value in NEWPATIENTDATA.items():
-        PLOT_HANDLER.change_arg("FakePatient_"+str(key), value)
+isActive = False
+class ActionChangeStatus(Action):
+    def name(self) -> Text:
+        return "change_status"
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        status = tracker.get_slot("status")
 
-    response = PLOT_HANDLER.send_args()
-    response = PLOT_HANDLER.edit_data()
-
+        if status is "passive":
+            isActive = False
+        elif status is "active":
+            isActive = True
+        return []
 class ActionGreeting(Action):
 
     def name(self) -> Text:
@@ -243,7 +251,7 @@ class ActionCollectAndShowNewPaitentData(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         subject_id = tracker.get_slot("subject_id")
-        #print(subject_id)
+        isActive = tracker.get_slot("isActive")
         subjectdata = predictions.set_patient_variables(subject_id)
         if subject_id:
             if subject_id.lower() not in ALLOWED_FAKEIDS:
@@ -256,9 +264,57 @@ class ActionCollectAndShowNewPaitentData(Action):
             for key, value in subjectdata.items():
                 PLOT_HANDLER.change_arg("FakePatient_" + str(key), value)
             response = PLOT_HANDLER.send_args()
-            if isActive is False:
+            if isActive:
+                return [FollowupAction("followaction_predict_After_showdata")]
+            else:
                 return [SlotSet("subject_id", None)]
         return []
+
+class FollowupActionPredictsetup(Action):
+    def name(self) -> Text:
+        return "followaction_predict_After_showdata"
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        subject_id = tracker.get_slot("subject_id")
+        isActive = tracker.get_slot("isActive")
+        subjectdata = predictions.set_patient_variables(subject_id)
+        selected_value = tracker.get_slot("selected_value")
+        if subject_id is "patient1":
+            dispatcher.utter_message(text=f"This patient's data is intact, do you want to predict mRS?")
+        elif subject_id is "patient2":
+            for key, value in subjectdata.items():
+                if subjectdata.key.value is None:
+                    dispatcher.utter_message(text=f"This patient is missing some data")
+                    dispatcher.utter_message(text=f"do you want to try to predict what this data should be?")
+                    return []
+            dispatcher.utter_message(text=f"This patient's data is restored, do you want to predict mRS?")
+        return []
+
+
+class FollowPredictionAffirm(Action):
+    def name(self) -> Text:
+        return "followaction_affirm_predict"
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        subject_id = tracker.get_slot("subject_id")
+        isActive = tracker.get_slot("isActive")
+        subjectdata = predictions.set_patient_variables(subject_id)
+        selected_value = tracker.get_slot("selected_value")
+        if subject_id is "patient1":
+            SlotSet("selected_value", "discharge_mrs")
+            return [FollowupAction("action_change_hospital")]
+        elif subject_id is "patient2":
+            if subjectdata.door_to_imaging is None and subjectdata.nihss_score is None:
+                return []
+            SlotSet("selected_value", "discharge_mrs")
+            return [FollowupAction("action_change_hospital")]
+        return []
+class FollowActionDeny(Action):
+    def name(self) -> Text:
+        return "follow_Denial_Wipe_Slots"
+
 class ActionChangeDatabeingShowcased(Action):
     def name(self) -> Text:
         return "action_change_data"

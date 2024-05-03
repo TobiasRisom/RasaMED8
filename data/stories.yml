@@ -34,30 +34,14 @@ stories:
       - subject_id: subject_id
     - action: action_show_specified_fake_patient
 
-  - story: Active_story_Showdata1_into_Predict_mRS
+  - story: change_active_status
     steps:
       - intent: show_patient_data
-      - action: utter_ask_to_specify_fake_patient
-      - intent: show_patient_data
         entities:
-          - subject_id: patient1
+        - status:
       - slot_was_set:
-          - subject_id: patient1
-      - action: action_show_specified_fake_patient
-      - action: utter_Active_after_seeing_data1
-      - intent: affirm
-      - slot_was_set:
-          - selected_value: discharge_mrs
-      - action: utter_specify_hospital
-      - intent: choose_hospital
-        entities:
-        - hospital:
-      - slot_was_set:
-        - hospital:
-      - action: action_change_hospital
-      - action: action_predict_value
-
-
+        - status:
+      - action: change_status
 
   - story: interactive_story_predict_hospital
     steps:
