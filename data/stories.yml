@@ -44,6 +44,7 @@ stories:
       - action: change_status
 
   - story: interactive_story_predict_hospital
+  - story: interactive_prediction_story
     steps:
     - intent: intent_predict_values
       entities:
@@ -56,28 +57,6 @@ stories:
     - action: utter_specify_hospital
     - intent: choose_hospital
       entities:
-      - hospital: Riverside
-    - slot_was_set:
-      - hospital: Riverside
-    - action: action_change_hospital
-    - action: action_predict_value
-    - intent: intent_model_accuracy
-    - action: action_model_accuracy
-
-  - story: interactive_story_predict_w_hospital
-    steps:
-    - intent: greet
-    - action: action_greeting
-    - intent: intent_predict_values
-      entities:
-      - selected_value: discharge_mrs
-      - subject_id: patient1
-    - slot_was_set:
-      - selected_value: discharge_mrs
-    - slot_was_set:
-      - subject_id: patient1
-    - intent: choose_hospital
-      entities:
       - hospital: Pineview
     - slot_was_set:
       - hospital: Pineview
@@ -85,3 +64,7 @@ stories:
     - action: action_predict_value
     - intent: intent_model_accuracy
     - action: action_model_accuracy
+    - slot_was_set:
+      - subject_id: null
+    - slot_was_set:
+      - selected_value: null

@@ -224,6 +224,8 @@ class ActionModelAccuracy(Action):
         value = tracker.get_slot("selected_value")
         subject = tracker.get_slot("subject_id")
 
+        print(f"hello, value is {value} and subject is {subject}")
+
         dispatcher.utter_message(text=f"Showing accuracy of latest prediction: {value} for {subject}:")
         dispatcher.utter_message(text=f"Root Mean Squared Error for prediction is: {predictions.latest_prediction_value}.")
         dispatcher.utter_message(text=f"Graph shows predicted values compared to real values.")
