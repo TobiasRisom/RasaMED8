@@ -315,3 +315,17 @@ def model_accuracy():
     response = requests.post("http://localhost:3000/rasa-webhook", json=payload)
 
     return response
+
+# If active, and user wrote just "predict", make the user specify what to predict
+def active_ask_for_value():
+    with open("actions/utils/plot_args.json", 'r') as json_file:
+        config = json.load(json_file)
+
+    if config['visualization']['FakePatient_door_to_imaging'] == None and config['visualization']['FakePatient_nihss_score'] == None :
+        return 0
+    elif config['visualization']['FakePatient_door_to_imaging'] == None:
+        return 1
+    elif config['visualization']['FakePatient_nihss_score'] == None:
+        return 2
+    else:
+        return 3

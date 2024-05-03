@@ -51,9 +51,9 @@ class ActionChangeStatus(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         status = tracker.get_slot("status")
 
-        if status is "passive":
+        if status == "passive":
             isActive = False
-        elif status is "active":
+        elif status == "active":
             isActive = True
         return []
 class ActionGreeting(Action):
@@ -282,13 +282,13 @@ class FollowupActionPredictsetup(Action):
         isActive = tracker.get_slot("isActive")
         subjectdata = predictions.set_patient_variables(subject_id)
         selected_value = tracker.get_slot("selected_value")
-        if subject_id is "patient1":
-            dispatcher.utter_message(text=f"This patient's data is intact, do you want to predict mRS?")
-        elif subject_id is "patient2":
+        if subject_id == "patient1":
+            dispatcher.utter_message(text=f"This patient's data is all here, do you want to predict mRS?")
+        elif subject_id == "patient2":
             for key, value in subjectdata.items():
                 if subjectdata.key.value is None:
-                    dispatcher.utter_message(text=f"This patient is missing some data")
-                    dispatcher.utter_message(text=f"do you want to try to predict what this data should be?")
+                    dispatcher.utter_message(text=f"This patient is missing some data.")
+                    dispatcher.utter_message(text=f"Do you want to try to predict what this data should be?")
                     return []
             dispatcher.utter_message(text=f"This patient's data is restored, do you want to predict mRS?")
         return []
@@ -304,10 +304,10 @@ class FollowPredictionAffirm(Action):
         isActive = tracker.get_slot("isActive")
         subjectdata = predictions.set_patient_variables(subject_id)
         selected_value = tracker.get_slot("selected_value")
-        if subject_id is "patient1":
+        if subject_id == "patient1":
             SlotSet("selected_value", "discharge_mrs")
             return [FollowupAction("action_change_hospital")]
-        elif subject_id is "patient2":
+        elif subject_id == "patient2":
             if subjectdata.door_to_imaging is None and subjectdata.nihss_score is None:
                 return []
             SlotSet("selected_value", "discharge_mrs")
@@ -316,6 +316,35 @@ class FollowPredictionAffirm(Action):
 class FollowActionDeny(Action):
     def name(self) -> Text:
         return "follow_Denial_Wipe_Slots"
+
+class ActionPredictValueActive(Action):
+    def name(self) -> Text:
+        return "action_predict_value_active"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text=f"Okay! Please tell me what value to do a prediction for!")
+
+        check = predictions.active_ask_for_value()
+
+        if check == 0:
+            dispatcher.utter_message(text=f"I can currently predict the missing door_to_imaging and nihss_score!")
+            dispatcher.utter_message(text=f"I can NOT predict discharge_mrs before you have predicted those!")
+            return []
+        elif check == 1:
+            dispatcher.utter_message(text=f"I can currently predict the missing door_to_imaging value!")
+            dispatcher.utter_message(text=f"After you predict it, I can predict the missing discharge_mrs score!")
+            return []
+        elif check == 2:
+            dispatcher.utter_message(text=f"I can currently predict the missing nihss_score value!")
+            dispatcher.utter_message(text=f"After you predict it, I can predict the missing discharge_mrs score!")
+            return []
+        elif check == 3:
+            dispatcher.utter_message(text=f"I can currently predict the missing discharge_mrs value!")
+            return []
+        return []
 
 class ActionChangeDatabeingShowcased(Action):
     def name(self) -> Text:

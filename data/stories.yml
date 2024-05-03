@@ -43,7 +43,6 @@ stories:
         - status:
       - action: change_status
 
-  - story: interactive_story_predict_hospital
   - story: interactive_prediction_story
     steps:
     - intent: intent_predict_values
