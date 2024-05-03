@@ -14,6 +14,7 @@ intents:
 - reject
 - request_create_plot_form
 - show_patient_data
+- change_active_status
 entities:
 - subject_id
 - selected_value
@@ -22,6 +23,7 @@ entities:
 - selected_axis
 - year
 - color
+- status
 slots:
   plot_type:
     type: text

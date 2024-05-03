@@ -453,7 +453,7 @@ nlu:
     - show me the patient's data
     - show me [patient2](subject_id)
     - show me data for [patient1](subject_id)
-- intent: show_patient_data
+- intent: change_active_status
   examples: |
     - change to [active]{"entity": "status", "value": "active"}
     - change to [passive]{"entity": "status", "value": "passive"}

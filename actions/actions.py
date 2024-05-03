@@ -55,7 +55,10 @@ class ActionChangeStatus(Action):
             isActive = False
         elif status == "active":
             isActive = True
-        return []
+        dispatcher.utter_message(text=f"Status is now set to {status}")
+        PLOT_HANDLER.change_arg("Status", status)
+        response = PLOT_HANDLER.send_args()
+        return [SlotSet("status", None)]
 class ActionGreeting(Action):
 
     def name(self) -> Text:
@@ -283,7 +286,7 @@ class FollowupActionPredictsetup(Action):
         subjectdata = predictions.set_patient_variables(subject_id)
         selected_value = tracker.get_slot("selected_value")
         if subject_id == "patient1":
-            dispatcher.utter_message(text=f"This patient's data is all here, do you want to predict mRS?")
+            dispatcher.utter_message(text=f"This patient's data is intact, do you want to predict mRS?")
         elif subject_id == "patient2":
             for key, value in subjectdata.items():
                 if subjectdata.key.value is None:

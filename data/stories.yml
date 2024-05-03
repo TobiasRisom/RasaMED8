@@ -36,7 +36,7 @@ stories:
 
   - story: change_active_status
     steps:
-      - intent: show_patient_data
+      - intent: change_active_status
         entities:
         - status:
       - slot_was_set:
