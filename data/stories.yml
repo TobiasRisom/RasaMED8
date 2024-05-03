@@ -34,6 +34,29 @@ stories:
       - subject_id: subject_id
     - action: action_show_specified_fake_patient
 
+  - story: patient_data_Activestory_patient1
+    steps:
+      - intent: show_patient_data
+      - action: utter_ask_to_specify_fake_patient
+      - intent: show_patient_data
+        entities:
+          - subject_id: patient1
+      - slot_was_set:
+          - subject_id: patient1
+      - action: action_show_specified_fake_patient
+      - intent: affirm
+      - action: followaction_affirm_predict
+      - action: utter_specify_hospital
+      - intent: choose_hospital
+        entities:
+          - hospital: Pineview
+      - slot_was_set:
+          - hospital: Pineview
+      - action: action_change_hospital
+      - action: action_predict_value
+      - intent: affirm
+      - action: action_model_accuracy
+
   - story: change_active_status
     steps:
       - intent: change_active_status
