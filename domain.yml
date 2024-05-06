@@ -142,11 +142,8 @@ responses:
   utter_action_predict_value_active:
   - text: Okay! Please tell me what value to do a prediction for!
 actions:
-<<<<<<< Updated upstream
 - action_predict_value_active
-=======
 - change_status
->>>>>>> Stashed changes
 - utter_action_predict_value_active
 - action_predict_value_active
 - followaction_predict_After_showdata

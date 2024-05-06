@@ -55,6 +55,7 @@ class ActionChangeStatus(Action):
             isActive = False
         elif status == "active":
             isActive = True
+        print(isActive)
         dispatcher.utter_message(text=f"Status is now set to {status}")
         PLOT_HANDLER.change_arg("Status", status)
         response = PLOT_HANDLER.send_args()
@@ -285,14 +286,14 @@ class FollowupActionPredictsetup(Action):
         subjectdata = predictions.set_patient_variables(subject_id)
         selected_value = tracker.get_slot("selected_value")
         if subject_id == "patient1":
-            dispatcher.utter_message(text=f"This patient's data is intact, do you want to predict mRS?")
+            dispatcher.utter_message(text=f"Do you want to run a prediction with this patient?")
         elif subject_id == "patient2":
             for key, value in subjectdata.items():
                 if value is None:
                     dispatcher.utter_message(text=f"This patient is missing some data.")
                     dispatcher.utter_message(text=f"Do you want to try to predict what this data should be?")
                     return []
-            dispatcher.utter_message(text=f"This patient's data is restored, do you want to predict mRS?")
+            dispatcher.utter_message(text=f"This patient's data is restored, do you want to run a prediction")
         return []
 
 
@@ -306,9 +307,10 @@ class FollowPredictionAffirm(Action):
         subjectdata = predictions.set_patient_variables(subject_id)
         selected_value = tracker.get_slot("selected_value")
         if subject_id == "patient1":
+            SlotSet("selected_value", "discharge_mrs")
             PLOT_HANDLER.change_arg("selected_value", selected_value)
             response = PLOT_HANDLER.send_args()
-            return [SlotSet("selected_value", "discharge_mrs")]
+            return [FollowupAction("action_predict_value_active")]
         if subject_id == "patient2":
             if subjectdata.door_to_imaging is None or subjectdata.nihss_score is None:
                 return []
@@ -329,7 +331,7 @@ class ActionPredictValueActive(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        #dispatcher.utter_message(text=f"Okay! Please tell me what value to do a prediction for!")
+        dispatcher.utter_message(text=f"Okay! Please tell me what value to do a prediction for!")
 
         check = predictions.active_ask_for_value()
 
