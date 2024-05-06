@@ -309,9 +309,9 @@ class FollowPredictionAffirm(Action):
             PLOT_HANDLER.change_arg("selected_value", selected_value)
             response = PLOT_HANDLER.send_args()
             return [SlotSet("selected_value", "discharge_mrs")]
-        elif subject_id == "patient2":
+        if subject_id == "patient2":
             if subjectdata.door_to_imaging is None or subjectdata.nihss_score is None:
-                return [FollowupAction("action_predict_value_active")]
+                return []
             PLOT_HANDLER.change_arg("selected_value", selected_value)
             response = PLOT_HANDLER.send_args()
             return [SlotSet("selected_value", "discharge_mrs")]
@@ -329,7 +329,7 @@ class ActionPredictValueActive(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(text=f"Okay! Please tell me what value to do a prediction for!")
+        #dispatcher.utter_message(text=f"Okay! Please tell me what value to do a prediction for!")
 
         check = predictions.active_ask_for_value()
 
