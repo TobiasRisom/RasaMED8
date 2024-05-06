@@ -145,7 +145,6 @@ actions:
 - action_predict_value_active
 - change_status
 - utter_action_predict_value_active
-- action_predict_value_active
 - followaction_predict_After_showdata
 - followaction_affirm_predict
 - follow_Denial_Wipe_Slots

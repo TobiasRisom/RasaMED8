@@ -99,7 +99,7 @@ class ActionGreeting(Action):
         print(edit_response)
         #dispatcher.utter_message(text=f"{edit_response}")
 
-        return []
+        return [SlotSet("subject_id", None), SlotSet("selected_value", None), SlotSet("hospital", None)]
 class ActionChangePlottype(Action):
 
     def name(self) -> Text:
@@ -214,8 +214,8 @@ class ActionPredictValue(Action):
             if patient_values[value] is None:
                 patient_values[value] = prediction_value
                 print(f"{value} is now: {patient_values[value]}")
-
-        PLOT_HANDLER.change_arg("FakePatient_" + str(value), float(prediction_value[0]))
+        if value != 'discharge_mrs':
+            PLOT_HANDLER.change_arg("FakePatient_" + str(value), float(prediction_value[0]))
         PLOT_HANDLER.change_arg("x-value", "Feature")
         PLOT_HANDLER.change_arg("y-value", "SHAP Value")
 
@@ -342,7 +342,10 @@ class FollowPredictionAffirm(Action):
 class FollowActionDeny(Action):
     def name(self) -> Text:
         return "follow_Denial_Wipe_Slots"
-
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        return [SlotSet("subject_id", None), SlotSet("selected_value", None), SlotSet("hospital", None)]
 class ActionPredictValueActive(Action):
     def name(self) -> Text:
         return "action_predict_value_active"
