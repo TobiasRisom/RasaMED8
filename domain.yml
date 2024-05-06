@@ -138,10 +138,11 @@ responses:
   utter_specify_hospital:
   - text: Okay, which hospital do you want to use for data comparison? (Type hospital name, or "all")
   utter_Active_after_seeing_data1:
-  - text: This patient has all the necessary data, do you want to predict mRS
+  - text: This patient has all the necessary data, do you want to predict Discharge MRS?
   utter_action_predict_value_active:
   - text: Okay! Please tell me what value to do a prediction for!
 actions:
+- action_predict_value_active
 - utter_action_predict_value_active
 - action_predict_value_active
 - change_status
