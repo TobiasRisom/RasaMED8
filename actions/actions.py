@@ -16,6 +16,7 @@ from rasa_sdk import Action, Tracker, FormValidationAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 from rasa_sdk.events import FollowupAction
+import json
 from rasa_sdk.types import DomainDict
 
 
@@ -205,6 +206,7 @@ class ActionPredictValue(Action):
                 patient_values[value] = prediction_value
                 print(f"{value} is now: {patient_values[value]}")
 
+        PLOT_HANDLER.change_arg("FakePatient_" + str(value), float(prediction_value[0]))
         PLOT_HANDLER.change_arg("x-value", "Feature")
         PLOT_HANDLER.change_arg("y-value", "SHAP Value")
 
@@ -216,7 +218,16 @@ class ActionPredictValue(Action):
 
         dispatcher.utter_message(text=f"Graph is displaying SHAP values for the 10 most important related features for {value}.")
         if isActive:
-            dispatcher.utter_message(text=f"Do you want to see the model accuracy?")
+            if value != 'discharge_mrs':
+                if patient_values['door_to_needle'] == None:
+                    dispatcher.utter_message(text=f"Do you want to predict door_to_needle now or see model accuracy?")
+                if patient_values['door_to_imaging'] == None:
+                    dispatcher.utter_message(text=f"Do you want to predict door_to_imaging now or see model accuracy?")
+                if patient_values['door_to_imaging'] != None and patient_values['door_to_needle'] != None:
+                    dispatcher.utter_message(text=f"Do you want to predict discharge_mrs now or see model accuracy?")
+            else:
+                dispatcher.utter_message(text=f"Do you want to see the model accuracy?")
+
         return []
 
 class ActionModelAccuracy(Action):
@@ -312,7 +323,7 @@ class FollowPredictionAffirm(Action):
             response = PLOT_HANDLER.send_args()
             return [FollowupAction("action_predict_value_active")]
         if subject_id == "patient2":
-            if subjectdata.door_to_imaging is None or subjectdata.nihss_score is None:
+            if subjectdata.door_to_imaging is None or subjectdata.door_to_needle is None:
                 return []
             PLOT_HANDLER.change_arg("selected_value", selected_value)
             response = PLOT_HANDLER.send_args()
@@ -336,7 +347,7 @@ class ActionPredictValueActive(Action):
         check = predictions.active_ask_for_value()
 
         if check == 0:
-            dispatcher.utter_message(text=f"I can currently predict the missing door_to_imaging and nihss_score!")
+            dispatcher.utter_message(text=f"I can currently predict the missing door_to_imaging and door_to_needle!")
             dispatcher.utter_message(text=f"I can NOT predict discharge_mrs before you have predicted those!")
             return []
         elif check == 1:
@@ -344,7 +355,7 @@ class ActionPredictValueActive(Action):
             dispatcher.utter_message(text=f"After you predict it, I can predict the missing discharge_mrs score!")
             return []
         elif check == 2:
-            dispatcher.utter_message(text=f"I can currently predict the missing nihss_score value!")
+            dispatcher.utter_message(text=f"I can currently predict the missing door_to_needle value!")
             dispatcher.utter_message(text=f"After you predict it, I can predict the missing discharge_mrs score!")
             return []
         elif check == 3:

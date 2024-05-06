@@ -46,9 +46,9 @@ patient2_values = {
             'age': 63,
             'onset_to_door': 240.0,
             'door_to_imaging': None,
-            'door_to_needle':  75.0,
+            'door_to_needle':  None,
             'prestroke_mrs': 3.0,
-            'nihss_score': None,
+            'nihss_score': 10.0,
             'sys_blood_pressure': 135.0,
             'dis_blood_pressure': 95.0,
             'cholestrol': 3.88,
@@ -321,11 +321,11 @@ def active_ask_for_value():
     with open("actions/utils/plot_args.json", 'r') as json_file:
         config = json.load(json_file)
 
-    if config['visualization']['FakePatient_door_to_imaging'] == None and config['visualization']['FakePatient_nihss_score'] == None :
+    if config['visualization']['FakePatient_door_to_imaging'] == None and config['visualization']['FakePatient_door_to_needle'] == None :
         return 0
     elif config['visualization']['FakePatient_door_to_imaging'] == None:
         return 1
-    elif config['visualization']['FakePatient_nihss_score'] == None:
+    elif config['visualization']['FakePatient_door_to_needle'] == None:
         return 2
     else:
         return 3
