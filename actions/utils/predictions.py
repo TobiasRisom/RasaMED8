@@ -31,7 +31,6 @@ ALLOWED_SELECTED_VALUES = ["age", "gender", "hospital_stroke", "hospitalized_in"
                            "hunt_hess_score"]
 
 patient1_values = {
-            'age': 71,
             'onset_to_door': 185.0,
             'door_to_imaging': 24.0,
             'door_to_needle':  48.0,
@@ -43,7 +42,6 @@ patient1_values = {
         }
 
 patient2_values = {
-            'age': 63,
             'onset_to_door': 240.0,
             'door_to_imaging': None,
             'door_to_needle':  None,

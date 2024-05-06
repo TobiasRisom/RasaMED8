@@ -70,6 +70,9 @@ class ActionGreeting(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         dispatcher.utter_message(text="Hi! I am Rasa, a chatbot designed to help you sort through patient data!")
+        if isActive:
+            dispatcher.utter_message(text="For example, I contain data for both Patient1 and Patient2. You can ask me to show that data!")
+
 
         PLOT_HANDLER.change_arg("plot_type", "bar"),
         PLOT_HANDLER.change_arg("color", "blue"),
@@ -219,6 +222,11 @@ class ActionPredictValue(Action):
         PLOT_HANDLER.change_arg("x-value", "Feature")
         PLOT_HANDLER.change_arg("y-value", "SHAP Value")
 
+        if subject.lower() == "patient1":
+            PLOT_HANDLER.change_arg("FakePatient_age", 1.21)
+        elif subject.lower() == "patient2":
+            PLOT_HANDLER.change_arg("FakePatient_age", 1.65)
+
         response = PLOT_HANDLER.send_args()
         print(response)
         #dispatcher.utter_message(text=f"Response from send_args: {response}") # 200 for success
@@ -287,6 +295,7 @@ class ActionCollectAndShowNewPaitentData(Action):
             #for key, value in subjectdata.items():
             #    dispatcher.utter_message(text=f"{key},{value}")
             PLOT_HANDLER.change_arg("subject_id", subject_id)
+            PLOT_HANDLER.change_arg("FakePatient_age", None)
             for key, value in subjectdata.items():
                 PLOT_HANDLER.change_arg("FakePatient_" + str(key), value)
             response = PLOT_HANDLER.send_args()
