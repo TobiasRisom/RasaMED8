@@ -81,6 +81,15 @@ class ActionGreeting(Action):
         PLOT_HANDLER.change_arg("subject_id", None),
         PLOT_HANDLER.change_arg("data_type,", "shap"),
         PLOT_HANDLER.change_arg("hospital", "Riverside")
+        PLOT_HANDLER.change_arg("FakePatient_age", None)
+        PLOT_HANDLER.change_arg("FakePatient_onset_to_door", None)
+        PLOT_HANDLER.change_arg("FakePatient_door_to_imaging", None)
+        PLOT_HANDLER.change_arg("FakePatient_door_to_needle", None)
+        PLOT_HANDLER.change_arg("FakePatient_prestroke_mrs", None)
+        PLOT_HANDLER.change_arg("FakePatient_nihss_score", None)
+        PLOT_HANDLER.change_arg("FakePatient_sys_blood_pressure", None)
+        PLOT_HANDLER.change_arg("FakePatient_dis_blood_pressure", None)
+        PLOT_HANDLER.change_arg("FakePatient_cholestrol", None)
 
         response = PLOT_HANDLER.send_args()
         print(response)
