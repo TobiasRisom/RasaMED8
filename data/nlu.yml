@@ -432,7 +432,6 @@ nlu:
     - [All](hospital)
     - I'd like data from [all](hospital)
     - [pineview]{"entity": "hospital", "value": "Pineview"}
-    - [pineview]{"entity": "hospital", "value": "Pineview"}
 - intent: show_patient_data
   examples: |
     - Show me the patient's data
@@ -455,8 +454,9 @@ nlu:
     - show me data for [patient1](subject_id)
 - intent: change_active_status
   examples: |
-    - change to [active]{"entity": "status", "value": "active"}
-    - change to [passive]{"entity": "status", "value": "passive"}
+    - change to [active](status)
+    - change to [passive](status)
+    - change status to [passive](status)
 - synonym: door_to_needle
   examples: |
     - DNT

@@ -1,6 +1,7 @@
 version: '3.1'
 intents:
 - affirm
+- change_active_status
 - choose_hospital
 - goodbye
 - greet
@@ -14,8 +15,8 @@ intents:
 - reject
 - request_create_plot_form
 - show_patient_data
-- change_active_status
 entities:
+- status
 - subject_id
 - selected_value
 - hospital
@@ -23,7 +24,6 @@ entities:
 - selected_axis
 - year
 - color
-- status
 slots:
   plot_type:
     type: text
@@ -71,8 +71,8 @@ slots:
     type: text
     influence_conversation: false
     mappings:
-      - type: from_entity
-        entity: status
+    - type: from_entity
+      entity: status
 forms:
   create_plot_form:
     required_slots:
@@ -142,10 +142,13 @@ responses:
   utter_action_predict_value_active:
   - text: Okay! Please tell me what value to do a prediction for!
 actions:
+<<<<<<< Updated upstream
 - action_predict_value_active
+=======
+- change_status
+>>>>>>> Stashed changes
 - utter_action_predict_value_active
 - action_predict_value_active
-- change_status
 - followaction_predict_After_showdata
 - followaction_affirm_predict
 - follow_Denial_Wipe_Slots
